@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { openTestDb } from '../test-utils/BetterSQLiteDatabase';
-import { runMigrations } from '../migrations/runner';
+import { runSchemaOnly } from '../migrations/runner';
 import { ContentItemRepository } from '../repositories/ContentItemRepository';
 import { ItemMemoryStateRepository } from '../repositories/ItemMemoryStateRepository';
 import { ReviewEventRepository } from '../repositories/ReviewEventRepository';
@@ -109,7 +109,7 @@ let db: IDatabase;
 
 beforeEach(async () => {
   db = openTestDb();
-  await runMigrations(db);
+  await runSchemaOnly(db);
 });
 
 // ─── ContentItemRepository ───────────────────────────────────────────────────

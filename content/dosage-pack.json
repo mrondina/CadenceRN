@@ -1,0 +1,632 @@
+[
+  {
+    "id": "dose-001",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "Convert 2.5 mg to micrograms (mcg).",
+      "answer": 2500,
+      "unit": "mcg",
+      "tolerance": 0,
+      "workingSteps": [
+        "1 mg = 1,000 mcg",
+        "2.5 mg × 1,000 mcg/mg = 2,500 mcg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-002",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "The order reads: metformin 1,000 mg PO. Available: metformin 500 mg tablets. How many tablets should you administer?",
+      "answer": 2,
+      "unit": "tablets",
+      "tolerance": 0,
+      "workingSteps": [
+        "Desired dose ÷ Available dose = tablets",
+        "1,000 mg ÷ 500 mg/tablet = 2 tablets"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-003",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "The order reads: amoxicillin 375 mg PO. Available: amoxicillin 250 mg/5 mL suspension. How many mL should you administer?",
+      "answer": 7.5,
+      "unit": "mL",
+      "tolerance": 0,
+      "workingSteps": [
+        "Desired dose ÷ Available dose per volume = volume",
+        "375 mg ÷ (250 mg / 5 mL) = 375 mg × (5 mL / 250 mg) = 7.5 mL"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-004",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "Convert 154 pounds to kilograms. (Round to nearest tenth.)",
+      "answer": 70,
+      "unit": "kg",
+      "tolerance": 0.1,
+      "workingSteps": [
+        "1 kg = 2.2 lb",
+        "154 lb ÷ 2.2 lb/kg = 70.0 kg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-005",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "A patient weighs 68 kg. The ordered dose of lisinopril is 0.1 mg/kg PO daily. How many mg should you administer?",
+      "answer": 6.8,
+      "unit": "mg",
+      "tolerance": 0.05,
+      "workingSteps": [
+        "Dose = weight × dose per kg",
+        "68 kg × 0.1 mg/kg = 6.8 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-006",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "The order reads: furosemide 80 mg IV. Available: furosemide 10 mg/mL. How many mL should you draw up?",
+      "answer": 8,
+      "unit": "mL",
+      "tolerance": 0,
+      "workingSteps": [
+        "Volume = Desired ÷ Available concentration",
+        "80 mg ÷ 10 mg/mL = 8 mL"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-007",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: Infuse 1,000 mL NS over 8 hours. Calculate the IV flow rate in mL/hr.",
+      "answer": 125,
+      "unit": "mL/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Flow rate = Total volume ÷ Total hours",
+        "1,000 mL ÷ 8 hr = 125 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-008",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: 500 mL D5W over 4 hours. Drop factor: 20 gtts/mL. Calculate the drip rate in gtts/min. (Round to nearest whole number.)",
+      "answer": 42,
+      "unit": "gtts/min",
+      "tolerance": 0,
+      "workingSteps": [
+        "Drip rate = (Volume × Drop factor) ÷ Time in minutes",
+        "Time: 4 hr × 60 min/hr = 240 min",
+        "(500 mL × 20 gtts/mL) ÷ 240 min = 10,000 ÷ 240 = 41.67 ≈ 42 gtts/min"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-009",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "An IV infusion is running at 75 mL/hr. How many hours will it take to infuse 600 mL?",
+      "answer": 8,
+      "unit": "hours",
+      "tolerance": 0,
+      "workingSteps": [
+        "Time = Total volume ÷ Flow rate",
+        "600 mL ÷ 75 mL/hr = 8 hours"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-010",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: NS 500 mL IV bolus over 30 minutes. Calculate the flow rate in mL/hr.",
+      "answer": 1000,
+      "unit": "mL/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Convert 30 min to hours: 30 min ÷ 60 min/hr = 0.5 hr",
+        "Flow rate = 500 mL ÷ 0.5 hr = 1,000 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-011",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "An IV bag contains potassium chloride 40 mEq in 1,000 mL NS. The infusion rate is 100 mL/hr. How many mEq of potassium is the patient receiving per hour?",
+      "answer": 4,
+      "unit": "mEq/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Concentration = 40 mEq / 1,000 mL = 0.04 mEq/mL",
+        "Rate = 0.04 mEq/mL × 100 mL/hr = 4 mEq/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-011"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-012",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Convert 0.5 g to milligrams (mg).",
+      "answer": 500,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "1 g = 1,000 mg",
+        "0.5 g × 1,000 mg/g = 500 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-013",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: amoxicillin 25 mg/kg/day PO in two divided doses. Patient weighs 20 kg. How many mg per dose?",
+      "answer": 250,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "Total daily dose = 25 mg/kg × 20 kg = 500 mg/day",
+        "Divided into 2 doses: 500 ÷ 2 = 250 mg per dose"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-014",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "A child weighs 44 lb. The safe dose range for the ordered antibiotic is 10–20 mg/kg/dose. What is the maximum safe dose per administration? (Round to nearest whole number.)",
+      "answer": 400,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "Convert: 44 lb ÷ 2.2 lb/kg = 20 kg",
+        "Maximum dose = 20 mg/kg × 20 kg = 400 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-015",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: heparin bolus 80 units/kg IV for a patient weighing 80 kg. How many units should you administer?",
+      "answer": 6400,
+      "unit": "units",
+      "tolerance": 0,
+      "workingSteps": [
+        "Dose = weight × dose per kg",
+        "80 units/kg × 80 kg = 6,400 units"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-017"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-016",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: regular insulin infusion at 0.1 units/kg/hr. Patient weighs 70 kg. Available: insulin drip 100 units in 100 mL NS (1 unit/mL). At what rate (mL/hr) should you set the pump?",
+      "answer": 7,
+      "unit": "mL/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Required rate = 0.1 units/kg/hr × 70 kg = 7 units/hr",
+        "Concentration = 1 unit/mL",
+        "Volume rate = 7 units/hr ÷ 1 unit/mL = 7 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-029"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-017",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: dopamine 5 mcg/kg/min. Patient weighs 70 kg. Available: dopamine 400 mg in 250 mL D5W. Calculate the infusion rate in mL/hr. (Round to nearest tenth.)",
+      "answer": 13.1,
+      "unit": "mL/hr",
+      "tolerance": 0.1,
+      "workingSteps": [
+        "Required dose = 5 mcg/kg/min × 70 kg = 350 mcg/min",
+        "Concentration = 400 mg/250 mL = 1.6 mg/mL = 1,600 mcg/mL",
+        "Rate = 350 mcg/min ÷ 1,600 mcg/mL = 0.21875 mL/min",
+        "Convert to hr: 0.21875 × 60 = 13.125 ≈ 13.1 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-018",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: vancomycin 15 mg/kg IV q12h. Patient weighs 60 kg. How many mg per dose?",
+      "answer": 900,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "Dose = 15 mg/kg × 60 kg = 900 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-019",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 3,
+    "body": {
+      "type": "numeric",
+      "problem": "A drug is renally cleared. The normal dose is 500 mg q8h. The patient's CrCl is 30 mL/min (normal ≥ 60 mL/min). The pharmacist advises reducing dose by 50%. What is the adjusted dose?",
+      "answer": 250,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "Adjusted dose = Normal dose × reduction factor",
+        "500 mg × 0.5 = 250 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-013"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-020",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "A patient drank 8 oz of juice with their medications. Convert to mL for the intake record. (1 oz = 30 mL)",
+      "answer": 240,
+      "unit": "mL",
+      "tolerance": 0,
+      "workingSteps": [
+        "8 oz × 30 mL/oz = 240 mL"
+      ]
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-021",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 1,
+    "body": {
+      "type": "numeric",
+      "problem": "Convert a temperature of 102.2°F to Celsius. Use the formula: °C = (°F – 32) × 5/9",
+      "answer": 39,
+      "unit": "°C",
+      "tolerance": 0.1,
+      "workingSteps": [
+        "°C = (102.2 – 32) × 5/9",
+        "= 70.2 × 5/9",
+        "= 351/9",
+        "= 39.0°C"
+      ]
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-004"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-022",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "A patient's 8-hour intake is: IV fluids 850 mL, oral fluids 300 mL. Output is: urine 600 mL, emesis 150 mL. What is the fluid balance for this period? (Positive = net intake)",
+      "answer": 400,
+      "unit": "mL",
+      "tolerance": 0,
+      "workingSteps": [
+        "Total intake = 850 + 300 = 1,150 mL",
+        "Total output = 600 + 150 = 750 mL",
+        "Balance = 1,150 – 750 = +400 mL"
+      ]
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-023",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Amoxicillin 250 mg/5 mL powder for oral suspension requires adding 90 mL of water to yield 150 mL of suspension. After reconstitution, how many mg of amoxicillin is contained in 15 mL?",
+      "answer": 750,
+      "unit": "mg",
+      "tolerance": 0,
+      "workingSteps": [
+        "Concentration after reconstitution = 250 mg / 5 mL = 50 mg/mL",
+        "15 mL × 50 mg/mL = 750 mg"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-024",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: morphine sulfate 2 mg/hr IV continuous infusion. Available: morphine 50 mg in 250 mL NS. At what rate (mL/hr) should you set the pump?",
+      "answer": 10,
+      "unit": "mL/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Concentration = 50 mg / 250 mL = 0.2 mg/mL",
+        "Rate = 2 mg/hr ÷ 0.2 mg/mL = 10 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-027"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "dose-025",
+    "pillar": "concepts",
+    "format": "numeric",
+    "difficultyTier": 2,
+    "body": {
+      "type": "numeric",
+      "problem": "Order: IVPB (piggyback) metronidazole 500 mg in 100 mL NS to infuse over 30 minutes. Calculate the mL/hr rate.",
+      "answer": 200,
+      "unit": "mL/hr",
+      "tolerance": 0,
+      "workingSteps": [
+        "Convert 30 min to hours: 30/60 = 0.5 hr",
+        "Rate = 100 mL ÷ 0.5 hr = 200 mL/hr"
+      ]
+    },
+    "sourceCitation": "Dimensional Analysis for Meds, 4th ed., Pickar & Swart",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "dosage-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]

@@ -1,0 +1,607 @@
+[
+  {
+    "id": "fnd-001",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal adult resting heart rate range?",
+      "choices": [
+        { "id": "a", "text": "60–100 beats per minute" },
+        { "id": "b", "text": "50–90 beats per minute" },
+        { "id": "c", "text": "70–110 beats per minute" },
+        { "id": "d", "text": "60–90 beats per minute" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal adult resting heart rate is 60–100 bpm. Below 60 = bradycardia; above 100 = tachycardia. Athletes may have rates 40–60 bpm as a normal variant."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-009", "term-010"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-002",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What blood pressure reading is classified as normal per the 2017 ACC/AHA guidelines?",
+      "choices": [
+        { "id": "a", "text": "Less than 120/80 mmHg" },
+        { "id": "b", "text": "Less than 130/80 mmHg" },
+        { "id": "c", "text": "Less than 140/90 mmHg" },
+        { "id": "d", "text": "Less than 110/70 mmHg" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal BP is < 120/80 mmHg. Elevated is 120–129 systolic (normal diastolic). Stage 1 HTN: 130–139/80–89. Stage 2 HTN: ≥ 140/90."
+    },
+    "sourceCitation": "2017 ACC/AHA High Blood Pressure Guidelines; Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-011", "term-012"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-003",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal adult respiratory rate range?",
+      "choices": [
+        { "id": "a", "text": "12–20 breaths per minute" },
+        { "id": "b", "text": "10–18 breaths per minute" },
+        { "id": "c", "text": "14–22 breaths per minute" },
+        { "id": "d", "text": "16–24 breaths per minute" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal adult RR is 12–20 breaths/min. < 12 = bradypnea; > 20 = tachypnea. Assess rate, depth, rhythm, and effort. Count for a full 60 seconds for accuracy."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-028", "term-023"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-004",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal oral body temperature range for an adult?",
+      "choices": [
+        { "id": "a", "text": "97.8°F – 99.1°F (36.5°C – 37.3°C)" },
+        { "id": "b", "text": "98.6°F – 100.4°F (37.0°C – 38.0°C)" },
+        { "id": "c", "text": "97.0°F – 98.6°F (36.1°C – 37.0°C)" },
+        { "id": "d", "text": "98.0°F – 99.5°F (36.7°C – 37.5°C)" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal oral temperature is approximately 97.8–99.1°F (36.5–37.3°C). Values vary by time of day, age, and route (rectal > oral > axillary by ~0.5–1°F each). Fever is generally ≥ 100.4°F (38.0°C)."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-005",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal oxygen saturation (SpO2) range for a healthy adult?",
+      "choices": [
+        { "id": "a", "text": "95%–100%" },
+        { "id": "b", "text": "90%–95%" },
+        { "id": "c", "text": "93%–100%" },
+        { "id": "d", "text": "88%–100%" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal SpO2 is ≥ 95% in healthy adults at sea level. SpO2 88–92% may be acceptable in chronic COPD patients (hypoxic drive). SpO2 < 90% indicates hypoxemia requiring intervention."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-020"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-006",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 1,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe the Numeric Rating Scale (NRS) for pain assessment. What scores require nursing intervention?",
+      "rubric": [
+        "0–10 scale where 0 = no pain, 10 = worst imaginable pain",
+        "0 = no pain; 1–3 = mild; 4–6 = moderate; 7–10 = severe",
+        "Moderate to severe pain (≥ 4) warrants intervention per most protocols"
+      ],
+      "modelAnswer": "The NRS is a 0–10 scale: 0 = no pain, 10 = worst imaginable pain. Mild pain is 1–3, moderate is 4–6, and severe is 7–10. A score of 4 or above typically warrants pharmacological or non-pharmacological intervention based on patient goals and clinical context."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-007",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "PERRLA is a documentation acronym for pupil assessment. It stands for: Pupils {{blank}}, {{blank}}, {{blank}} to {{blank}}, and {{blank}}.",
+      "back": "Equal | Round | Reactive | Light | Accommodating",
+      "hint": "Used in neurological assessments — abnormal findings may indicate increased ICP or cranial nerve dysfunction"
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-024"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-008",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe the primary survey (ABCDE approach) used in rapid patient assessment.",
+      "rubric": [
+        "A — Airway: is it patent? Any obstruction?",
+        "B — Breathing: rate, depth, effort, breath sounds",
+        "C — Circulation: pulse, BP, skin color/temperature/moisture, bleeding",
+        "D — Disability: level of consciousness (AVPU or GCS), pupils",
+        "E — Exposure/Environment: remove clothing to assess, prevent hypothermia"
+      ],
+      "modelAnswer": "The ABCDE primary survey: A-Airway (patent?), B-Breathing (rate, quality, effort), C-Circulation (pulse, BP, perfusion), D-Disability (neurological status, pupils), E-Exposure (full body assessment while maintaining warmth). Life-threatening problems at each step are addressed before proceeding."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-009",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Orthostatic hypotension is defined as a drop in systolic BP of ≥ {{blank}} mmHg or diastolic BP of ≥ {{blank}} mmHg within 3 minutes of standing, often accompanied by dizziness.",
+      "back": "20 | 10",
+      "hint": "Also called postural hypotension — a fall risk! Assess after lying → sitting → standing transitions."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-012", "pharm-007"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-010",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal serum sodium (Na+) range?",
+      "choices": [
+        { "id": "a", "text": "135–145 mEq/L" },
+        { "id": "b", "text": "130–140 mEq/L" },
+        { "id": "c", "text": "136–148 mEq/L" },
+        { "id": "d", "text": "140–150 mEq/L" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal serum sodium is 135–145 mEq/L. Hyponatremia < 135, hypernatremia > 145. Sodium is the primary extracellular cation and the major determinant of plasma osmolality."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-011",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal serum potassium (K+) range?",
+      "choices": [
+        { "id": "a", "text": "3.5–5.0 mEq/L" },
+        { "id": "b", "text": "3.0–4.5 mEq/L" },
+        { "id": "c", "text": "4.0–5.5 mEq/L" },
+        { "id": "d", "text": "3.5–5.5 mEq/L" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal serum K+ is 3.5–5.0 mEq/L. Hypokalemia < 3.5 (risk of dysrhythmias, muscle weakness); hyperkalemia > 5.0 (risk of fatal dysrhythmias). Notify provider if K+ < 3.5 or > 5.5 mEq/L."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-011", "term-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-012",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal fasting blood glucose range?",
+      "choices": [
+        { "id": "a", "text": "70–100 mg/dL" },
+        { "id": "b", "text": "80–120 mg/dL" },
+        { "id": "c", "text": "60–110 mg/dL" },
+        { "id": "d", "text": "70–110 mg/dL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal fasting glucose is 70–100 mg/dL. Prediabetes: 100–125 mg/dL. Diabetes: ≥ 126 mg/dL on two occasions. Hypoglycemia: < 70 mg/dL (symptomatic < 54 mg/dL)."
+    },
+    "sourceCitation": "ADA Standards of Medical Care in Diabetes 2024; Saunders NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021", "pharm-030"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-013",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the general normal range for serum creatinine in adults?",
+      "choices": [
+        { "id": "a", "text": "0.6–1.2 mg/dL" },
+        { "id": "b", "text": "0.8–1.5 mg/dL" },
+        { "id": "c", "text": "0.5–1.0 mg/dL" },
+        { "id": "d", "text": "1.0–2.0 mg/dL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal creatinine is approximately 0.6–1.2 mg/dL; values vary by sex, age, and muscle mass. Women and older adults typically have lower values. Elevated creatinine indicates reduced renal filtration. NOTE: ranges vary by laboratory — verify against your institution's reference range."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-008", "pharm-023"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-014",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the general normal range for blood urea nitrogen (BUN)?",
+      "choices": [
+        { "id": "a", "text": "7–25 mg/dL" },
+        { "id": "b", "text": "5–20 mg/dL" },
+        { "id": "c", "text": "10–30 mg/dL" },
+        { "id": "d", "text": "8–22 mg/dL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal BUN is approximately 7–25 mg/dL. Elevated BUN (>25) may indicate renal dysfunction, dehydration, high-protein diet, or GI bleeding. BUN:creatinine ratio > 20:1 suggests prerenal cause. NOTE: ranges vary by lab."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-013", "pharm-008"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-015",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal white blood cell (WBC) count range for adults?",
+      "choices": [
+        { "id": "a", "text": "4,500–11,000 cells/mcL" },
+        { "id": "b", "text": "5,000–10,000 cells/mcL" },
+        { "id": "c", "text": "3,000–9,000 cells/mcL" },
+        { "id": "d", "text": "4,000–12,000 cells/mcL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal adult WBC is 4,500–11,000 cells/mcL (some sources: 4,000–10,000). Leukocytosis (> 11,000) suggests infection/inflammation; leukopenia (< 4,500) indicates immune suppression risk."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-016",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal hemoglobin range for adult females?",
+      "choices": [
+        { "id": "a", "text": "12.0–16.0 g/dL" },
+        { "id": "b", "text": "13.5–17.5 g/dL" },
+        { "id": "c", "text": "11.0–15.0 g/dL" },
+        { "id": "d", "text": "12.5–17.0 g/dL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal hemoglobin for adult females is 12.0–16.0 g/dL; for adult males it is 13.5–17.5 g/dL. Values below the lower limit indicate anemia. NOTE: ranges vary by lab and altitude."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-017",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "What is the normal platelet count range?",
+      "choices": [
+        { "id": "a", "text": "150,000–400,000/mcL" },
+        { "id": "b", "text": "100,000–350,000/mcL" },
+        { "id": "c", "text": "200,000–500,000/mcL" },
+        { "id": "d", "text": "150,000–450,000/mcL" }
+      ],
+      "correctId": "a",
+      "explanation": "Normal platelets: 150,000–400,000/mcL. Thrombocytopenia < 150,000 (bleeding risk; < 50,000 significant; < 20,000 spontaneous bleeding). Thrombocytosis > 450,000 (clot risk). HIT (heparin-induced thrombocytopenia) causes a drop ≥ 50% from baseline."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-017"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-018",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Crackles (rales) are discontinuous, {{blank}} lung sounds produced by fluid in the alveoli or small airways, associated with conditions such as {{blank}} and pulmonary edema.",
+      "back": "popping/crackling | pneumonia",
+      "hint": "Fine crackles: soft, high-pitched (end-inspiratory). Coarse crackles: louder, lower-pitched (throughout inspiration). Not cleared by coughing."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-019", "fnd-020"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-019",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Wheezes are continuous, {{blank}}-pitched musical sounds caused by narrowed airways. They are associated with {{blank}} and asthma.",
+      "back": "high | bronchospasm",
+      "hint": "Wheezes occur during expiration (or both phases in severe bronchospasm). Inspiratory wheezes are called stridor when in upper airway."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-018", "fnd-020"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-020",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Rhonchi are continuous, {{blank}}-pitched sounds caused by secretions in the larger airways. Unlike crackles, they often {{blank}} with coughing.",
+      "back": "low | clear (improve)",
+      "hint": "Rhonchi = snoring-like quality. If they clear with coughing, secretion management is the priority."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-018", "fnd-019"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-021",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe how to assess bowel sounds. What is normal? What findings require immediate notification?",
+      "rubric": [
+        "Auscultate all four quadrants for at least 1–2 minutes each before documenting absent bowel sounds",
+        "Normal: gurgling sounds 5–30 per minute (or 5–35/min by some sources)",
+        "Hypoactive: 1–4/min (post-surgery, ileus, narcotics)",
+        "Hyperactive: > 30/min (diarrhea, early obstruction, GI bleeding)",
+        "Absent: no sounds after 5 minutes of listening per quadrant — report to provider (possible ileus or obstruction)"
+      ],
+      "modelAnswer": "Auscultate all four abdominal quadrants before percussion or palpation. Normal bowel sounds occur 5–30 times per minute as high-pitched gurgles. Listen for 5 minutes before calling sounds absent. Absent or hypoactive sounds suggest ileus; hyperactive ('rushing') sounds may indicate early obstruction or diarrhea — both require provider notification."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-022",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Normal capillary refill time in adults is {{blank}} seconds. A prolonged refill time suggests {{blank}} perfusion.",
+      "back": "less than 2 (< 2) | decreased / impaired peripheral",
+      "hint": "Press nail bed until blanched, release, and count seconds until color returns. Temperature and age affect reliability."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-008"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-023",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "To assess for jugular venous distension (JVD), position the patient at a {{blank}}° angle. JVD is visible above the clavicle when it exceeds {{blank}} cm above the sternal angle.",
+      "back": "30–45 | 3–4",
+      "hint": "JVD is a sign of elevated central venous pressure — seen in right-sided heart failure and cardiac tamponade"
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-024",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "List the three components of the Glasgow Coma Scale (GCS) and the total score range.",
+      "rubric": [
+        "Eye opening: scored 1–4 (1=none, 2=to pain, 3=to voice, 4=spontaneous)",
+        "Verbal response: scored 1–5 (1=none, 2=sounds, 3=words, 4=confused, 5=oriented)",
+        "Motor response: scored 1–6 (1=none, 2=extension, 3=abnormal flexion, 4=withdrawal, 5=localizes, 6=obeys)",
+        "Total range: 3–15; ≤ 8 = severe brain injury, intubation considered"
+      ],
+      "modelAnswer": "GCS has three components: Eye opening (1–4), Verbal response (1–5), and Motor response (1–6). Total score ranges from 3 (deep coma/death) to 15 (fully alert). A score ≤ 8 indicates severe impairment requiring airway protection."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-007"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "fnd-025",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe the 0–4 pulse quality grading scale.",
+      "rubric": [
+        "0 = absent (no pulse)",
+        "1+ = weak/thready (barely palpable)",
+        "2+ = normal (expected)",
+        "3+ = full/bounding (increased)",
+        "4+ = bounding (forceful; may indicate high cardiac output)"
+      ],
+      "modelAnswer": "Pulses are graded 0–4+: 0=absent, 1+=weak/thready, 2+=normal, 3+=full/bounding, 4+=excessively bounding. Document the scale used at your institution. A 1+ or absent pulse requires immediate provider notification."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "foundations-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]

@@ -1,4 +1,10 @@
 import type { IDatabase } from '../types';
+import type { ContentItem } from '../../domain/types';
+import { ContentItemRepository } from '../repositories/ContentItemRepository';
+import terminologyPack from '../../../content/terminology-pack.json';
+import pharmPack from '../../../content/pharm-pack.json';
+import foundationsPack from '../../../content/foundations-pack.json';
+import dosagePack from '../../../content/dosage-pack.json';
 
 // ─── Migration 001: initial schema ───────────────────────────────────────────
 //
@@ -118,29 +124,64 @@ const SCHEMA_001 = `
     ON drill_results(item_id);
 `;
 
-// ─── Runner ───────────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-export async function runMigrations(db: IDatabase): Promise<void> {
-  // Bootstrap: ensure the version table exists before reading from it.
+async function bootstrap(db: IDatabase): Promise<void> {
   await db.execAsync(`
     CREATE TABLE IF NOT EXISTS app_state (
       key   TEXT NOT NULL PRIMARY KEY,
       value TEXT NOT NULL
     )
   `);
+}
 
+async function getVersion(db: IDatabase): Promise<number> {
   const row = await db.getFirstAsync<{ value: string }>(
     `SELECT value FROM app_state WHERE key = 'db_version'`,
   );
-  let version = row ? Number(row.value) : 0;
+  return row ? Number(row.value) : 0;
+}
 
-  if (version < 1) {
+// ─── Schema-only runner (use in repository integration tests) ─────────────────
+//
+// Applies migration 001 only — creates all tables, no seed data.
+// Repository tests call this so they run against an empty, correctly-typed
+// schema without the 106 seed items from migration 002 leaking into assertions.
+
+export async function runSchemaOnly(db: IDatabase): Promise<void> {
+  await bootstrap(db);
+  if ((await getVersion(db)) < 1) {
     await db.execAsync(SCHEMA_001);
     await db.runAsync(
       `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '1')`,
     );
-    version = 1;
   }
+}
 
-  // Future: if (version < 2) { await db.execAsync(SCHEMA_002); ... version = 2; }
+// ─── Full runner (use in production and seed tests) ───────────────────────────
+
+export async function runMigrations(db: IDatabase): Promise<void> {
+  await runSchemaOnly(db);
+
+  if ((await getVersion(db)) < 2) {
+    // Wrap all upserts + the version bump in one transaction.
+    // Invariant: db_version advances to 2 only when every item committed.
+    // A crash mid-upsert leaves db_version=1; the next launch re-runs and
+    // completes cleanly because every upsert is ON CONFLICT UPDATE (idempotent).
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      const itemRepo = new ContentItemRepository(txn);
+      const allPacks = [
+        ...terminologyPack,
+        ...pharmPack,
+        ...foundationsPack,
+        ...dosagePack,
+      ] as ContentItem[];
+      for (const item of allPacks) {
+        await itemRepo.upsert(item);
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '2')`,
+      );
+    });
+  }
 }

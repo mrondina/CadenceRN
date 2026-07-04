@@ -1,0 +1,547 @@
+[
+  {
+    "id": "term-001",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix brady- means {{blank}}.",
+      "back": "slow",
+      "hint": "Think: bradycardia = slow heart rate"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-002",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix tachy- means {{blank}}.",
+      "back": "fast / rapid",
+      "hint": "Think: tachycardia = fast heart rate"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-010"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-003",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix hyper- means {{blank}}.",
+      "back": "excessive / above normal",
+      "hint": "Think: hypertension = above normal blood pressure"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-004",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix hypo- means {{blank}}.",
+      "back": "deficient / below normal",
+      "hint": "Think: hypotension = below normal blood pressure"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-005",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -emia refers to a {{blank}} condition.",
+      "back": "blood",
+      "hint": "Think: anemia = without normal blood cells; hypokalemia = low potassium in blood"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-011"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-006",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -itis means {{blank}}.",
+      "back": "inflammation",
+      "hint": "Think: appendicitis = inflammation of the appendix"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-007",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -ectomy means {{blank}}.",
+      "back": "surgical removal",
+      "hint": "Think: appendectomy = surgical removal of the appendix"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-008",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -ostomy means creation of a {{blank}}.",
+      "back": "permanent opening (stoma) into a hollow organ or body cavity",
+      "hint": "Think: colostomy = opening into the colon; tracheostomy = opening into the trachea"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-009",
+    "pillar": "terminology",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Define bradycardia. What is the threshold heart rate?",
+      "rubric": [
+        "Heart rate slower than normal",
+        "Threshold: < 60 beats per minute in adults"
+      ],
+      "modelAnswer": "Bradycardia is a heart rate below 60 beats per minute in an adult at rest."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-001", "pharm-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-010",
+    "pillar": "terminology",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Define tachycardia. What is the threshold heart rate?",
+      "rubric": [
+        "Heart rate faster than normal",
+        "Threshold: > 100 beats per minute in adults"
+      ],
+      "modelAnswer": "Tachycardia is a heart rate above 100 beats per minute in an adult at rest."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-011",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "According to the 2017 ACC/AHA guidelines, Stage 1 hypertension begins at a blood pressure of:",
+      "choices": [
+        { "id": "a", "text": "130/80 mmHg" },
+        { "id": "b", "text": "140/90 mmHg" },
+        { "id": "c", "text": "120/80 mmHg" },
+        { "id": "d", "text": "150/90 mmHg" }
+      ],
+      "correctId": "a",
+      "explanation": "The 2017 ACC/AHA guidelines define Stage 1 hypertension as ≥130 systolic OR ≥80 diastolic. The previous threshold of 140/90 is now Stage 2."
+    },
+    "sourceCitation": "2017 ACC/AHA High Blood Pressure Guidelines; Saunders NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-002"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-012",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Hypotension in adults is generally defined as a systolic blood pressure of:",
+      "choices": [
+        { "id": "a", "text": "Less than 90 mmHg" },
+        { "id": "b", "text": "Less than 100 mmHg" },
+        { "id": "c", "text": "Less than 110 mmHg" },
+        { "id": "d", "text": "Less than 120 mmHg" }
+      ],
+      "correctId": "a",
+      "explanation": "Hypotension is defined as systolic BP < 90 mmHg (or a drop ≥ 20 mmHg from baseline). Clinical context always matters — what is hypotensive for one patient may be normal for another."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-002", "fnd-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-013",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Diaphoresis refers to {{blank}} sweating, often associated with pain, shock, fever, or medication effects.",
+      "back": "excessive / profuse",
+      "hint": "From Greek: dia- (through) + phorein (to carry) — literally 'sweating through'"
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-014",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix dys- means {{blank}}.",
+      "back": "difficult / painful / abnormal",
+      "hint": "Think: dyspnea = difficult breathing; dysphagia = difficulty swallowing"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-022"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-015",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The prefix a- or an- means {{blank}}.",
+      "back": "without / absence of",
+      "hint": "Think: apnea = without breathing; anemia = without enough red blood cells"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-023"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-016",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -pnea relates to {{blank}}.",
+      "back": "breathing / respiration",
+      "hint": "Think: dyspnea, apnea, tachypnea, orthopnea — all involve breathing"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-021", "term-022", "term-023"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-017",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -cardia refers to a condition of the {{blank}}.",
+      "back": "heart rate",
+      "hint": "Think: bradycardia = slow heart rate; tachycardia = fast heart rate"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-009", "term-010"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-018",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -uria refers to a condition of the {{blank}}.",
+      "back": "urine",
+      "hint": "Think: hematuria = blood in urine; polyuria = excessive urine"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-024", "term-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-019",
+    "pillar": "terminology",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Define edema. Name two common causes in nursing practice.",
+      "rubric": [
+        "Abnormal accumulation of fluid in interstitial (tissue) spaces",
+        "Two causes from: heart failure, hypoalbuminemia, venous insufficiency, lymphatic obstruction, inflammation, medications (e.g. calcium channel blockers)"
+      ],
+      "modelAnswer": "Edema is the abnormal accumulation of excess fluid in the interstitial spaces of body tissues. Common causes include heart failure (increased hydrostatic pressure) and hypoalbuminemia (decreased oncotic pressure)."
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-020",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Cyanosis is a {{blank}} discoloration of the skin and mucous membranes caused by reduced oxygen saturation.",
+      "back": "bluish / blue-gray",
+      "hint": "Central cyanosis (lips, tongue) indicates lower SpO2 than peripheral cyanosis (fingernails)"
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-021",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Orthopnea is difficulty breathing that is relieved by {{blank}}.",
+      "back": "sitting upright or elevating the head of the bed",
+      "hint": "ortho- = straight/upright; seen in heart failure and severe COPD"
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-022"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-022",
+    "pillar": "terminology",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Differentiate dyspnea from orthopnea. What underlying condition is commonly associated with both?",
+      "rubric": [
+        "Dyspnea: subjective sensation of difficult or labored breathing",
+        "Orthopnea: dyspnea that worsens when supine and improves when upright",
+        "Common association: left-sided heart failure / pulmonary edema"
+      ],
+      "modelAnswer": "Dyspnea is the subjective experience of difficult or uncomfortable breathing. Orthopnea is a type of dyspnea that worsens in the recumbent position and is relieved by sitting up. Both are hallmark signs of left-sided heart failure due to pulmonary venous congestion."
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-021", "fnd-003"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-023",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Apnea is defined as a temporary {{blank}} of breathing lasting at least 10 seconds.",
+      "back": "cessation / absence",
+      "hint": "a- (without) + -pnea (breathing); central apnea vs. obstructive sleep apnea"
+    },
+    "sourceCitation": "Fundamentals of Nursing, 9th ed., Potter & Perry",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-003"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-024",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Hematuria refers to the presence of {{blank}} in the urine.",
+      "back": "blood (red blood cells)",
+      "hint": "hemat/o = blood; -uria = urine condition"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-025",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Polyuria refers to the excretion of {{blank}} amounts of urine, commonly associated with diabetes mellitus or diabetes insipidus.",
+      "back": "abnormally large / excessive",
+      "hint": "poly- = many/much; -uria = urine; definition often cites > 3 L/day"
+    },
+    "sourceCitation": "Saunders Comprehensive Review for the NCLEX-RN, 9th ed.",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "term-026",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The suffix -logy means {{blank}}.",
+      "back": "study of / science of",
+      "hint": "Think: cardiology = study of the heart; neurology = study of the nervous system"
+    },
+    "sourceCitation": "Medical Terminology: A Short Course, 8th ed., Chabner",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "terminology-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]

@@ -1,0 +1,701 @@
+[
+  {
+    "id": "pharm-001",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Propranolol belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "Non-selective beta-adrenergic blocker" },
+        { "id": "b", "text": "ACE inhibitor" },
+        { "id": "c", "text": "Calcium channel blocker" },
+        { "id": "d", "text": "Loop diuretic" }
+      ],
+      "correctId": "a",
+      "explanation": "Propranolol is the prototype non-selective beta-adrenergic blocker. It blocks both beta-1 (cardiac) and beta-2 (bronchial, vascular) receptors. Class suffix pattern: -olol."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-009", "fnd-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-002",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe the mechanism of action of propranolol.",
+      "rubric": [
+        "Blocks beta-1 adrenergic receptors (cardiac effect)",
+        "Blocks beta-2 adrenergic receptors (bronchial and vascular effect)",
+        "Results in decreased heart rate, reduced contractility, and lower blood pressure"
+      ],
+      "modelAnswer": "Propranolol competitively blocks both beta-1 and beta-2 adrenergic receptors. Beta-1 blockade reduces heart rate, myocardial contractility, and AV conduction. Beta-2 blockade causes bronchoconstriction and inhibits peripheral vasodilation."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-003",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Before administering propranolol, the nurse should assess the patient's {{blank}}. Hold and notify the provider if it is below {{blank}} bpm.",
+      "back": "heart rate | 60",
+      "hint": "Beta-1 blockade slows the heart — administering to a bradycardic patient is dangerous"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-001", "term-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-004",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "What is the most important patient teaching point for propranolol regarding discontinuation?",
+      "rubric": [
+        "Do NOT abruptly stop propranolol",
+        "Abrupt discontinuation may cause rebound hypertension, angina, or myocardial infarction",
+        "Taper dose gradually under provider supervision"
+      ],
+      "modelAnswer": "Patients must never abruptly discontinue propranolol. Abrupt cessation can cause rebound hypertension, worsening angina, or even myocardial infarction due to upregulation of beta receptors. The dose must be tapered gradually over 1-2 weeks."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-001"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-005",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Lisinopril belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "ACE inhibitor" },
+        { "id": "b", "text": "Angiotensin II receptor blocker (ARB)" },
+        { "id": "c", "text": "Beta-adrenergic blocker" },
+        { "id": "d", "text": "Calcium channel blocker" }
+      ],
+      "correctId": "a",
+      "explanation": "Lisinopril is the prototype ACE inhibitor. Class suffix pattern: -pril (captopril, enalapril, lisinopril, ramipril)."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-006",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe the mechanism of action of lisinopril and its primary cardiovascular effect.",
+      "rubric": [
+        "Inhibits angiotensin-converting enzyme (ACE)",
+        "Prevents conversion of angiotensin I to angiotensin II",
+        "Result: vasodilation, decreased aldosterone, reduced blood pressure"
+      ],
+      "modelAnswer": "Lisinopril inhibits ACE, preventing the conversion of angiotensin I to angiotensin II. This reduces vasoconstriction and aldosterone secretion, resulting in vasodilation, decreased sodium and water retention, and lower blood pressure."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-007",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "After giving the first dose of lisinopril, the nurse should monitor for {{blank}}, which can occur due to rapid vasodilation.",
+      "back": "first-dose hypotension (orthostatic hypotension)",
+      "hint": "Instruct patient to rise slowly; have patient sit or lie down for 1-3 hours after first dose"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-009", "term-012"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-008",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "ACE inhibitors like lisinopril can cause {{blank}} in the blood due to reduced glomerular filtration pressure. The nurse should monitor {{blank}} and {{blank}} levels.",
+      "back": "elevated creatinine and BUN | serum creatinine | BUN",
+      "hint": "ACE inhibitors reduce efferent arteriole constriction → reduced GFR → waste product accumulation"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-013", "fnd-014"],
+    "releaseGate": { "sessionIndex": 1, "week": 1 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-009",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Furosemide belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "Loop diuretic" },
+        { "id": "b", "text": "Thiazide diuretic" },
+        { "id": "c", "text": "Potassium-sparing diuretic" },
+        { "id": "d", "text": "Osmotic diuretic" }
+      ],
+      "correctId": "a",
+      "explanation": "Furosemide (Lasix) is the prototype loop diuretic. It acts on the thick ascending limb of the loop of Henle. Loop diuretics are the most potent diuretics."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-019"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-010",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe furosemide's mechanism of action and primary therapeutic use.",
+      "rubric": [
+        "Blocks Na-K-2Cl cotransporter (NKCC2) in the thick ascending limb of the loop of Henle",
+        "Prevents reabsorption of sodium, potassium, and chloride",
+        "Primary use: edema (heart failure, hepatic cirrhosis, renal disease), hypertension"
+      ],
+      "modelAnswer": "Furosemide inhibits the Na-K-2Cl cotransporter in the thick ascending limb of the loop of Henle, preventing sodium, potassium, and chloride reabsorption. This produces potent diuresis. It is used to treat edema from heart failure, cirrhosis, and renal disease, as well as hypertension."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-009"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-011",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "The most important electrolyte to monitor in patients taking furosemide is {{blank}}, because loop diuretics cause significant {{blank}} wasting.",
+      "back": "potassium (K+) | potassium",
+      "hint": "Hypokalemia can cause dangerous cardiac dysrhythmias — notify provider if K+ < 3.5 mEq/L"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-011", "term-005"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-012",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "List three patient teaching points for furosemide.",
+      "rubric": [
+        "Take in the morning to avoid nocturia interfering with sleep",
+        "Weigh daily at the same time (1-2 lb/day loss is therapeutic; report > 2 lb/day loss)",
+        "Increase dietary potassium (bananas, oranges, potatoes) or take K+ supplement as ordered",
+        "Report muscle cramps, weakness, dizziness (signs of hypokalemia or volume depletion)"
+      ],
+      "modelAnswer": "1. Take in the morning to prevent nighttime urination. 2. Weigh daily and report sudden weight loss > 2 lb/day. 3. Eat potassium-rich foods or take prescribed K+ supplement to prevent hypokalemia."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-009", "fnd-011"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-013",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Atorvastatin belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "HMG-CoA reductase inhibitor (statin)" },
+        { "id": "b", "text": "Fibric acid derivative (fibrate)" },
+        { "id": "c", "text": "Bile acid sequestrant" },
+        { "id": "d", "text": "Cholesterol absorption inhibitor" }
+      ],
+      "correctId": "a",
+      "explanation": "Atorvastatin (Lipitor) is a statin — an HMG-CoA reductase inhibitor. Class suffix pattern: -statin (atorvastatin, simvastatin, rosuvastatin, lovastatin)."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-014",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe atorvastatin's mechanism of action.",
+      "rubric": [
+        "Inhibits HMG-CoA reductase enzyme",
+        "Reduces hepatic cholesterol synthesis",
+        "Results in upregulation of LDL receptors → increased LDL clearance from blood"
+      ],
+      "modelAnswer": "Atorvastatin competitively inhibits HMG-CoA reductase, the rate-limiting enzyme in hepatic cholesterol synthesis. This decreases intracellular cholesterol, causing the liver to upregulate LDL receptors, which increases LDL clearance from the bloodstream."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-013"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-015",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Unlike some other statins, atorvastatin may be taken {{blank}} because of its long half-life. Patients should avoid {{blank}} while taking atorvastatin.",
+      "back": "at any time of day | grapefruit juice",
+      "hint": "Grapefruit inhibits CYP3A4 → increases statin levels → increases myopathy risk"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-013"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-016",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "The most serious adverse effect of statins like atorvastatin is {{blank}}, which can progress to life-threatening {{blank}}. The patient should be instructed to report unexplained muscle {{blank}} or {{blank}}.",
+      "back": "myopathy | rhabdomyolysis | pain | weakness",
+      "hint": "Rhabdomyolysis = breakdown of muscle tissue releasing myoglobin → acute kidney injury. Monitor CK levels."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-013"],
+    "releaseGate": { "sessionIndex": 1, "week": 2 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-017",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Heparin belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "Indirect thrombin inhibitor / anticoagulant" },
+        { "id": "b", "text": "Direct thrombin inhibitor" },
+        { "id": "c", "text": "Antiplatelet agent" },
+        { "id": "d", "text": "Thrombolytic (fibrinolytic)" }
+      ],
+      "correctId": "a",
+      "explanation": "Heparin is an indirect anticoagulant — it works by binding antithrombin III and potentiating its inhibition of thrombin and Factor Xa. It does not directly inhibit thrombin like dabigatran does. HIGH ALERT: heparin is a high-alert medication requiring independent double-checks."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-019"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-018",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "The laboratory test used to monitor unfractionated heparin therapy is the {{blank}}, with a therapeutic range of approximately {{blank}} seconds.",
+      "back": "aPTT (activated partial thromboplastin time) | 60–100 seconds (1.5–2.5 × normal control)",
+      "hint": "Some institutions now prefer anti-Xa levels for monitoring — check your facility policy"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-017"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-019",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Which medication is the reversal agent for unfractionated heparin?",
+      "choices": [
+        { "id": "a", "text": "Protamine sulfate" },
+        { "id": "b", "text": "Vitamin K (phytonadione)" },
+        { "id": "c", "text": "Naloxone (Narcan)" },
+        { "id": "d", "text": "Andexanet alfa" }
+      ],
+      "correctId": "a",
+      "explanation": "Protamine sulfate reverses unfractionated heparin by binding to it and forming a stable heparin-protamine complex with no anticoagulant activity. Vitamin K reverses warfarin. Andexanet alfa reverses factor Xa inhibitors."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-017"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-020",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Warfarin therapy is monitored using the {{blank}}. The standard therapeutic range for most indications is {{blank}}.",
+      "back": "INR (International Normalized Ratio) | 2.0–3.0",
+      "hint": "Mechanical heart valve requires INR 2.5–3.5. Check INR regularly — many foods and drugs affect warfarin."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-017"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-021",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Metformin belongs to which antidiabetic drug class?",
+      "choices": [
+        { "id": "a", "text": "Biguanide" },
+        { "id": "b", "text": "Sulfonylurea" },
+        { "id": "c", "text": "Thiazolidinedione (glitazone)" },
+        { "id": "d", "text": "DPP-4 inhibitor" }
+      ],
+      "correctId": "a",
+      "explanation": "Metformin is the only biguanide used clinically. It is typically the first-line oral antidiabetic for Type 2 DM. It does not cause hypoglycemia when used alone."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["term-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-022",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "Describe metformin's primary mechanisms of action for lowering blood glucose.",
+      "rubric": [
+        "Decreases hepatic glucose production (primary mechanism)",
+        "Improves peripheral insulin sensitivity (increases glucose uptake in muscle)",
+        "Does NOT stimulate insulin secretion"
+      ],
+      "modelAnswer": "Metformin primarily decreases hepatic gluconeogenesis and glycogenolysis. It also improves insulin sensitivity in peripheral tissues (skeletal muscle), increasing glucose uptake. Importantly, it does not stimulate insulin release from the pancreas, so it does not cause hypoglycemia when used as monotherapy."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-023",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 3,
+    "body": {
+      "type": "free_recall",
+      "prompt": "List the major contraindications to metformin use.",
+      "rubric": [
+        "Renal impairment: eGFR < 30 mL/min (contraindicated); caution 30–45 mL/min",
+        "Iodinated IV contrast media: hold 48 hours before/after due to risk of contrast-induced nephropathy and lactic acidosis",
+        "Hepatic impairment (relative contraindication — lactic acidosis risk)",
+        "Excessive alcohol use (increases lactic acidosis risk)"
+      ],
+      "modelAnswer": "Metformin is contraindicated with severe renal impairment (eGFR < 30 mL/min) due to risk of lactic acidosis from drug accumulation. It must be held before and for 48 hours after iodinated contrast dye. Hepatic disease and excessive alcohol use are relative contraindications."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021", "fnd-013"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-024",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Metformin should be taken {{blank}} to reduce its primary gastrointestinal side effects, which include {{blank}} and {{blank}}.",
+      "back": "with food or meals | nausea | diarrhea",
+      "hint": "GI side effects are dose-dependent and often improve with time; extended-release formulation has fewer GI effects"
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-021"],
+    "releaseGate": { "sessionIndex": 1, "week": 3 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-025",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Amoxicillin belongs to which antibiotic class?",
+      "choices": [
+        { "id": "a", "text": "Aminopenicillin (beta-lactam)" },
+        { "id": "b", "text": "Cephalosporin" },
+        { "id": "c", "text": "Macrolide" },
+        { "id": "d", "text": "Fluoroquinolone" }
+      ],
+      "correctId": "a",
+      "explanation": "Amoxicillin is an aminopenicillin — a type of beta-lactam antibiotic. Class suffix pattern: -cillin (amoxicillin, ampicillin, oxacillin, methicillin, nafcillin)."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-026",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "Before administering amoxicillin, the nurse must assess for a history of {{blank}} allergy, because all penicillins share the {{blank}} ring structure and can trigger cross-sensitivity.",
+      "back": "penicillin | beta-lactam",
+      "hint": "Also ask about cephalosporin allergy — cross-reactivity is less common but possible. Anaphylaxis risk requires epinephrine at bedside."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-025"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-027",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Morphine sulfate belongs to which drug class?",
+      "choices": [
+        { "id": "a", "text": "Opioid agonist (narcotic analgesic)" },
+        { "id": "b", "text": "Non-steroidal anti-inflammatory drug (NSAID)" },
+        { "id": "c", "text": "Tricyclic antidepressant" },
+        { "id": "d", "text": "Serotonin-norepinephrine reuptake inhibitor" }
+      ],
+      "correctId": "a",
+      "explanation": "Morphine is the prototype opioid agonist. It binds primarily to mu-opioid receptors in the CNS, providing potent analgesia. It is a Schedule II controlled substance."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["pharm-028"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-028",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 2,
+    "body": {
+      "type": "cloze",
+      "front": "The priority nursing assessment before administering morphine is the patient's {{blank}}. It should be held and the provider notified if the rate is below {{blank}} per minute in adults.",
+      "back": "respiratory rate | 12",
+      "hint": "Opioids depress the respiratory drive — this is the most dangerous acute effect. Always assess RR, level of consciousness, and pain before each dose."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": false,
+    "graphLinks": ["fnd-003", "pharm-027"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-029",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Regular insulin (Humulin R) is classified as:",
+      "choices": [
+        { "id": "a", "text": "Short-acting insulin" },
+        { "id": "b", "text": "Rapid-acting insulin analog" },
+        { "id": "c", "text": "Intermediate-acting insulin" },
+        { "id": "d", "text": "Long-acting basal insulin" }
+      ],
+      "correctId": "a",
+      "explanation": "Regular insulin is short-acting insulin (onset 30-60 min, peak 2-4 hours, duration 5-8 hours). It is distinct from rapid-acting analogs like lispro (Humalog) or aspart (NovoLog) which have onset of 15 min. Regular insulin is the ONLY insulin that can be given IV."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-030"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "pharm-030",
+    "pillar": "pharm",
+    "format": "free_recall",
+    "difficultyTier": 2,
+    "body": {
+      "type": "free_recall",
+      "prompt": "State the onset, peak, and duration of action of regular insulin (Humulin R). What is unique about its administration route?",
+      "rubric": [
+        "Onset: 30–60 minutes",
+        "Peak: 2–4 hours",
+        "Duration: 5–8 hours",
+        "Can be administered intravenously (only insulin type approved for IV use)"
+      ],
+      "modelAnswer": "Regular insulin has an onset of 30–60 minutes, peaks at 2–4 hours, and lasts 5–8 hours. It is the only insulin formulation approved for intravenous administration, making it essential for insulin drips in DKA and hyperglycemic crises."
+    },
+    "sourceCitation": "Nursing Drug Handbook 2024, Lippincott Williams & Wilkins",
+    "lastReviewedAt": "2026-07-04",
+    "highAlert": true,
+    "graphLinks": ["pharm-029", "fnd-012"],
+    "releaseGate": { "sessionIndex": 1, "week": 4 },
+    "contentPackId": "pharm-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]
