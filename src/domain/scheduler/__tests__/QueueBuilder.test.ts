@@ -1,0 +1,444 @@
+import { describe, it, expect, beforeEach } from 'vitest';
+import { QueueBuilder } from '../QueueBuilder';
+import { SchedulerService } from '../SchedulerService';
+import type { ContentItem, ItemMemoryState, Pillar, QueueEntry } from '../../types';
+
+// ─── Factories ────────────────────────────────────────────────────────────────
+
+let idCounter = 0;
+
+function makeItem(overrides: Partial<ContentItem> & { id?: string; pillar?: Pillar } = {}): ContentItem {
+  const id = overrides.id ?? `item-${++idCounter}`;
+  return {
+    id,
+    pillar: 'terminology',
+    format: 'cloze',
+    difficultyTier: 1,
+    body: { type: 'cloze', front: 'Q', back: 'A' },
+    sourceCitation: 'test',
+    lastReviewedAt: '2026-01-01',
+    highAlert: false,
+    graphLinks: [],
+    releaseGate: { sessionIndex: 1, week: 1 },
+    contentPackId: 'pack-1',
+    contentVersion: 1,
+    placeholder: false,
+    ...overrides,
+  };
+}
+
+function makeState(itemId: string, overrides: Partial<ItemMemoryState> = {}): ItemMemoryState {
+  return {
+    itemId,
+    fsrs: {
+      stability: 10,
+      difficulty: 5,
+      due: '2026-07-01T10:00:00.000Z',
+      state: 'Review',
+      elapsedDays: 10,
+      scheduledDays: 10,
+      learningSteps: 0,
+      reps: 5,
+      lapses: 0,
+    },
+    relearnStreak: 0,
+    graduated: false,
+    updatedAt: '2026-07-01T10:00:00.000Z',
+    ...overrides,
+  };
+}
+
+function itemsToMap(items: ContentItem[]): Map<string, ContentItem> {
+  return new Map(items.map(i => [i.id, i]));
+}
+
+const NOW = new Date('2026-07-01T10:00:00.000Z');
+
+const ids = (entries: QueueEntry[]): string[] => entries.map(e => e.item.id);
+const modes = (entries: QueueEntry[]): string[] => entries.map(e => e.mode);
+const kinds = (entries: QueueEntry[]): string[] => entries.map(e => e.kind);
+
+// ─── Suite ────────────────────────────────────────────────────────────────────
+
+describe('QueueBuilder', () => {
+  let builder: QueueBuilder;
+
+  beforeEach(() => {
+    idCounter = 0; // reset so each test gets deterministic item ids
+    builder = new QueueBuilder(new SchedulerService());
+  });
+
+  const build = (params: {
+    dueStates?: ItemMemoryState[];
+    examCandidates?: ItemMemoryState[];
+    allItems?: Map<string, ContentItem>;
+    newItems?: ContentItem[];
+    newItemCap?: number;
+  }): QueueEntry[] =>
+    builder.buildQueue({
+      dueStates:      params.dueStates      ?? [],
+      examCandidates: params.examCandidates ?? [],
+      allItems:       params.allItems       ?? new Map(),
+      newItems:       params.newItems       ?? [],
+      newItemCap:     params.newItemCap     ?? 20,
+      now:            NOW,
+    });
+
+  // ─── Review pool merge ─────────────────────────────────────────────────────
+
+  describe('review pool merge', () => {
+    it('due-only item → mode=daily', () => {
+      const item = makeItem();
+      const state = makeState(item.id);
+      const result = build({ dueStates: [state], allItems: itemsToMap([item]) });
+      expect(result).toHaveLength(1);
+      expect(result[0].mode).toBe('daily');
+      expect(result[0].kind).toBe('review');
+    });
+
+    it('exam-candidate-only item → mode=exam', () => {
+      const item = makeItem();
+      const state = makeState(item.id);
+      const result = build({ examCandidates: [state], allItems: itemsToMap([item]) });
+      expect(result).toHaveLength(1);
+      expect(result[0].mode).toBe('exam');
+      expect(result[0].kind).toBe('review');
+    });
+
+    it('dual-membership: item in both dueStates and examCandidates → exactly one entry, mode=exam', () => {
+      const item = makeItem();
+      const dueState  = makeState(item.id);
+      const examState = makeState(item.id);
+      const result = build({
+        dueStates:      [dueState],
+        examCandidates: [examState],
+        allItems:       itemsToMap([item]),
+      });
+      expect(result).toHaveLength(1);
+      expect(result[0].mode).toBe('exam');
+    });
+
+    it('dual-membership: the surviving MemoryState is the examCandidates version', () => {
+      const item = makeItem();
+      const dueState  = makeState(item.id, { fsrs: { ...makeState(item.id).fsrs, reps: 3 } });
+      const examState = makeState(item.id, { fsrs: { ...makeState(item.id).fsrs, reps: 7 } });
+      const result = build({
+        dueStates:      [dueState],
+        examCandidates: [examState],
+        allItems:       itemsToMap([item]),
+      });
+      expect(result[0].kind).toBe('review');
+      if (result[0].kind === 'review') {
+        expect(result[0].memoryState.fsrs.reps).toBe(7); // examCandidates version
+      }
+    });
+
+    it('multiple items: some daily, some exam, one dual → correct modes', () => {
+      const daily = makeItem({ id: 'd1' });
+      const exam  = makeItem({ id: 'e1' });
+      const both  = makeItem({ id: 'b1' });
+      const result = build({
+        dueStates:      [makeState(daily.id), makeState(both.id)],
+        examCandidates: [makeState(exam.id),  makeState(both.id)],
+        allItems:       itemsToMap([daily, exam, both]),
+      });
+      expect(result).toHaveLength(3);
+      const modeById = Object.fromEntries(result.map(e => [e.item.id, e.mode]));
+      expect(modeById['d1']).toBe('daily');
+      expect(modeById['e1']).toBe('exam');
+      expect(modeById['b1']).toBe('exam');
+    });
+
+    it('item missing from allItems is silently skipped', () => {
+      const state = makeState('ghost-id');
+      const result = build({ dueStates: [state], allItems: new Map() });
+      expect(result).toHaveLength(0);
+    });
+  });
+
+  // ─── Sequence format exclusion from all three streams ─────────────────────
+
+  describe('sequence format exclusion (Phase 2)', () => {
+    it('sequence item in dueStates is excluded', () => {
+      const seq = makeItem({ format: 'sequence' });
+      const result = build({ dueStates: [makeState(seq.id)], allItems: itemsToMap([seq]) });
+      expect(result).toHaveLength(0);
+    });
+
+    it('sequence item in examCandidates is excluded', () => {
+      const seq = makeItem({ format: 'sequence' });
+      const result = build({ examCandidates: [makeState(seq.id)], allItems: itemsToMap([seq]) });
+      expect(result).toHaveLength(0);
+    });
+
+    it('sequence item in newItems is excluded', () => {
+      const seq = makeItem({ format: 'sequence' });
+      const result = build({ newItems: [seq] });
+      expect(result).toHaveLength(0);
+    });
+
+    it('sequence items in all three streams simultaneously — all excluded', () => {
+      const seqDue  = makeItem({ id: 'seq-due',  format: 'sequence' });
+      const seqExam = makeItem({ id: 'seq-exam', format: 'sequence' });
+      const seqNew  = makeItem({ id: 'seq-new',  format: 'sequence' });
+      const good    = makeItem({ id: 'good',     format: 'cloze' });
+      const result = build({
+        dueStates:      [makeState(seqDue.id)],
+        examCandidates: [makeState(seqExam.id)],
+        allItems:       itemsToMap([seqDue, seqExam, good]),
+        newItems:       [seqNew, good],
+      });
+      // only the good cloze item appears (once as due review, once skipped as new duplicate
+      // — actually good is a review since it's in dueStates via allItems, not in newItems)
+      const returnedIds = ids(result);
+      expect(returnedIds).not.toContain('seq-due');
+      expect(returnedIds).not.toContain('seq-exam');
+      expect(returnedIds).not.toContain('seq-new');
+    });
+
+    it('non-sequence formats are not excluded', () => {
+      const formats = ['cloze', 'mcq', 'free_recall', 'numeric'] as const;
+      for (const format of formats) {
+        const item = makeItem({ format });
+        const result = build({ newItems: [item] });
+        expect(result).toHaveLength(1);
+        idCounter = 0; // reset between sub-cases
+      }
+    });
+  });
+
+  // ─── New item selection and determinism ────────────────────────────────────
+
+  describe('new item selection', () => {
+    it('returns exactly newItemCap items when unlocked > cap', () => {
+      const items = Array.from({ length: 40 }, (_, i) =>
+        makeItem({ id: `new-${i}`, releaseGate: { sessionIndex: 1, week: 1 } }),
+      );
+      const result = build({ newItems: items, newItemCap: 20 });
+      const newEntries = result.filter(e => e.kind === 'new');
+      expect(newEntries).toHaveLength(20);
+    });
+
+    it('returns all items when unlocked < cap', () => {
+      const items = [makeItem(), makeItem(), makeItem()];
+      const result = build({ newItems: items, newItemCap: 20 });
+      expect(result.filter(e => e.kind === 'new')).toHaveLength(3);
+    });
+
+    it('deterministic: same input produces same 20 items, twice', () => {
+      const items = Array.from({ length: 40 }, (_, i) =>
+        makeItem({ id: `stable-${String(i).padStart(3, '0')}`, releaseGate: { sessionIndex: 1, week: 1 } }),
+      );
+      const run1 = build({ newItems: items, newItemCap: 20 }).filter(e => e.kind === 'new');
+      const run2 = build({ newItems: [...items], newItemCap: 20 }).filter(e => e.kind === 'new');
+      expect(ids(run1)).toEqual(ids(run2));
+    });
+
+    it('sorts by curriculum order: sessionIndex asc → week asc → id asc', () => {
+      // Four items across two sessions and two weeks, intentionally out of order
+      const s2w2 = makeItem({ id: 'z-s2w2', releaseGate: { sessionIndex: 2, week: 2 } });
+      const s1w2 = makeItem({ id: 'm-s1w2', releaseGate: { sessionIndex: 1, week: 2 } });
+      const s1w1b = makeItem({ id: 'b-s1w1', releaseGate: { sessionIndex: 1, week: 1 } });
+      const s1w1a = makeItem({ id: 'a-s1w1', releaseGate: { sessionIndex: 1, week: 1 } });
+
+      const result = build({ newItems: [s2w2, s1w2, s1w1b, s1w1a], newItemCap: 4 });
+      expect(ids(result)).toEqual(['a-s1w1', 'b-s1w1', 'm-s1w2', 'z-s2w2']);
+    });
+
+    it('newItemCap=0 → no new entries', () => {
+      const items = [makeItem(), makeItem()];
+      const result = build({ newItems: items, newItemCap: 0 });
+      expect(result.filter(e => e.kind === 'new')).toHaveLength(0);
+    });
+
+    it('new entries carry kind=new and mode=daily', () => {
+      const item = makeItem();
+      const result = build({ newItems: [item], newItemCap: 1 });
+      const entry = result[0];
+      expect(entry.kind).toBe('new');
+      expect(entry.mode).toBe('daily');
+    });
+
+    it('new entry carries a synthesized SyntheticItemState with state=New', () => {
+      const item = makeItem();
+      const result = build({ newItems: [item], newItemCap: 1 });
+      expect(result[0].kind).toBe('new');
+      if (result[0].kind === 'new') {
+        expect(result[0].syntheticState.fsrs.state).toBe('New');
+        expect(result[0].syntheticState.relearnStreak).toBe(0);
+        expect(result[0].syntheticState.graduated).toBe(false);
+      }
+    });
+  });
+
+  // ─── Ordering: reviews before new items ───────────────────────────────────
+
+  describe('output ordering', () => {
+    it('reviews (daily + exam) appear before new items', () => {
+      const dueItem  = makeItem({ id: 'due' });
+      const examItem = makeItem({ id: 'exam' });
+      const newItem  = makeItem({ id: 'new' });
+      const result = build({
+        dueStates:      [makeState(dueItem.id)],
+        examCandidates: [makeState(examItem.id)],
+        allItems:       itemsToMap([dueItem, examItem]),
+        newItems:       [newItem],
+        newItemCap:     1,
+      });
+      const firstNewIdx = result.findIndex(e => e.kind === 'new');
+      const lastReviewIdx = result.reduce(
+        (acc, e, i) => (e.kind === 'review' ? i : acc), -1,
+      );
+      expect(firstNewIdx).toBeGreaterThan(lastReviewIdx);
+    });
+
+    it('exam candidates are in the review pool, not appended after new items', () => {
+      const examItem = makeItem({ id: 'exam', pillar: 'pharm' });
+      const newItem  = makeItem({ id: 'new',  pillar: 'concepts' });
+      const result = build({
+        examCandidates: [makeState(examItem.id)],
+        allItems:       itemsToMap([examItem]),
+        newItems:       [newItem],
+        newItemCap:     1,
+      });
+      // exam review should come before the new item
+      const examIdx = result.findIndex(e => e.item.id === 'exam');
+      const newIdx  = result.findIndex(e => e.item.id === 'new');
+      expect(examIdx).toBeLessThan(newIdx);
+    });
+  });
+
+  // ─── Interleaver ──────────────────────────────────────────────────────────
+
+  describe('interleaver', () => {
+    it('all-empty inputs → returns []', () => {
+      expect(build({})).toEqual([]);
+    });
+
+    it('single-pillar pool → all items returned, no infinite loop', () => {
+      const items = Array.from({ length: 10 }, () => makeItem({ pillar: 'pharm' }));
+      const states = items.map(i => makeState(i.id));
+      const result = build({ dueStates: states, allItems: itemsToMap(items) });
+      expect(result).toHaveLength(10);
+      expect(result.every(e => e.item.pillar === 'pharm')).toBe(true);
+    });
+
+    it('single-item pool → returns that one item', () => {
+      const item = makeItem({ pillar: 'concepts' });
+      const result = build({ dueStates: [makeState(item.id)], allItems: itemsToMap([item]) });
+      expect(result).toHaveLength(1);
+      expect(result[0].item.id).toBe(item.id);
+    });
+
+    it('deterministic: same inputs → identical output order, twice', () => {
+      const pharms = Array.from({ length: 5 }, () => makeItem({ pillar: 'pharm' }));
+      const terms  = Array.from({ length: 3 }, () => makeItem({ pillar: 'terminology' }));
+      const concs  = Array.from({ length: 2 }, () => makeItem({ pillar: 'concepts' }));
+      const all = [...pharms, ...terms, ...concs];
+      const states = all.map(i => makeState(i.id));
+      const map = itemsToMap(all);
+
+      const run1 = build({ dueStates: states, allItems: map });
+      const run2 = build({ dueStates: [...states], allItems: new Map(map) });
+      expect(ids(run1)).toEqual(ids(run2));
+    });
+
+    it('multi-pillar: all items appear exactly once', () => {
+      const pharms = Array.from({ length: 5 }, () => makeItem({ pillar: 'pharm' }));
+      const terms  = Array.from({ length: 3 }, () => makeItem({ pillar: 'terminology' }));
+      const concs  = Array.from({ length: 2 }, () => makeItem({ pillar: 'concepts' }));
+      const all = [...pharms, ...terms, ...concs];
+      const states = all.map(i => makeState(i.id));
+      const result = build({ dueStates: states, allItems: itemsToMap(all) });
+
+      expect(result).toHaveLength(10);
+      const idSet = new Set(ids(result));
+      expect(idSet.size).toBe(10);
+    });
+
+    it('multi-pillar: no consecutive run exceeds the largest bucket size', () => {
+      // 5 pharm, 3 terminology, 2 concepts
+      // The interleaver should break up runs: worst case is the largest bucket
+      // never appears more times consecutively than ⌈bucket/smallest_bucket⌉
+      // — this test uses the loose bound of "no run of 5 same-pillar cards"
+      const pharms = Array.from({ length: 5 }, () => makeItem({ pillar: 'pharm' }));
+      const terms  = Array.from({ length: 3 }, () => makeItem({ pillar: 'terminology' }));
+      const concs  = Array.from({ length: 2 }, () => makeItem({ pillar: 'concepts' }));
+      const all = [...pharms, ...terms, ...concs];
+      const result = build({ dueStates: all.map(i => makeState(i.id)), allItems: itemsToMap(all) });
+
+      let maxRun = 1, run = 1;
+      for (let i = 1; i < result.length; i++) {
+        if (result[i].item.pillar === result[i - 1].item.pillar) {
+          run++;
+          maxRun = Math.max(maxRun, run);
+        } else {
+          run = 1;
+        }
+      }
+      // With accumulated-credit interleaving on 5:3:2, no run should be ≥ 5
+      expect(maxRun).toBeLessThan(5);
+    });
+
+    it('two equal-sized pillars alternate', () => {
+      const pharms = Array.from({ length: 3 }, (_, i) => makeItem({ id: `p${i}`, pillar: 'pharm' }));
+      const terms  = Array.from({ length: 3 }, (_, i) => makeItem({ id: `t${i}`, pillar: 'terminology' }));
+      const all = [...pharms, ...terms];
+      const result = build({ dueStates: all.map(i => makeState(i.id)), allItems: itemsToMap(all) });
+
+      // With equal weights, pillars should alternate (or near-alternate)
+      const pillars = result.map(e => e.item.pillar);
+      let maxRun = 1, run = 1;
+      for (let i = 1; i < pillars.length; i++) {
+        run = pillars[i] === pillars[i - 1] ? run + 1 : 1;
+        maxRun = Math.max(maxRun, run);
+      }
+      expect(maxRun).toBe(1); // perfect alternation for equal buckets
+    });
+  });
+
+  // ─── New-user day-one: empty review pool ──────────────────────────────────
+
+  describe('new-user day-one (no due reviews, only new items)', () => {
+    it('returns only new entries when dueStates and examCandidates are empty', () => {
+      const items = [makeItem(), makeItem(), makeItem()];
+      const result = build({ newItems: items, newItemCap: 3 });
+      expect(result).toHaveLength(3);
+      expect(kinds(result).every(k => k === 'new')).toBe(true);
+    });
+
+    it('modes are all daily', () => {
+      const items = [makeItem()];
+      const result = build({ newItems: items, newItemCap: 1 });
+      expect(modes(result)).toEqual(['daily']);
+    });
+  });
+
+  // ─── Pull-ahead bypass ────────────────────────────────────────────────────
+
+  describe('pull-ahead bypass of newItemCap', () => {
+    it('pull-ahead item in dueStates (state=New, due:now) appears as review, not consuming cap', () => {
+      // Pull-ahead: has persisted MemoryState with state='New', due:now
+      const pullAhead = makeItem({ id: 'pull-ahead' });
+      const pullState = makeState(pullAhead.id, {
+        fsrs: {
+          stability: 0, difficulty: 0, due: NOW.toISOString(), state: 'New',
+          elapsedDays: 0, scheduledDays: 0, learningSteps: 0, reps: 0, lapses: 0,
+        },
+      });
+      const newItems = [makeItem({ id: 'new-a' }), makeItem({ id: 'new-b' })];
+      const result = build({
+        dueStates: [pullState],
+        allItems:  itemsToMap([pullAhead]),
+        newItems,
+        newItemCap: 2, // cap=2; pull-ahead doesn't consume this
+      });
+      // Review section has pull-ahead; new section has 2 new items
+      const reviews = result.filter(e => e.kind === 'review');
+      const news    = result.filter(e => e.kind === 'new');
+      expect(reviews).toHaveLength(1);
+      expect(reviews[0].item.id).toBe('pull-ahead');
+      expect(news).toHaveLength(2); // cap fully available for regular new items
+    });
+  });
+});
