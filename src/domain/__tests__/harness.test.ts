@@ -720,22 +720,42 @@ describe('Harness stage 3: weeks 6-8', () => {
       const examCompressor = new ExamModeCompressor(scheduler);
       const boundaryConfig = DEFAULT_DAY_BOUNDARY;
 
-      // Run 9 days: all 120 items introduced and reach Review state.
-      for (let day = 1; day <= 9; day++) {
+      // Run 8 weeks (56 days) to build FSRS stability across multiple review cycles.
+      for (let day = 1; day <= 56; day++) {
         simulateDay(deps);
         clock.tickDays(1);
       }
 
       const pharmItems = items.filter(i => i.pillar === 'pharm');
       const pharmItemIds = new Set(pharmItems.map(i => i.id));
+      const pharmStates = memRepo.all().filter(s => pharmItemIds.has(s.itemId));
+
+      // After 56 days of all-Good reviews, items have stability >> 10 days
+      // (observed: ~117 days) so R(examDate+10) > 0.95 — no candidates yet.
+      // Script against reality: tick forward to when the first pharm item is
+      // naturally due, then place the exam 10 days out from that point.
+      // At an item's due date, elapsed ≈ stability → R ≈ 0.90 < 0.95, so items
+      // at their due date are candidates AND in dueStates → organic dual members,
+      // no engineering required.
+      const firstDueMs = Math.min(...pharmStates.map(s => new Date(s.fsrs.due).getTime()));
+      const daysToFirstDue = Math.max(0, Math.ceil((firstDueMs - clock.get().getTime()) / MS_PER_DAY));
+      if (daysToFirstDue > 0) {
+        clock.tickDays(daysToFirstDue);
+      }
+
       const examDate = new Date(clock.get().getTime() + 10 * MS_PER_DAY);
       const examDateStr = toDateStr(examDate);
+
+      console.log(
+        `[Week 6] ticked ${daysToFirstDue} days after 56-day sim; ` +
+        `clock=${toDateStr(clock.get())} examDate=${examDateStr}`,
+      );
 
       const pharmCourse: CourseInstance = {
         id: 'course-pharm-01',
         sessionId: deps.cohort.sessions[0].id,
         title: 'Applied Pharmacology',
-        contentPackIds: ['pack-a'],
+        contentPackIds: ['pack-a'],  // courseItemIds filter to pharm IDs excludes any non-course items
         examDates: [examDateStr],
         updatedAt: '2026-01-01',
       };
@@ -746,7 +766,6 @@ describe('Harness stage 3: weeks 6-8', () => {
       ).toBe(0.95);
 
       // ── getCandidates ─────────────────────────────────────────────────────
-      const pharmStates = memRepo.all().filter(s => pharmItemIds.has(s.itemId));
       const candidates = examCompressor.getCandidates({
         states: pharmStates,
         courseItemIds: pharmItemIds,
@@ -755,8 +774,10 @@ describe('Harness stage 3: weeks 6-8', () => {
         targetRetention: 0.95,
       });
 
-      expect(candidates.length, 'must have exam candidates after 9-day sim').toBeGreaterThan(0);
+      console.log(`[Week 6] candidates=${candidates.length}/${pharmStates.length} pharm states`);
+      expect(candidates.length, 'must have exam candidates after tick-to-due-date').toBeGreaterThan(0);
 
+      // All candidates: pharm, non-New, R < 0.95 at examDate.
       for (const c of candidates) {
         expect(pharmItemIds.has(c.itemId), `${c.itemId} must be a pharm item`).toBe(true);
         expect(c.fsrs.state, `${c.itemId} must not be New`).not.toBe('New');
@@ -776,33 +797,39 @@ describe('Harness stage 3: weeks 6-8', () => {
         }
       }
 
+      // ── Dual-membership (mandatory) ───────────────────────────────────────
+      // Items ticked to their natural due date are in dueStates AND candidates:
+      // elapsed ≈ stability → R(exam+10) < 0.95. No engineering needed.
+      const dueStates = memRepo.dueBy(clock.get());
+      const dualMembers = candidates.filter(c => dueStates.some(d => d.itemId === c.itemId));
+
+      console.log(`[Week 6] dueStates=${dueStates.length} dualMembers=${dualMembers.length}`);
+      expect(
+        dualMembers.length,
+        `must have ≥1 dual-member; candidates=${candidates.length} dueStates=${dueStates.length}`,
+      ).toBeGreaterThan(0);
+
+      const itemMap = new Map(items.map(i => [i.id, i]));
+      const queue = deps.queueBuilder.buildQueue({
+        dueStates,
+        examCandidates: candidates,
+        allItems: itemMap,
+        newItems: [],
+        newItemCap: 0,
+        now: clock.get(),
+      });
+      for (const s of dualMembers) {
+        const entries = queue.filter(e => e.item.id === s.itemId);
+        expect(entries.length, `${s.itemId} dual-member must appear exactly once`).toBe(1);
+        expect(entries[0].mode, `${s.itemId} must have mode='exam'`).toBe('exam');
+      }
+
       // ── getActiveExam ─────────────────────────────────────────────────────
       const activeExam = examCompressor.getActiveExam([pharmCourse], clock.get());
       expect(activeExam, 'activeExam must not be null').not.toBeNull();
       expect(activeExam!.courseId).toBe('course-pharm-01');
       expect(activeExam!.examDate).toBe(examDateStr);
       expect(activeExam!.daysRemaining).toBe(10);
-
-      // ── Dual-membership: item in dueStates AND candidates → once, mode='exam' ──
-      const dueStates = memRepo.dueBy(clock.get());
-      const dualMembers = candidates.filter(c => dueStates.some(d => d.itemId === c.itemId));
-
-      if (dualMembers.length > 0) {
-        const itemMap = new Map(items.map(i => [i.id, i]));
-        const queue = deps.queueBuilder.buildQueue({
-          dueStates,
-          examCandidates: candidates,
-          allItems: itemMap,
-          newItems: [],
-          newItemCap: 0,
-          now: clock.get(),
-        });
-        for (const s of dualMembers) {
-          const entries = queue.filter(e => e.item.id === s.itemId);
-          expect(entries.length, `${s.itemId} dual-member must appear exactly once`).toBe(1);
-          expect(entries[0].mode, `${s.itemId} must have mode='exam'`).toBe('exam');
-        }
-      }
 
       // ── DebtForecaster with examCandidates and activeExam ─────────────────
       const forecast = forecaster.forecast({
@@ -820,7 +847,7 @@ describe('Harness stage 3: weeks 6-8', () => {
         `day-0 must include exam candidates; forecast=${JSON.stringify(forecast.map(f => f.dueCount))}`,
       ).toBeGreaterThan(0);
 
-      // isExamWindow: true for every forecast day on or before the exam date.
+      // isExamWindow: true for days ≤ examDate, false after.
       for (const f of forecast) {
         if (f.date <= examDateStr) {
           expect(f.isExamWindow, `${f.date} must be in exam window`).toBe(true);
@@ -830,6 +857,8 @@ describe('Harness stage 3: weeks 6-8', () => {
       }
 
       // ── Post-exam: getRetention→0.90, getActiveExam→null ─────────────────
+      // "Candidates are empty" is enforced at the orchestration level: getActiveExam→null
+      // means the app passes examCandidates=[] to QueueBuilder/forecaster.
       const postExamNow = new Date(examDate.getTime() + MS_PER_DAY);
       expect(
         examCompressor.getRetention({ courseId: pharmCourse.id, examDates: [examDateStr], now: postExamNow }),
