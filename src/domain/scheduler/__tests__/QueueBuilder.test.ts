@@ -43,6 +43,7 @@ function makeState(itemId: string, overrides: Partial<ItemMemoryState> = {}): It
     },
     relearnStreak: 0,
     graduated: false,
+    lastQualifyingDate: null,
     updatedAt: '2026-07-01T10:00:00.000Z',
     ...overrides,
   };

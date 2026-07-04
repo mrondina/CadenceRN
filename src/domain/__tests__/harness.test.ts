@@ -229,6 +229,7 @@ function simulateDay(deps: OrchestratorDeps, options?: SimOptions): QueueEntry[]
       fsrs: nextState,
       relearnStreak: relearn.streak,
       graduated: relearn.graduated,
+      lastQualifyingDate: relearn.lastQualifyingDate,
       updatedAt: now.toISOString(),
     });
 

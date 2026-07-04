@@ -38,6 +38,7 @@ function makeState(
     fsrs: { ...makeReviewFsrs(stability), ...overrides },
     relearnStreak: 0,
     graduated: false,
+    lastQualifyingDate: null,
     updatedAt: NOW.toISOString(),
   };
 }
@@ -58,6 +59,7 @@ function makeNewState(itemId: string): ItemMemoryState {
     },
     relearnStreak: 0,
     graduated: false,
+    lastQualifyingDate: null,
     updatedAt: NOW.toISOString(),
   };
 }

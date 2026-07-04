@@ -27,6 +27,7 @@ function makeStateDue(itemId: string, dueIso: string): ItemMemoryState {
     },
     relearnStreak: 0,
     graduated: true,
+    lastQualifyingDate: null,
     updatedAt: '2026-06-20T14:00:00.000Z',
   };
 }

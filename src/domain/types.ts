@@ -139,6 +139,7 @@ export interface ItemMemoryState {
   fsrs: FsrsCardState;
   relearnStreak: number;  // 0..N; qualifies only on Good/Easy at separate study days
   graduated: boolean;     // true once relearnStreak reaches RELEARN_GRADUATION_N (3)
+  lastQualifyingDate: string | null;  // ISO datetime of most recent qualifying Good/Easy review; null until first
   updatedAt: string;      // ISO datetime
 }
 
