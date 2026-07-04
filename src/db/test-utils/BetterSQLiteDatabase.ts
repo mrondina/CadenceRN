@@ -3,11 +3,21 @@ import type { IDatabase, DBBindParams, DBRunResult } from '../types';
 
 // ─── BetterSQLiteDatabase ─────────────────────────────────────────────────────
 //
-// Implements IDatabase over better-sqlite3 for use in Vitest tests running on
-// Node where expo-sqlite's native bridge is unavailable.
+// Implements IDatabase over better-sqlite3 for Vitest on Node.
 //
-// Parameter convention: both expo-sqlite and better-sqlite3 accept $name for
-// named params, so SQL written for production works here unchanged.
+// Parameter prefix normalisation: expo-sqlite uses { $name: value } objects;
+// better-sqlite3 requires { name: value } (no prefix). This adapter strips
+// leading $, :, @ from object keys so repositories written for expo-sqlite work
+// here unchanged.
+
+function normalizeParams(params: DBBindParams): DBBindParams {
+  if (Array.isArray(params)) return params;
+  const out: Record<string, Database.BindingDictionary[string]> = {};
+  for (const [key, value] of Object.entries(params)) {
+    out[key.replace(/^[$:@]/, '')] = value as Database.BindingDictionary[string];
+  }
+  return out as DBBindParams;
+}
 
 export class BetterSQLiteDatabase implements IDatabase {
   constructor(private readonly db: Database.Database) {}
@@ -18,7 +28,8 @@ export class BetterSQLiteDatabase implements IDatabase {
 
   async runAsync(sql: string, params: DBBindParams = []): Promise<DBRunResult> {
     const stmt = this.db.prepare(sql);
-    const result = Array.isArray(params) ? stmt.run(...params) : stmt.run(params);
+    const norm = normalizeParams(params);
+    const result = Array.isArray(norm) ? stmt.run(...norm) : stmt.run(norm);
     return {
       lastInsertRowId: Number(result.lastInsertRowid),
       changes: result.changes,
@@ -27,13 +38,15 @@ export class BetterSQLiteDatabase implements IDatabase {
 
   async getFirstAsync<T>(sql: string, params: DBBindParams = []): Promise<T | null> {
     const stmt = this.db.prepare(sql);
-    const row = Array.isArray(params) ? stmt.get(...params) : stmt.get(params);
+    const norm = normalizeParams(params);
+    const row = Array.isArray(norm) ? stmt.get(...norm) : stmt.get(norm);
     return (row as T) ?? null;
   }
 
   async getAllAsync<T>(sql: string, params: DBBindParams = []): Promise<T[]> {
     const stmt = this.db.prepare(sql);
-    const rows = Array.isArray(params) ? stmt.all(...params) : stmt.all(params);
+    const norm = normalizeParams(params);
+    const rows = Array.isArray(norm) ? stmt.all(...norm) : stmt.all(norm);
     return rows as T[];
   }
 
