@@ -1,12 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { CohortBuilder } from '../cohort/CohortBuilder';
+import { CohortBuilder, toDateStr } from '../cohort/CohortBuilder';
 import { ReleaseGate } from '../cohort/ReleaseGate';
 import { QueueBuilder } from '../scheduler/QueueBuilder';
 import { SchedulerService } from '../scheduler/SchedulerService';
 import { RelearningPipeline } from '../scheduler/RelearningPipeline';
 import { DebtForecaster } from '../scheduler/DebtForecaster';
+import { ExamModeCompressor } from '../scheduler/ExamModeCompressor';
 import type {
   ContentItem,
+  CourseInstance,
   ItemMemoryState,
   ReviewEvent,
   Cohort,
@@ -17,6 +19,8 @@ import type {
   DateBoundaryConfig,
 } from '../types';
 import { DEFAULT_DAY_BOUNDARY, RELEARN_GRADUATION_N } from '../types';
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 // ─── Injected-clock helper ────────────────────────────────────────────────────
 
@@ -509,6 +513,58 @@ describe('Harness stage 2: weeks 1-4', () => {
         expect(after.relearnStreak, `${s.itemId} streak must be 0 after lapse`).toBe(0);
       }
 
+      // ── Orchestrator recovery path (addendum): ≥5 items, 3 study days ─────
+      // FSRS uses a single relearning step: After → Good in Relearning graduates
+      // straight to Review (not a two-step process). The interval to the next due
+      // date is determined by FSRS's stability calculation, not a fixed step.
+      // We tick to each item's real due date rather than assuming a fixed interval.
+      const recoverySubset = toLapse.slice(0, 5).map(s => s.itemId);
+      const studyDayOf = (d: Date): string =>
+        new Date(d.getTime() - 4 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+      const tickToNextDue = (): void => {
+        const tick = Math.max(
+          1,
+          ...recoverySubset.map(id => {
+            const dueMs = new Date(memRepo.get(id)!.fsrs.due).getTime();
+            return Math.ceil((dueMs - clock.get().getTime()) / MS_PER_DAY);
+          }),
+        );
+        clock.tickDays(tick);
+      };
+
+      // Recovery day 1: tick to when Relearning items (due ~lapseDay+10min) are past due.
+      tickToNextDue();
+      const day1StudyDay = studyDayOf(clock.get());
+      simulateDay(deps);
+      for (const id of recoverySubset) {
+        expect(memRepo.get(id)!.relearnStreak, `${id}: streak after recovery day 1`).toBe(1);
+      }
+
+      // Recovery day 2: tick to the real Review due date FSRS assigned after day-1 Good.
+      tickToNextDue();
+      const day2StudyDay = studyDayOf(clock.get());
+      simulateDay(deps);
+      for (const id of recoverySubset) {
+        expect(memRepo.get(id)!.relearnStreak, `${id}: streak after recovery day 2`).toBe(2);
+      }
+
+      // Recovery day 3: tick to the real due date after day-2 Good.
+      tickToNextDue();
+      const day3StudyDay = studyDayOf(clock.get());
+      simulateDay(deps);
+      for (const id of recoverySubset) {
+        const s = memRepo.get(id)!;
+        expect(s.relearnStreak, `${id}: streak after recovery day 3`).toBe(RELEARN_GRADUATION_N);
+        expect(s.graduated, `${id}: must be graduated via orchestrator path`).toBe(true);
+      }
+
+      // Sanity: 3 qualifying retrievals each on a distinct study day.
+      expect(
+        new Set([day1StudyDay, day2StudyDay, day3StudyDay]).size,
+        `recovery must span 3 distinct study days: ${day1StudyDay}, ${day2StudyDay}, ${day3StudyDay}`,
+      ).toBe(3);
+
       // ── Recovery via RelearningPipeline (direct) ───────────────────────────
       // Tests the streak-counting invariant without fighting FSRS scheduling.
       // Pick one lapsed item's id to anchor the story, but the pipeline calls
@@ -646,6 +702,228 @@ describe('Harness stage 2: weeks 1-4', () => {
         forecastAfterCatchup.every(f => !f.isWarning),
         `forecast after catch-up must show no warnings: counts=${forecastAfterCatchup.map(f => f.dueCount).join(',')}`,
       ).toBe(true);
+    });
+  });
+
+});
+
+// ─── Stage 3: weeks 6-8 ──────────────────────────────────────────────────────
+
+describe('Harness stage 3: weeks 6-8', () => {
+
+  // ── Week 6: exam window ──────────────────────────────────────────────────────
+
+  describe('Week 6: exam window', () => {
+    it('pharm exam 10 days out: getRetention→0.95; non-New candidates; dual-member dedup; forecast isExamWindow; post-exam→0.90', () => {
+      const { deps, clock, memRepo, items, forecaster } = makeFreshDeps(21);
+      const scheduler = deps.scheduler;
+      const examCompressor = new ExamModeCompressor(scheduler);
+      const boundaryConfig = DEFAULT_DAY_BOUNDARY;
+
+      // Run 9 days: all 120 items introduced and reach Review state.
+      for (let day = 1; day <= 9; day++) {
+        simulateDay(deps);
+        clock.tickDays(1);
+      }
+
+      const pharmItems = items.filter(i => i.pillar === 'pharm');
+      const pharmItemIds = new Set(pharmItems.map(i => i.id));
+      const examDate = new Date(clock.get().getTime() + 10 * MS_PER_DAY);
+      const examDateStr = toDateStr(examDate);
+
+      const pharmCourse: CourseInstance = {
+        id: 'course-pharm-01',
+        sessionId: deps.cohort.sessions[0].id,
+        title: 'Applied Pharmacology',
+        contentPackIds: ['pack-a'],
+        examDates: [examDateStr],
+        updatedAt: '2026-01-01',
+      };
+
+      // ── getRetention: 0.95 within 10-day window ──────────────────────────
+      expect(
+        examCompressor.getRetention({ courseId: pharmCourse.id, examDates: [examDateStr], now: clock.get() }),
+      ).toBe(0.95);
+
+      // ── getCandidates ─────────────────────────────────────────────────────
+      const pharmStates = memRepo.all().filter(s => pharmItemIds.has(s.itemId));
+      const candidates = examCompressor.getCandidates({
+        states: pharmStates,
+        courseItemIds: pharmItemIds,
+        examDate,
+        now: clock.get(),
+        targetRetention: 0.95,
+      });
+
+      expect(candidates.length, 'must have exam candidates after 9-day sim').toBeGreaterThan(0);
+
+      for (const c of candidates) {
+        expect(pharmItemIds.has(c.itemId), `${c.itemId} must be a pharm item`).toBe(true);
+        expect(c.fsrs.state, `${c.itemId} must not be New`).not.toBe('New');
+        const r = scheduler.predictRetrievability(c.fsrs, examDate);
+        expect(r, `${c.itemId} retrievability ${r.toFixed(4)} must be < 0.95`).toBeLessThan(0.95);
+      }
+
+      // Items with retrieval ≥ 0.95 must not be in candidates.
+      for (const s of pharmStates) {
+        if (s.fsrs.state === 'New') continue;
+        const r = scheduler.predictRetrievability(s.fsrs, examDate);
+        if (r >= 0.95) {
+          expect(
+            candidates.some(c => c.itemId === s.itemId),
+            `${s.itemId} with r=${r.toFixed(4)} ≥ 0.95 must not be a candidate`,
+          ).toBe(false);
+        }
+      }
+
+      // ── getActiveExam ─────────────────────────────────────────────────────
+      const activeExam = examCompressor.getActiveExam([pharmCourse], clock.get());
+      expect(activeExam, 'activeExam must not be null').not.toBeNull();
+      expect(activeExam!.courseId).toBe('course-pharm-01');
+      expect(activeExam!.examDate).toBe(examDateStr);
+      expect(activeExam!.daysRemaining).toBe(10);
+
+      // ── Dual-membership: item in dueStates AND candidates → once, mode='exam' ──
+      const dueStates = memRepo.dueBy(clock.get());
+      const dualMembers = candidates.filter(c => dueStates.some(d => d.itemId === c.itemId));
+
+      if (dualMembers.length > 0) {
+        const itemMap = new Map(items.map(i => [i.id, i]));
+        const queue = deps.queueBuilder.buildQueue({
+          dueStates,
+          examCandidates: candidates,
+          allItems: itemMap,
+          newItems: [],
+          newItemCap: 0,
+          now: clock.get(),
+        });
+        for (const s of dualMembers) {
+          const entries = queue.filter(e => e.item.id === s.itemId);
+          expect(entries.length, `${s.itemId} dual-member must appear exactly once`).toBe(1);
+          expect(entries[0].mode, `${s.itemId} must have mode='exam'`).toBe('exam');
+        }
+      }
+
+      // ── DebtForecaster with examCandidates and activeExam ─────────────────
+      const forecast = forecaster.forecast({
+        states: memRepo.all(),
+        now: clock.get(),
+        days: 7,
+        boundaryConfig,
+        examCandidates: candidates,
+        activeExam,
+      });
+
+      // Day-0 must include exam candidates (added when activeExam ≠ null).
+      expect(
+        forecast[0].dueCount,
+        `day-0 must include exam candidates; forecast=${JSON.stringify(forecast.map(f => f.dueCount))}`,
+      ).toBeGreaterThan(0);
+
+      // isExamWindow: true for every forecast day on or before the exam date.
+      for (const f of forecast) {
+        if (f.date <= examDateStr) {
+          expect(f.isExamWindow, `${f.date} must be in exam window`).toBe(true);
+        } else {
+          expect(f.isExamWindow, `${f.date} must not be in exam window`).toBe(false);
+        }
+      }
+
+      // ── Post-exam: getRetention→0.90, getActiveExam→null ─────────────────
+      const postExamNow = new Date(examDate.getTime() + MS_PER_DAY);
+      expect(
+        examCompressor.getRetention({ courseId: pharmCourse.id, examDates: [examDateStr], now: postExamNow }),
+      ).toBe(0.90);
+      expect(
+        examCompressor.getActiveExam([pharmCourse], postExamNow),
+        'getActiveExam must return null after exam date',
+      ).toBeNull();
+    });
+  });
+
+  // ── Week 7: date edit ─────────────────────────────────────────────────────────
+
+  describe('Week 7: date edit', () => {
+    it('applySessionDateEdit Session 2 +7 days: week=2 item flips unlocked→locked; memRepo unchanged; other sessions unmoved', () => {
+      // cohortDaysAgo=70: session 2 started (simStart - 7) = 2026-06-27.
+      // At simStart: daysSinceSession2Start=7, weekWithinSession=2.
+      // Session-2 week=2 items are unlocked; after +7-day edit the new start
+      // lands on simStart itself (weekWithinSession drops to 1) → locked.
+      const { deps, clock, memRepo } = makeFreshDeps(70);
+      const cohortBuilder = new CohortBuilder();
+      const releaseGate = deps.releaseGate;
+      const simStartDate = clock.get();
+
+      const s2w2Item = makeItem(200, 'pack-test', 2, 2);
+
+      // Before edit: week=2 item is unlocked.
+      expect(
+        releaseGate.check(s2w2Item, deps.cohort, simStartDate),
+        'session-2 week=2 must be unlocked before edit',
+      ).toBe('unlocked');
+
+      // Populate memRepo with 3 days of simulation.
+      for (let day = 1; day <= 3; day++) {
+        simulateDay(deps);
+        clock.tickDays(1);
+      }
+
+      const snapBefore = memRepo.snapshot();
+
+      // Apply session-2 date edit: +7 days.
+      const session2 = deps.cohort.sessions.find(s => s.sessionIndex === 2)!;
+      const [sy, sm, sd] = session2.startDate.split('-').map(Number);
+      const [ey, em, ed] = session2.endDate.split('-').map(Number);
+      const newStart = new Date(Date.UTC(sy, sm - 1, sd + 7));
+      const newEnd   = new Date(Date.UTC(ey, em - 1, ed + 7));
+      const editedCohort = cohortBuilder.applySessionDateEdit(deps.cohort, 2, newStart, newEnd);
+
+      // After edit: week=2 item is locked (checked at original simStart).
+      expect(
+        releaseGate.check(s2w2Item, editedCohort, simStartDate),
+        'session-2 week=2 must be locked after +7-day edit',
+      ).toBe('locked');
+
+      // MemStateRepo snapshot byte-identical: applySessionDateEdit touches no FSRS state.
+      const snapAfter = memRepo.snapshot();
+      expect(snapAfter.size).toBe(snapBefore.size);
+      for (const [id, before] of snapBefore) {
+        expect(snapAfter.get(id), `state for ${id} must be unchanged`).toEqual(before);
+      }
+
+      // Other sessions unmoved.
+      const s1Before = deps.cohort.sessions.find(s => s.sessionIndex === 1)!;
+      const s1After  = editedCohort.sessions.find(s => s.sessionIndex === 1)!;
+      expect(s1After.startDate, 'session 1 start unmoved').toBe(s1Before.startDate);
+      expect(s1After.endDate,   'session 1 end unmoved').toBe(s1Before.endDate);
+
+      const s3Before = deps.cohort.sessions.find(s => s.sessionIndex === 3)!;
+      const s3After  = editedCohort.sessions.find(s => s.sessionIndex === 3)!;
+      expect(s3After.startDate, 'session 3 start unmoved').toBe(s3Before.startDate);
+      expect(s3After.endDate,   'session 3 end unmoved').toBe(s3Before.endDate);
+    });
+  });
+
+  // ── Week 8: determinism replay ────────────────────────────────────────────────
+
+  describe('Week 8: determinism replay', () => {
+    it('two independent 14-day sims produce byte-identical final state maps', () => {
+      function runSim(): Map<string, ItemMemoryState> {
+        const { deps, clock, memRepo } = makeFreshDeps(21);
+        for (let day = 1; day <= 14; day++) {
+          simulateDay(deps);
+          clock.tickDays(1);
+        }
+        return memRepo.snapshot();
+      }
+
+      const pass1 = runSim();
+      const pass2 = runSim();
+
+      const toSortedJson = (m: Map<string, ItemMemoryState>): string =>
+        JSON.stringify([...m.entries()].sort(([a], [b]) => (a < b ? -1 : 1)));
+
+      expect(toSortedJson(pass1)).toBe(toSortedJson(pass2));
     });
   });
 
