@@ -1,6 +1,6 @@
 # CadenceRN — Build Plan
 
-**Status:** Domain phase complete. v0.1-domain-complete tagged.
+**Status:** Domain and persistence phases complete. v0.2-persistence tagged (238/238 passing).
 **Last updated:** 2026-07-04
 
 A new session should read this file and `docs/PRD.md` before writing any code. Every step ends with a named commit; push at session boundaries minimum.
@@ -79,7 +79,7 @@ The original design left ambiguous when `ItemMemoryState` rows are created. Corr
 
 - **No `Math.random()` or naked `new Date()` in domain code.** `SchedulerService` receives a `reviewedAt: Date` parameter; `QueueBuilder`, `DebtForecaster`, and `ReleaseGate` receive `now: Date`. The acceptance harness injects a `SimClock` that advances deterministically. Violating this makes tests non-deterministic and debugging impossible.
 
-- **Dual-clock separation.** Two distinct time concepts coexist deliberately: (1) *study days* use the 4am boundary (`DateBoundary.getStudyDay()`, `hourOffset: 4`) — a review at 1am is the previous study day, preventing phantom streak breaks for students studying late; (2) *exam windows* and *release gates* use UTC calendar days (midnight boundary) — `ExamModeCompressor` and `ReleaseGate` both use `toDateStr()` / `calendarDaysUntil()`. Never mix them. The `DateBoundaryConfig` type is passed explicitly to every function that uses study days; calendar-day functions take raw `Date` objects.
+- **Dual-clock separation.** Two distinct time concepts coexist deliberately: (1) _study days_ use the 4am boundary (`DateBoundary.getStudyDay()`, `hourOffset: 4`) — a review at 1am is the previous study day, preventing phantom streak breaks for students studying late; (2) _exam windows_ and _release gates_ use UTC calendar days (midnight boundary) — `ExamModeCompressor` and `ReleaseGate` both use `toDateStr()` / `calendarDaysUntil()`. Never mix them. The `DateBoundaryConfig` type is passed explicitly to every function that uses study days; calendar-day functions take raw `Date` objects.
 
 - **Graduation timing is FSRS-driven.** `RELEARN_GRADUATION_N = 3` means three qualifying retrievals (Good or Easy) on separate study days, at FSRS-chosen spacing. A single relearning step returns a card directly to Review state — ts-fsrs does not use a two-step 10-minute process. The FSRS-scheduled interval after a lapse is typically ~5 days for the first re-review; post-lapse recovery realistically spans weeks for items with prior high stability. The harness uses `tickToNextDue` (read actual `fsrs.due`, ceil to next day) rather than fixed-day increments — never predict FSRS scheduling outcomes.
 
@@ -93,17 +93,17 @@ The original design left ambiguous when `ItemMemoryState` rows are created. Corr
 
 All modules are in `src/domain/`. The domain contract (all interfaces, types, and constants) lives solely in `src/domain/types.ts`. `src/types/declarations.d.ts` is ambient TypeScript declarations for CSS modules (Expo template files only) — not part of the domain.
 
-| Module | File | Responsibility | Tests |
-|---|---|---|---|
-| `DateBoundary` | `utils/DateBoundary.ts` | `getStudyDay(date, config)` → YYYY-MM-DD string shifted back by `hourOffset` hours; used by all streak and forecast logic | `utils/__tests__/DateBoundary.test.ts` |
-| `SchedulerService` | `scheduler/SchedulerService.ts` | Wraps ts-fsrs: `schedule()`, `getRetrievability()`, `predictRetrievability()`, `createInitialState()`; `enable_fuzz` burned in as `false` | `scheduler/__tests__/SchedulerService.test.ts` |
-| `RelearningPipeline` | `scheduler/RelearningPipeline.ts` | `processRating()`: advances/resets relearn streak; Again resets to 0; Hard is neutral; Good/Easy on a new study day increments; graduates at `RELEARN_GRADUATION_N` (3) | `scheduler/__tests__/RelearningPipeline.test.ts` |
-| `QueueBuilder` | `scheduler/QueueBuilder.ts` | `buildQueue()`: merges `dueStates` + `examCandidates` (exam mode wins on dedup), caps + curriculum-sorts new items, interleaves by pillar using accumulated-credit algorithm | `scheduler/__tests__/QueueBuilder.test.ts` |
-| `ExamModeCompressor` | `scheduler/ExamModeCompressor.ts` | `getRetention()` → 0.95 in window / 0.90 outside; `getCandidates()` → items with `predictRetrievability < targetRetention` at exam date, excluding New-state; `getActiveExam()` → earliest active window or null | `scheduler/__tests__/ExamModeCompressor.test.ts` |
-| `DebtForecaster` | `scheduler/DebtForecaster.ts` | `forecast()`: 7-day due-count projection; overdue folds to day-0; exam candidates added to day-0 when `activeExam !== null`; warning at 1.5× median with floor 10; `isExamWindow` annotation | `scheduler/__tests__/DebtForecaster.test.ts` |
-| `CohortBuilder` | `cohort/CohortBuilder.ts` | `build()` seeds 6 `SessionInstance`s from Bellarmine ABSN template; `applySessionDateEdit()` modifies one session independently, no cascade; exports `toDateStr`, `addCalendarDays` | `cohort/__tests__/CohortBuilder.test.ts` |
-| `ReleaseGate` | `cohort/ReleaseGate.ts` | `check()` → `'unlocked' \| 'locked' \| 'pull-ahead-available'`; calendar-day resolution; week = `floor(daysSinceSessionStart / 7) + 1`; past sessions always unlocked | `cohort/__tests__/ReleaseGate.test.ts` |
-| `NotificationPlanner` | `scheduler/NotificationPlanner.ts` | `propose()` stub returns `[]`; interface-sealed for Phase 2 expo-notifications wiring without changing callers | `scheduler/__tests__/NotificationPlanner.test.ts` |
+| Module                | File                               | Responsibility                                                                                                                                                                                                   | Tests                                             |
+| --------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `DateBoundary`        | `utils/DateBoundary.ts`            | `getStudyDay(date, config)` → YYYY-MM-DD string shifted back by `hourOffset` hours; used by all streak and forecast logic                                                                                        | `utils/__tests__/DateBoundary.test.ts`            |
+| `SchedulerService`    | `scheduler/SchedulerService.ts`    | Wraps ts-fsrs: `schedule()`, `getRetrievability()`, `predictRetrievability()`, `createInitialState()`; `enable_fuzz` burned in as `false`                                                                        | `scheduler/__tests__/SchedulerService.test.ts`    |
+| `RelearningPipeline`  | `scheduler/RelearningPipeline.ts`  | `processRating()`: advances/resets relearn streak; Again resets to 0; Hard is neutral; Good/Easy on a new study day increments; graduates at `RELEARN_GRADUATION_N` (3)                                          | `scheduler/__tests__/RelearningPipeline.test.ts`  |
+| `QueueBuilder`        | `scheduler/QueueBuilder.ts`        | `buildQueue()`: merges `dueStates` + `examCandidates` (exam mode wins on dedup), caps + curriculum-sorts new items, interleaves by pillar using accumulated-credit algorithm                                     | `scheduler/__tests__/QueueBuilder.test.ts`        |
+| `ExamModeCompressor`  | `scheduler/ExamModeCompressor.ts`  | `getRetention()` → 0.95 in window / 0.90 outside; `getCandidates()` → items with `predictRetrievability < targetRetention` at exam date, excluding New-state; `getActiveExam()` → earliest active window or null | `scheduler/__tests__/ExamModeCompressor.test.ts`  |
+| `DebtForecaster`      | `scheduler/DebtForecaster.ts`      | `forecast()`: 7-day due-count projection; overdue folds to day-0; exam candidates added to day-0 when `activeExam !== null`; warning at 1.5× median with floor 10; `isExamWindow` annotation                     | `scheduler/__tests__/DebtForecaster.test.ts`      |
+| `CohortBuilder`       | `cohort/CohortBuilder.ts`          | `build()` seeds 6 `SessionInstance`s from Bellarmine ABSN template; `applySessionDateEdit()` modifies one session independently, no cascade; exports `toDateStr`, `addCalendarDays`                              | `cohort/__tests__/CohortBuilder.test.ts`          |
+| `ReleaseGate`         | `cohort/ReleaseGate.ts`            | `check()` → `'unlocked' \| 'locked' \| 'pull-ahead-available'`; calendar-day resolution; week = `floor(daysSinceSessionStart / 7) + 1`; past sessions always unlocked                                            | `cohort/__tests__/ReleaseGate.test.ts`            |
+| `NotificationPlanner` | `scheduler/NotificationPlanner.ts` | `propose()` stub returns `[]`; interface-sealed for Phase 2 expo-notifications wiring without changing callers                                                                                                   | `scheduler/__tests__/NotificationPlanner.test.ts` |
 
 ---
 
@@ -135,24 +135,26 @@ Seven composed integration scenarios exercising the full domain stack. Each scen
 
 ## Build Order with Status
 
-| Step | Description | Status |
-|---|---|---|
-| 1–10 | Domain layer: types contract, 9 modules (DateBoundary, SchedulerService, RelearningPipeline, QueueBuilder, ExamModeCompressor, DebtForecaster, CohortBuilder, ReleaseGate, NotificationPlanner stub) | ✅ 193 unit tests |
-| Harness | Acceptance harness: 3 stages, 7 scenarios | ✅ 200 tests total |
-| — | Tagged `v0.1-domain-complete` | ✅ |
-| 11 | DB client: expo-sqlite initialization, WAL mode, migration runner | — |
-| 12 | Schema migrations: `cohorts`, `session_instances`, `course_instances`, `content_items`, `item_memory_states`, `review_events`, `drill_results`, `app_state` | — |
-| 13 | Repositories: `CohortRepository`, `ContentItemRepository`, `ItemMemoryStateRepository`, `ReviewEventRepository` (including `recordFirstReview` atomic transaction) | — |
-| 14 | Seed content: migration-time JSON → `content_items` insert; placeholder items flagged | — |
-| 15 | `useQueue` hook: composes `ReleaseGate`, `QueueBuilder`, `ExamModeCompressor`, repositories → `QueueEntry[]` | — |
-| 16 | `useReviewSession` hook: processes ratings, calls `SchedulerService` + `RelearningPipeline`, writes via repositories; wires exam-mode retention elevation | — |
-| 17 | Zustand stores: `sessionStore` (queue, current card), `streakStore`, `forecastStore` | — |
-| 18 | UI: review session screen, debt meter, 7-day forecast, exam banner | — |
-| 19 | UI: cohort setup wizard, This Week view, pull-ahead | — |
-| 20 | UI: dosage drill track, streak display, settings | — |
-| — | Hardening: sync, push notifications, accessibility, performance | — |
+| Step    | Description                                                                                                                                                                                                              | Status                      |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| 1–10    | Domain layer: types contract, 9 modules (DateBoundary, SchedulerService, RelearningPipeline, QueueBuilder, ExamModeCompressor, DebtForecaster, CohortBuilder, ReleaseGate, NotificationPlanner stub)                     | ✅ 193 unit tests            |
+| Harness | Acceptance harness: 3 stages, 7 scenarios                                                                                                                                                                                | ✅ 200 tests total           |
+| —       | Tagged `v0.1-domain-complete`                                                                                                                                                                                            | ✅                           |
+| 11      | DB client: `expo-sqlite` initialization, WAL mode + foreign keys, migration runner; amendments (a) `last_qualifying_date` column and (b) no `fsrs_*` defaults applied to DDL                                             | ✅                           |
+| 12      | Five repositories (`ContentItem`, `ItemMemoryState`, `ReviewEvent`, `Cohort`, `DrillResult`); ADR-8 atomic first-review transaction; `runSchemaOnly` extracted for repository test isolation                              | ✅                           |
+| 13      | Seed content: 106 items across 4 packs (terminology 26, pharm 30, foundations 25, dosage 25); migration 002 with exclusive-transaction atomicity + self-heal test; `CONTENT_REVIEW.md`                                   | ✅                           |
+| —       | Tagged `v0.2-persistence` · 238/238 passing                                                                                                                                                                              | ✅                           |
+| 14      | `useQueue` hook: composes `ReleaseGate`, `QueueBuilder`, `ExamModeCompressor`, repositories → `QueueEntry[]`; overlapping-exam integration suite (amendment c); exam-mode retention wiring (amendment d)                 | — `feat/hooks-and-stores`   |
+| 15      | `useReviewSession` hook: processes ratings, calls `SchedulerService` + `RelearningPipeline`, writes via repositories; Zustand stores (`sessionStore`, `streakStore`, `forecastStore`)                                     | — `feat/hooks-and-stores`   |
+| 16      | Cohort setup wizard screen; This Week view; pull-ahead UI                                                                                                                                                                | — `feat/setup-and-home`     |
+| 17      | Review session screen, debt meter, 7-day forecast, exam banner; forecast warning suppression during onboarding (amendment e); exam banner copy (amendment f)                                                              | — `feat/setup-and-home`     |
+| 18      | Dosage drill track screen; "today/tomorrow" date-display audit throughout UI (amendment g)                                                                                                                                | — `feat/setup-and-home`     |
+| 19      | Streak display screen; settings screen                                                                                                                                                                                   | — `feat/review-session`     |
+| 20      | Notifications wiring; `NotificationPlanner` implementation; accessibility pass for review session                                                                                                                        | — `feat/review-session`     |
+| 21–25   | Remaining screens: profile, progress reports, advanced settings, background sync, full accessibility audit                                                                                                                | — `feat/remaining-screens`  |
+| —       | Hardening: performance, final accessibility audit, App Store prep                                                                                                                                                        | —                           |
 
-**Next immediate step:** Step 11 — DB client and WAL initialization.
+**Next immediate step:** Step 14 — `useQueue` hook (`feat/hooks-and-stores` branch, already created).
 
 ---
 
@@ -160,26 +162,29 @@ Seven composed integration scenarios exercising the full domain stack. Each scen
 
 Post-approval changes and known gaps. Each item must be addressed before the relevant step ships; none are optional.
 
-**(a) `lastQualifyingDate` must persist in `ItemMemoryState`.**
-`RelearningResult.lastQualifyingDate` (type `string | null`) is returned by `RelearningPipeline.processRating()` and correctly threads through the harness via an in-memory `Map<string, string | null>`. However, `ItemMemoryState` in `types.ts` has no `lastQualifyingDate` field, and the planned `item_memory_states` DDL has no corresponding column. Without persistence, an app restart discards the last qualifying retrieval date, and a same-day retry immediately after restart could double-advance a streak. Fix required at Step 12 (DDL) + Step 13 (repository) + `types.ts` amendment: add `lastQualifyingDate: string | null` to `ItemMemoryState`.
+**(a) `lastQualifyingDate` must persist in `ItemMemoryState`.** ✅ Resolved in Step 11.
+`lastQualifyingDate: string | null` added to `ItemMemoryState` in `types.ts` (formal amendment); `last_qualifying_date TEXT` column added to `item_memory_states` DDL in migration 001; persisted and hydrated by `ItemMemoryStateRepository`. Last qualifying retrieval date survives app restarts; same-day double-advance is guarded.
 
-**(b) DDL fix: drop `DEFAULT` values on all `fsrs_*` columns.**
-The originally reviewed schema draft had `fsrs_difficulty REAL DEFAULT 5`. This is invalid per ts-fsrs: `createEmptyCard()` produces `difficulty=0, stability=0`. A row with `difficulty=5, stability=0` misrepresents a card that has never been rated as one with a known difficulty. Drop all `DEFAULT` values from `fsrs_stability`, `fsrs_difficulty`, and other `fsrs_*` columns in `item_memory_states` DDL so that partial inserts fail loudly rather than silently inserting bogus data. Fix at Step 12.
+**(b) DDL fix: drop `DEFAULT` values on all `fsrs_*` columns.** ✅ Resolved in Step 11.
+All `DEFAULT` values removed from `fsrs_stability`, `fsrs_difficulty`, and every other `fsrs_*` column in the `item_memory_states` DDL. Partial inserts fail loudly rather than silently writing `difficulty=5, stability=0`. Covered by a dedicated migration gate test.
 
-**(c) `useQueue` integration suite must cover overlapping exam windows.**
-The unit tests for `ExamModeCompressor` and `QueueBuilder` cover single-exam scenarios. The integration test for `useQueue` (Step 15) must include: two active exam windows simultaneously; a shared item below threshold for the nearer exam only → appears exactly once in the queue as `mode:'exam'` for the nearer exam's course. This is the composition seam that no unit test currently reaches.
+**(c) `useQueue` integration suite must cover overlapping exam windows.** Open — scheduled for Step 14.
+The unit tests for `ExamModeCompressor` and `QueueBuilder` cover single-exam scenarios. The integration test for `useQueue` (Step 14) must include: two active exam windows simultaneously; a shared item below threshold for the nearer exam only → appears exactly once in the queue as `mode:'exam'` for the nearer exam's course. This is the composition seam that no unit test currently reaches.
 
-**(d) Step 16 exam-mode retention wiring is required for the feature to be non-inert.**
-`mode:'exam'` on a `QueueEntry` must route to `desiredRetention=0.95` in `SchedulerService.schedule()`; `mode:'daily'` routes to the baseline 0.90. Without this wiring, exam compression adjusts the candidate selection list but does not actually tighten the scheduled intervals. A test asserting that the same card rated at `mode:'exam'` vs. `mode:'daily'` produces different `scheduledDays` values must be part of Step 16 delivery.
+**(d) Exam-mode retention wiring is required for the feature to be non-inert.** Open — scheduled for Step 14.
+`mode:'exam'` on a `QueueEntry` must route to `desiredRetention=0.95` in `SchedulerService.schedule()`; `mode:'daily'` routes to the baseline 0.90. Without this wiring, exam compression adjusts the candidate selection list but does not actually tighten the scheduled intervals. A test asserting that the same card rated at `mode:'exam'` vs. `mode:'daily'` produces different `scheduledDays` values must be part of Step 14 delivery.
 
-**(e) Forecast warning suppression during onboarding (Step 18).**
-During the first week of use, all introduced items are in Learning state. `DebtForecaster` folds Learning cards to day-0 (due date is within hours), making the median 0 and triggering a warning on day-0 even with a normal load. The warning threshold `dueCount > 1.5 × median AND dueCount > WARNING_FLOOR (10)` partially protects against this, but the floor may need raising or the UI may need to suppress/restyle warnings while `>X%` of the active pool is in Learning state. Evaluate at Step 18 with real onboarding data; do not ship red bars to first-week students.
+**(e) Forecast warning suppression during onboarding (Step 17).** Open — scheduled for Steps 17–18.
+During the first week of use, all introduced items are in Learning state. `DebtForecaster` folds Learning cards to day-0 (due date is within hours), making the median 0 and triggering a warning on day-0 even with a normal load. The warning threshold `dueCount > 1.5 × median AND dueCount > WARNING_FLOOR (10)` partially protects against this, but the floor may need raising or the UI may need to suppress/restyle warnings while `>X%` of the active pool is in Learning state. Evaluate at Step 17 with real onboarding data; do not ship red bars to first-week students.
 
-**(f) Exam banner copy must not promise extra cards to diligent students (Step 18).**
+**(f) Exam banner copy must not promise extra cards to diligent students (Step 17).** Open — scheduled for Step 17.
 Well-retained items produce zero exam candidates — this is correct behavior. If the banner implies "we'll add extra reviews before your exam," diligent students who see no change will interpret it as a bug. Copy must reflect that exam mode compresses intervals for items that are already due for review, and that the absence of extra cards means the student's memory is in good shape for the exam.
 
-**(g) Every "today/tomorrow" string in the UI must account for the 4am study-day boundary (Steps 18–20).**
+**(g) Every "today/tomorrow" string in the UI must account for the 4am study-day boundary (Steps 18–20).** Open — scheduled for Steps 18–20.
 A student studying at 1am is still on the previous study day. Any UI string that reads "today," "tomorrow," "due today," or uses a relative date must compute against `getStudyDay(now, DEFAULT_DAY_BOUNDARY)`, not `new Date()`. Audit all date-display code at each UI step before marking complete.
+
+**(h) Migration 002 atomicity: upsert loop and version bump run inside a single exclusive transaction.** ✅ Shipped in Step 13.
+`runMigrations` wraps all 106 `ContentItemRepository.upsert()` calls and the `db_version='2'` write inside one `withExclusiveTransactionAsync` call. Invariant: `db_version` advances to 2 only when every row committed. A crash mid-upsert leaves `db_version=1`; on next launch, `version < 2` is true and all upserts re-run — safe because every upsert is `ON CONFLICT UPDATE` (idempotent). Covered by an explicit self-heal test in `src/db/__tests__/seed.test.ts`.
 
 ---
 
@@ -192,3 +197,6 @@ A student studying at 1am is still on the previous study day. Any UI string that
 5. **Stall protocol:** If >15 minutes of analysis with no file written, or if already-read files are being re-read, expect an interruption and a narrower prompt. Scope down and act.
 6. **types.ts amendments:** Any edit to `src/domain/types.ts` must be announced in the step report as a formal amendment. It is a frozen contract; drive-by changes break the DB schema and all consumers.
 7. **Test empirically:** Assertion failures get a diagnosis before any fix. If a scripting assumption collides with actual behavior (FSRS scheduling, gate arithmetic), print actuals and adjust the script — never adjust the assertion's meaning to match a wrong script.
+8. **Branching (from Step 14):** Work on feature branches named `feat/<step-group>` per the build-order group assignments above. Commit per step on the branch. Push the branch at session end minimum.
+9. **PR merge discipline:** Merge to main only via PR, opened when the group's gates pass and the full suite (including the acceptance harness) is green. Main must always pass the full suite — anything on main is a demoable state.
+10. **Docs-only changes** may commit directly to main.
