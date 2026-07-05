@@ -73,9 +73,13 @@ export class QueueBuilder implements IQueueBuilder {
     // 7. Apply per-session free_recall cap — cognitively expensive format.
     //    Reviews get priority (forgetting pressure); new items fill remaining slots.
     //    Excess free_recall entries stay due and surface in later sessions.
+    //    Exam-mode entries are exempt: ExamModeCompressor selected them deliberately
+    //    for a compressed review window; overriding that with the session cap would
+    //    undermine the exam feature for high-value application items.
     let frUsed = 0;
     const cappedReviews = reviewEntries.filter(e => {
       if (e.item.format !== 'free_recall') return true;
+      if (e.mode === 'exam') return true; // exam candidates bypass cap
       return frUsed++ < FREE_RECALL_CAP;
     });
     const cappedNew = newEntries.filter(e => {
