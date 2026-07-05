@@ -186,6 +186,9 @@ A student studying at 1am is still on the previous study day. Any UI string that
 **(h) Migration 002 atomicity: upsert loop and version bump run inside a single exclusive transaction.** ✅ Shipped in Step 13.
 `runMigrations` wraps all 106 `ContentItemRepository.upsert()` calls and the `db_version='2'` write inside one `withExclusiveTransactionAsync` call. Invariant: `db_version` advances to 2 only when every row committed. A crash mid-upsert leaves `db_version=1`; on next launch, `version < 2` is true and all upserts re-run — safe because every upsert is `ON CONFLICT UPDATE` (idempotent). Covered by an explicit self-heal test in `src/db/__tests__/seed.test.ts`.
 
+**(j) `placeholder` flag is workflow metadata, not a runtime gate — by decision.** Open — pilot readiness.
+All 106 seeded items have `placeholder: true` (the field means "awaiting SME review," per `types.ts` annotation and the sign-off workflow in `CONTENT_REVIEW.md`). No filter on `placeholder` was ever specced for `findUnlocked`, `QueueBuilder`, or the session screen. Gating on it now would empty the queue entirely (all 106 items flagged) and block all development. Decision: serve placeholder content to developers and internal testers; the flag is a workflow marker for the SME pipeline, not a runtime visibility gate. Pilot readiness requires SME sign-off flipping flags to `false`, update `lastReviewedAt`, bump `contentVersion`, and re-run the suite per `CONTENT_REVIEW.md` governance. Mary's spot-check is the first entry.
+
 ---
 
 ## Session Protocol
