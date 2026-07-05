@@ -12,9 +12,9 @@ import type { IDatabase, DBBindParams, DBRunResult } from '../types';
 
 function normalizeParams(params: DBBindParams): DBBindParams {
   if (Array.isArray(params)) return params;
-  const out: Record<string, Database.BindingDictionary[string]> = {};
+  const out: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(params)) {
-    out[key.replace(/^[$:@]/, '')] = value as Database.BindingDictionary[string];
+    out[key.replace(/^[$:@]/, '')] = value;
   }
   return out as DBBindParams;
 }

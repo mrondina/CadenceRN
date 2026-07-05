@@ -139,11 +139,9 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
         <AppButton
           label={todayDue > 0 ? 'Start review' : 'Browse content'}
           variant="primary"
-          onPress={() => {
-            // Review session screen wired in step 19.
-          }}
+          onPress={() => router.push('/session')}
           fullWidth
-          disabled={forecastLoading}
+          disabled={forecastLoading || todayDue === 0}
         />
 
         {/* 7-day forecast strip */}
