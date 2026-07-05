@@ -139,7 +139,7 @@ export async function computeSessionQueue(deps: QueueDeps): Promise<QueueEntry[]
  * ReleaseGate — UTC midnight, not the 4am study-day boundary (content unlock
  * is week-level; sub-day precision doesn't matter here).
  */
-function getGateParams(cohort: Cohort, now: Date): { sessionIndex: number; week: number } {
+export function getGateParams(cohort: Cohort, now: Date): { sessionIndex: number; week: number } {
   const nowStr = toDateStr(now);
   let sessionIndex = 0;
   let sessionStartStr = '';

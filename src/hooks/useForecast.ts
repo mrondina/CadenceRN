@@ -11,6 +11,7 @@ import type {
 import { DEFAULT_DAY_BOUNDARY } from '../domain/types';
 import type { ContentItemRepository } from '../db/repositories/ContentItemRepository';
 import type { ItemMemoryStateRepository } from '../db/repositories/ItemMemoryStateRepository';
+import { getGateParams, NEW_ITEM_CAP } from './useQueue';
 
 // ─── Forecast deps ────────────────────────────────────────────────────────────
 
@@ -28,6 +29,7 @@ export interface ForecastDeps {
 export interface ForecastResult {
   forecast: DayForecast[];
   activeExam: ActiveExam | null;
+  newItemCount: number;
 }
 
 // ─── Pure computation function ─────────────────────────────────────────────────
@@ -45,6 +47,7 @@ export async function computeForecast(deps: ForecastDeps): Promise<ForecastResul
   } = deps;
 
   const allMemStates = await memStateRepo.findAll();
+  const memStateIds = new Set(allMemStates.map(s => s.itemId));
   const allCourses = cohort.sessions.flatMap(s => s.courses);
   const activeExam = examCompressor.getActiveExam(allCourses, now);
 
@@ -76,7 +79,20 @@ export async function computeForecast(deps: ForecastDeps): Promise<ForecastResul
     activeExam,
   });
 
-  return { forecast, activeExam };
+  // Introducible new items — same gate logic as computeSessionQueue, surfaced here
+  // so Home can show a non-zero count for students who haven't started yet.
+  // Future-day bars stay due-only: new-item introduction on days 1+ depends on
+  // what the student does today and cannot be scheduled in advance.
+  const { sessionIndex, week } = getGateParams(cohort, now);
+  const unlockedItems = sessionIndex > 0
+    ? await contentItemRepo.findUnlocked({ sessionIndex, week })
+    : [];
+  const newItemCount = Math.min(
+    NEW_ITEM_CAP,
+    unlockedItems.filter(i => !memStateIds.has(i.id)).length,
+  );
+
+  return { forecast, activeExam, newItemCount };
 }
 
 // ─── React hook ───────────────────────────────────────────────────────────────
@@ -84,6 +100,7 @@ export async function computeForecast(deps: ForecastDeps): Promise<ForecastResul
 export interface UseForecastResult {
   forecast: DayForecast[];
   activeExam: ActiveExam | null;
+  newItemCount: number;
   loading: boolean;
   error: Error | null;
   refresh: () => void;
@@ -92,6 +109,7 @@ export interface UseForecastResult {
 export function useForecast(deps: Omit<ForecastDeps, 'now'> & { now?: Date }): UseForecastResult {
   const [forecast, setForecast] = useState<DayForecast[]>([]);
   const [activeExam, setActiveExam] = useState<ActiveExam | null>(null);
+  const [newItemCount, setNewItemCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [tick, setTick] = useState(0);
@@ -107,6 +125,7 @@ export function useForecast(deps: Omit<ForecastDeps, 'now'> & { now?: Date }): U
         if (!cancelled) {
           setForecast(result.forecast);
           setActiveExam(result.activeExam);
+          setNewItemCount(result.newItemCount);
           setLoading(false);
         }
       })
@@ -120,5 +139,5 @@ export function useForecast(deps: Omit<ForecastDeps, 'now'> & { now?: Date }): U
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tick]);
 
-  return { forecast, activeExam, loading, error, refresh };
+  return { forecast, activeExam, newItemCount, loading, error, refresh };
 }

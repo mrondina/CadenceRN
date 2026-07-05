@@ -72,7 +72,7 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
   const { space } = useAppTheme();
   const { setCohort } = useCohortStore();
 
-  const { forecast, loading: forecastLoading } = useForecast({
+  const { forecast, newItemCount, loading: forecastLoading } = useForecast({
     cohort,
     memStateRepo: db.memStateRepo,
     contentItemRepo: db.contentItemRepo,
@@ -107,9 +107,12 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
     refreshExamMode();
   }
 
-  // Queue summary from day-0 bucket.
+  // Queue summary: due reviews (day-0 forecast bucket) + introducible new items.
+  // newItemCount comes from useForecast — same gate logic as computeSessionQueue,
+  // surfaced here so the button is enabled for students who haven't started yet.
   const todayDue = forecast[0]?.dueCount ?? 0;
-  const estMinutes = Math.ceil((todayDue * SECONDS_PER_CARD) / 60);
+  const todayTotal = todayDue + newItemCount;
+  const estMinutes = Math.ceil((todayTotal * SECONDS_PER_CARD) / 60);
 
   // Amendment (e): suppress warning colour while the pool is early-learning-dominated.
   // Threshold: future-day total < 50% of day-0 count → most items are Learning state
@@ -118,7 +121,7 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
   const futureTotal = forecast.slice(1).reduce((s, d) => s + d.dueCount, 0);
   const isEarlyLearningDominated =
     forecast.length >= 7 &&
-    todayDue > 0 &&
+    todayDue > 0 &&  // memory-state count only — new items don't create Learning-state pressure
     futureTotal < todayDue * 0.5;
 
   return (
@@ -155,14 +158,18 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
           ) : (
             <>
               <AppText variant="subtitle">
-                {todayDue > 0
+                {todayDue > 0 && newItemCount > 0
+                  ? `${todayDue} to review · ${newItemCount} new · ~${estMinutes} min`
+                  : todayDue > 0
                   ? `${todayDue} review${todayDue === 1 ? '' : 's'} · ~${estMinutes} min`
+                  : newItemCount > 0
+                  ? `${newItemCount} new · ~${estMinutes} min`
                   : 'All caught up'}
               </AppText>
               {/* Amendment (g): no "today/tomorrow" string — "ready when you are" is
                   boundary-agnostic and true at 1am. */}
               <AppText variant="caption" color="inkMuted">
-                {todayDue > 0 ? 'Ready when you are.' : 'Nothing due right now.'}
+                {todayTotal > 0 ? 'Ready when you are.' : 'Nothing due right now.'}
               </AppText>
             </>
           )}
@@ -170,11 +177,11 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
 
         {/* Primary action */}
         <AppButton
-          label={todayDue > 0 ? 'Start review' : 'Browse content'}
+          label={todayTotal > 0 ? 'Start review' : 'Browse content'}
           variant="primary"
           onPress={() => router.push('/session')}
           fullWidth
-          disabled={forecastLoading || todayDue === 0}
+          disabled={forecastLoading || todayTotal === 0}
         />
 
         {/* 7-day forecast strip */}
