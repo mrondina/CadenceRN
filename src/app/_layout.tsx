@@ -19,6 +19,10 @@ export default function RootLayout() {
               options={{ presentation: 'modal', animation: 'slide_from_bottom' }}
             />
             <Stack.Screen
+              name="session"
+              options={{ presentation: 'fullScreenModal', headerShown: false }}
+            />
+            <Stack.Screen
               name="settings"
               options={{ presentation: 'modal' }}
             />
