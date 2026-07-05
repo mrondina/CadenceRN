@@ -14,6 +14,9 @@ type ReviewEntry = {
   mode: ReviewMode;
 };
 
+/** Maximum free_recall entries allowed in a single session. */
+export const FREE_RECALL_CAP = 3;
+
 export class QueueBuilder implements IQueueBuilder {
   constructor(private readonly scheduler: ISchedulerService) {}
 
@@ -67,8 +70,20 @@ export class QueueBuilder implements IQueueBuilder {
       return { kind: 'new', item, syntheticState, mode: 'daily' };
     });
 
-    // Reviews first (existing memory, forgetting pressure), new items last.
-    return [...reviewEntries, ...newEntries];
+    // 7. Apply per-session free_recall cap — cognitively expensive format.
+    //    Reviews get priority (forgetting pressure); new items fill remaining slots.
+    //    Excess free_recall entries stay due and surface in later sessions.
+    let frUsed = 0;
+    const cappedReviews = reviewEntries.filter(e => {
+      if (e.item.format !== 'free_recall') return true;
+      return frUsed++ < FREE_RECALL_CAP;
+    });
+    const cappedNew = newEntries.filter(e => {
+      if (e.item.format !== 'free_recall') return true;
+      return frUsed++ < FREE_RECALL_CAP;
+    });
+
+    return [...cappedReviews, ...cappedNew];
   }
 }
 

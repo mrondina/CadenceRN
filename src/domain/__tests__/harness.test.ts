@@ -60,7 +60,10 @@ class ReviewLog {
 // ─── Fixture generator ────────────────────────────────────────────────────────
 
 const PILLARS: Pillar[] = ['pharm', 'terminology', 'concepts', 'procedures'];
-const FORMATS: ItemFormat[] = ['cloze', 'mcq', 'free_recall', 'numeric'];
+// free_recall excluded: the per-session FREE_RECALL_CAP (3) limits introduction
+// rate and would break the "introduce all 120 in 7 days" invariant. The cap
+// is covered by QueueBuilder.test.ts; this harness tests FSRS scheduling only.
+const FORMATS: ItemFormat[] = ['cloze', 'mcq', 'numeric', 'cloze'];
 
 function makeItem(
   idx: number,

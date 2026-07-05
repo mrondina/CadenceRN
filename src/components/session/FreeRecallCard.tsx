@@ -42,7 +42,7 @@ export function FreeRecallCard({ body, onReveal }: FreeRecallCardProps) {
             opacity: pressed ? 0.65 : 1,
           })}>
           <AppText variant="label" color="primary">Reveal answer</AppText>
-          <AppText variant="caption" color="inkMuted">Think first — then check</AppText>
+          <AppText variant="caption" color="inkMuted">Think it through, then reveal — no typing needed</AppText>
         </Pressable>
       ) : (
         <>

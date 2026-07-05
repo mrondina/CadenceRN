@@ -55,23 +55,29 @@ export function MCQCard({ body, onReveal }: MCQCardProps) {
           }
 
           return (
-            <Pressable
+            // Border lives on the outer View so it never bleeds into child Text
+            // elements — a known iOS artifact when borderWidth sits on Pressable.
+            <View
               key={choice.id}
-              onPress={() => handleChoice(choice.id)}
-              disabled={isAnswered}
-              accessibilityRole="radio"
-              accessibilityState={{ selected: isSelected, disabled: isAnswered }}
-              style={({ pressed }) => ({
+              style={{
                 borderWidth: 1,
                 borderColor,
                 borderRadius: radius.md,
-                padding: space[3],
-                backgroundColor: bgColor,
-                opacity: pressed && !isAnswered ? 0.75 : 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: space[2],
-              })}>
+                overflow: 'hidden',
+              }}>
+              <Pressable
+                onPress={() => handleChoice(choice.id)}
+                disabled={isAnswered}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: isSelected, disabled: isAnswered }}
+                style={({ pressed }) => ({
+                  padding: space[3],
+                  backgroundColor: bgColor,
+                  opacity: pressed && !isAnswered ? 0.75 : 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: space[2],
+                })}>
               <AppText variant="body">{choice.text}</AppText>
               {isAnswered && isCorrect && (
                 <AppText variant="caption" style={{ color: colors.success, marginLeft: 'auto' }}>
@@ -84,6 +90,7 @@ export function MCQCard({ body, onReveal }: MCQCardProps) {
                 </AppText>
               )}
             </Pressable>
+            </View>
           );
         })}
       </View>

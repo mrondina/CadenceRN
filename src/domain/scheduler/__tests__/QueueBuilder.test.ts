@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { QueueBuilder } from '../QueueBuilder';
+import { QueueBuilder, FREE_RECALL_CAP } from '../QueueBuilder';
 import { SchedulerService } from '../SchedulerService';
 import type { ContentItem, ItemMemoryState, Pillar, QueueEntry } from '../../types';
 
@@ -412,6 +412,65 @@ describe('QueueBuilder', () => {
       const items = [makeItem()];
       const result = build({ newItems: items, newItemCap: 1 });
       expect(modes(result)).toEqual(['daily']);
+    });
+  });
+
+  // ─── free_recall session cap ──────────────────────────────────────────────
+
+  describe('free_recall session cap', () => {
+    it('10 due free-recall + 10 due cloze → exactly FREE_RECALL_CAP free-recall, all cloze retained', () => {
+      const frItems = Array.from({ length: 10 }, (_, i) =>
+        makeItem({ id: `fr-${i}`, format: 'free_recall', pillar: 'concepts' }),
+      );
+      const clozeItems = Array.from({ length: 10 }, (_, i) =>
+        makeItem({ id: `cl-${i}`, format: 'cloze', pillar: 'pharm' }),
+      );
+      const dueStates = [
+        ...frItems.map(i => makeState(i.id)),
+        ...clozeItems.map(i => makeState(i.id)),
+      ];
+
+      const result = build({ dueStates, allItems: itemsToMap([...frItems, ...clozeItems]) });
+
+      const frEntries = result.filter(e => e.item.format === 'free_recall');
+      const clozeEntries = result.filter(e => e.item.format === 'cloze');
+
+      expect(frEntries).toHaveLength(FREE_RECALL_CAP);
+      expect(clozeEntries).toHaveLength(10);
+      // dueStates is not mutated — uncapped items remain due
+      expect(dueStates.filter(s => s.itemId.startsWith('fr-'))).toHaveLength(10);
+    });
+
+    it('fewer than cap free-recall → all included', () => {
+      const items = Array.from({ length: FREE_RECALL_CAP - 1 }, (_, i) =>
+        makeItem({ id: `fr-${i}`, format: 'free_recall' }),
+      );
+      const result = build({ dueStates: items.map(i => makeState(i.id)), allItems: itemsToMap(items) });
+      expect(result.filter(e => e.item.format === 'free_recall')).toHaveLength(FREE_RECALL_CAP - 1);
+    });
+
+    it('cap applies across reviews and new items combined — reviews take priority', () => {
+      // 2 review free_recall + 5 new free_recall → 2 reviews + 1 new = FREE_RECALL_CAP
+      const reviewFR = Array.from({ length: 2 }, (_, i) =>
+        makeItem({ id: `rev-fr-${i}`, format: 'free_recall' }),
+      );
+      const newFR = Array.from({ length: 5 }, (_, i) =>
+        makeItem({ id: `new-fr-${i}`, format: 'free_recall' }),
+      );
+
+      const result = build({
+        dueStates: reviewFR.map(i => makeState(i.id)),
+        allItems: itemsToMap(reviewFR),
+        newItems: newFR,
+        newItemCap: 10,
+      });
+
+      const allFR = result.filter(e => e.item.format === 'free_recall');
+      expect(allFR).toHaveLength(FREE_RECALL_CAP);
+      // Both review free_recall are included (only 2, within cap)
+      expect(result.filter(e => e.kind === 'review' && e.item.format === 'free_recall')).toHaveLength(2);
+      // Only 1 new free_recall (cap = 3, 2 consumed by reviews)
+      expect(result.filter(e => e.kind === 'new' && e.item.format === 'free_recall')).toHaveLength(1);
     });
   });
 

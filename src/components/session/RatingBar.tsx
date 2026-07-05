@@ -46,30 +46,38 @@ export function RatingBar({ intervals, onRate }: RatingBarProps) {
       {RATINGS.map((rating) => {
         const labelColor = useLabelColor(rating, colors);
         return (
-          <Pressable
+          // Border on outer View — keeps it off the Pressable to prevent iOS
+          // from rendering border artifacts on inner Text elements.
+          <View
             key={rating}
-            onPress={() => onRate(rating)}
-            accessibilityRole="button"
-            accessibilityLabel={`${RATING_LABELS[rating]}, next review ${fmtInterval(intervals[rating])}`}
-            style={({ pressed }) => ({
+            style={{
               flex: 1,
-              alignItems: 'center',
-              paddingVertical: space[3],
-              paddingHorizontal: space[1],
-              backgroundColor: pressed ? colors.surfaceAlt : colors.surface,
-              borderRadius: radius.md,
               borderWidth: 1,
               borderColor: colors.border,
-              gap: 4,
-              opacity: pressed ? 0.75 : 1,
-            })}>
-            <AppText variant="label" style={{ color: labelColor }}>
-              {RATING_LABELS[rating]}
-            </AppText>
-            <AppText variant="caption" color="inkMuted">
-              {fmtInterval(intervals[rating])}
-            </AppText>
-          </Pressable>
+              borderRadius: radius.md,
+              overflow: 'hidden',
+            }}>
+            <Pressable
+              onPress={() => onRate(rating)}
+              accessibilityRole="button"
+              accessibilityLabel={`${RATING_LABELS[rating]}, next review ${fmtInterval(intervals[rating])}`}
+              style={({ pressed }) => ({
+                flex: 1,
+                alignItems: 'center',
+                paddingVertical: space[3],
+                paddingHorizontal: space[1],
+                backgroundColor: pressed ? colors.surfaceAlt : colors.surface,
+                gap: 4,
+                opacity: pressed ? 0.75 : 1,
+              })}>
+              <AppText variant="label" style={{ color: labelColor }}>
+                {RATING_LABELS[rating]}
+              </AppText>
+              <AppText variant="caption" color="inkMuted">
+                {fmtInterval(intervals[rating])}
+              </AppText>
+            </Pressable>
+          </View>
         );
       })}
     </View>
