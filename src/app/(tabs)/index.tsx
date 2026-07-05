@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -6,18 +6,38 @@ import { AppSafeArea } from '@/components/ui/AppSafeArea';
 import { AppText } from '@/components/ui/AppText';
 import { AppButton } from '@/components/ui/AppButton';
 import { AppCard } from '@/components/ui/AppCard';
-import { useDBContext } from '@/context/DBContext';
-import { useCohortStore } from '@/stores/cohortStore';
+import { ForecastStrip } from '@/components/home/ForecastStrip';
+import { ExamBanner } from '@/components/home/ExamBanner';
+import { StreakChip } from '@/components/home/StreakChip';
 import { useAppTheme } from '@/context/ThemeContext';
+import { useDBContext } from '@/context/DBContext';
+import type { DBContextValue } from '@/context/DBContext';
+import { useCohortStore } from '@/stores/cohortStore';
+import { useForecast } from '@/hooks/useForecast';
+import { useExamMode } from '@/hooks/useExamMode';
+import { DebtForecaster } from '@/domain/scheduler/DebtForecaster';
+import { ExamModeCompressor } from '@/domain/scheduler/ExamModeCompressor';
+import { SchedulerService } from '@/domain/scheduler/SchedulerService';
+import type { Cohort } from '@/domain/types';
+
+// ── Assumption: 15 seconds average review latency per card (self-rated recall).
+const SECONDS_PER_CARD = 15;
+
+// Domain services — stateless, created once at module scope.
+const scheduler = new SchedulerService();
+const forecaster = new DebtForecaster();
+const examCompressor = new ExamModeCompressor(scheduler);
+
+// ── Root shell ────────────────────────────────────────────────────────────────
+// Handles first-run cohort check before rendering content.
 
 export default function HomeScreen() {
   const router = useRouter();
   const db = useDBContext();
+  const { colors } = useAppTheme();
   const { cohort, setCohort } = useCohortStore();
-  const { space } = useAppTheme();
   const [checking, setChecking] = useState(true);
 
-  // On mount: load cohort from DB; if none, go to setup wizard.
   useEffect(() => {
     if (!db) return;
     db.cohortRepo.findFirst().then((found) => {
@@ -30,35 +50,128 @@ export default function HomeScreen() {
     });
   }, [db]);
 
-  if (checking || !cohort) return null;
+  if (checking || !db || !cohort) {
+    return (
+      <AppSafeArea style={styles.center}>
+        <ActivityIndicator color={colors.primary} />
+      </AppSafeArea>
+    );
+  }
+
+  return <HomeContent cohort={cohort} db={db} />;
+}
+
+// ── Content component ─────────────────────────────────────────────────────────
+// Only rendered once cohort + db are guaranteed non-null.
+// Hooks are called unconditionally here.
+
+function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
+  const router = useRouter();
+  const { space } = useAppTheme();
+
+  const { forecast, loading: forecastLoading } = useForecast({
+    cohort,
+    memStateRepo: db.memStateRepo,
+    contentItemRepo: db.contentItemRepo,
+    forecaster,
+    examCompressor,
+  });
+
+  const { activeExam } = useExamMode({ cohort, examCompressor });
+
+  // Queue summary from day-0 bucket.
+  const todayDue = forecast[0]?.dueCount ?? 0;
+  const estMinutes = Math.ceil((todayDue * SECONDS_PER_CARD) / 60);
+
+  // Amendment (e): suppress warning colour while the pool is early-learning-dominated.
+  // Threshold: future-day total < 50% of day-0 count → most items are Learning state
+  // (due within hours after first rating), not genuine accumulated debt. A first-week
+  // student must not open the app to red bars.
+  const futureTotal = forecast.slice(1).reduce((s, d) => s + d.dueCount, 0);
+  const isEarlyLearningDominated =
+    forecast.length >= 7 &&
+    todayDue > 0 &&
+    futureTotal < todayDue * 0.5;
 
   return (
     <AppSafeArea>
-      <View style={[styles.container, { padding: space[4] }]}>
-        <AppText variant="title">CadenceRN</AppText>
-        <AppText variant="body" color="inkMuted" style={styles.sub}>
-          ABSN Study Companion
-        </AppText>
+      <ScrollView
+        contentContainerStyle={[styles.content, { padding: space[4], gap: space[4] }]}>
 
-        <AppCard style={styles.card}>
-          <AppText variant="label">Setup complete</AppText>
-          <AppText variant="caption" color="inkMuted">
-            {cohort.startDate} · {cohort.templateId}
-          </AppText>
+        {/* Header row: title + quiet streak chip */}
+        <View style={styles.headerRow}>
+          <View style={styles.headerLeft}>
+            <AppText variant="title">CadenceRN</AppText>
+            <AppText variant="caption" color="inkMuted">
+              {cohort.sessions[0]?.label ?? 'ABSN Study Companion'}
+            </AppText>
+          </View>
+          <StreakChip streak={null} />
+        </View>
+
+        {/* Exam banner — only shown when an exam window is active.
+            Amendment (f): copy says "reviews tuned for your exam", not "extra reviews added".
+            Well-retained items correctly produce zero exam candidates — the absence of
+            extra cards is a sign of good health, not a bug. */}
+        {activeExam && <ExamBanner activeExam={activeExam} />}
+
+        {/* Queue summary */}
+        <AppCard style={{ gap: space[2] }}>
+          {forecastLoading ? (
+            <ActivityIndicator size="small" />
+          ) : (
+            <>
+              <AppText variant="subtitle">
+                {todayDue > 0
+                  ? `${todayDue} review${todayDue === 1 ? '' : 's'} · ~${estMinutes} min`
+                  : 'All caught up'}
+              </AppText>
+              {/* Amendment (g): no "today/tomorrow" string — "ready when you are" is
+                  boundary-agnostic and true at 1am. */}
+              <AppText variant="caption" color="inkMuted">
+                {todayDue > 0 ? 'Ready when you are.' : 'Nothing due right now.'}
+              </AppText>
+            </>
+          )}
         </AppCard>
 
+        {/* Primary action */}
         <AppButton
-          label="Re-configure cohort"
-          variant="ghost"
-          onPress={() => router.push('/setup/start-date')}
+          label={todayDue > 0 ? 'Start review' : 'Browse content'}
+          variant="primary"
+          onPress={() => {
+            // Review session screen wired in step 19.
+          }}
+          fullWidth
+          disabled={forecastLoading}
         />
-      </View>
+
+        {/* 7-day forecast strip */}
+        {forecast.length > 0 && (
+          <AppCard variant="alt" style={{ gap: space[3] }}>
+            <AppText variant="label">Coming up</AppText>
+            <ForecastStrip forecast={forecast} suppressWarning={isEarlyLearningDominated} />
+          </AppCard>
+        )}
+
+        {/* Settings shortcut */}
+        <AppButton
+          label="Settings"
+          variant="ghost"
+          onPress={() => router.push('/settings')}
+        />
+      </ScrollView>
     </AppSafeArea>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, gap: 16 },
-  sub: { marginTop: -8 },
-  card: { marginTop: 8 },
+  center: { justifyContent: 'center', alignItems: 'center' },
+  content: { flexGrow: 1 },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  headerLeft: { gap: 2 },
 });
