@@ -1,5 +1,25 @@
 import type { Cohort, ICohortBuilder, SessionInstance } from '../types';
 
+// ─── Template course catalogue ────────────────────────────────────────────────
+
+/** Default courses per session for the Bellarmine ABSN template. */
+export const BELLARMINE_SESSION_COURSES: Record<number, { title: string; contentPackIds: string[] }[]> = {
+  1: [
+    { title: 'Health Assessment & Foundations', contentPackIds: ['foundations-pack'] },
+    { title: 'Applied Pharmacology', contentPackIds: ['pharm-pack', 'dosage-pack'] },
+    { title: 'Nursing Terminology', contentPackIds: ['terminology-pack'] },
+  ],
+  2: [{ title: 'Pathophysiology & Complex Care I', contentPackIds: [] }],
+  3: [{ title: 'Complex Adult Care I', contentPackIds: [] }],
+  4: [{ title: 'Psychiatric Mental Health & OB', contentPackIds: [] }],
+  5: [{ title: 'Complex Adult Care II', contentPackIds: [] }],
+  6: [{ title: 'NCLEX Runway', contentPackIds: [] }],
+};
+
+/** Flat list of all template courses — used by the add-course picker. */
+export const ALL_TEMPLATE_COURSES: { title: string; contentPackIds: string[] }[] =
+  Object.values(BELLARMINE_SESSION_COURSES).flat();
+
 // ─── Template definitions ─────────────────────────────────────────────────────
 
 interface SessionTemplate {
@@ -84,6 +104,42 @@ export class CohortBuilder implements ICohortBuilder {
       ),
     };
   }
+}
+
+// ─── Session / week derivation ────────────────────────────────────────────────
+
+/**
+ * Returns the session the student is currently in (or about to enter), plus
+ * the 1-based week index within that session. Week 1 is returned for any date
+ * before the session starts (future cohort start, or in a break before session N).
+ */
+export function getCurrentSession(
+  cohort: Cohort,
+  now: Date,
+): { session: SessionInstance; weekIndex: number } {
+  const todayStr = toDateStr(now);
+  const sessions = cohort.sessions; // ordered 1→6 by builder
+
+  for (const s of sessions) {
+    if (todayStr <= s.endDate) {
+      // today falls within this session, or this session hasn't ended yet
+      return { session: s, weekIndex: sessionWeekIndex(s.startDate, todayStr) };
+    }
+  }
+
+  // today is past all sessions — return session 6
+  const last = sessions[sessions.length - 1];
+  return { session: last, weekIndex: 8 };
+}
+
+function sessionWeekIndex(sessionStart: string, todayStr: string): number {
+  const [sy, sm, sd] = sessionStart.split('-').map(Number);
+  const [ty, tm, td] = todayStr.split('-').map(Number);
+  const elapsedDays = Math.max(
+    0,
+    Math.floor((Date.UTC(ty, tm - 1, td) - Date.UTC(sy, sm - 1, sd)) / 86_400_000),
+  );
+  return Math.min(8, Math.floor(elapsedDays / 7) + 1);
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

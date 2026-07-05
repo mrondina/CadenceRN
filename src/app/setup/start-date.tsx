@@ -8,31 +8,11 @@ import { AppText } from '@/components/ui/AppText';
 import { AppButton } from '@/components/ui/AppButton';
 import { AppCard } from '@/components/ui/AppCard';
 import { useAppTheme } from '@/context/ThemeContext';
-import { CohortBuilder, toDateStr, addCalendarDays } from '@/domain/cohort/CohortBuilder';
+import { CohortBuilder, BELLARMINE_SESSION_COURSES, toDateStr } from '@/domain/cohort/CohortBuilder';
 import { useWizardStore } from '@/stores/wizardStore';
 import type { CourseInstance, SessionInstance } from '@/domain/types';
 
 const TEMPLATE_ID = 'bellarmine-absn-v1';
-
-// Session → courses for the Bellarmine ABSN template.
-// Content packs for sessions 2-6 are not yet authored; entries are placeholders.
-const SESSION_COURSES: Record<number, { title: string; contentPackIds: string[] }[]> = {
-  1: [
-    { title: 'Health Assessment & Foundations', contentPackIds: ['foundations-pack'] },
-    { title: 'Applied Pharmacology', contentPackIds: ['pharm-pack', 'dosage-pack'] },
-    { title: 'Nursing Terminology', contentPackIds: ['terminology-pack'] },
-  ],
-  2: [{ title: 'Pathophysiology & Complex Care I', contentPackIds: [] }],
-  3: [{ title: 'Complex Adult Care I', contentPackIds: [] }],
-  4: [{ title: 'Psychiatric Mental Health & OB', contentPackIds: [] }],
-  5: [{ title: 'Complex Adult Care II', contentPackIds: [] }],
-  6: [{ title: 'NCLEX Runway', contentPackIds: [] }],
-};
-
-const MONTHS = [
-  'Jan','Feb','Mar','Apr','May','Jun',
-  'Jul','Aug','Sep','Oct','Nov','Dec',
-];
 
 export default function StartDateScreen() {
   const router = useRouter();
@@ -56,19 +36,7 @@ export default function StartDateScreen() {
     return date;
   }
 
-  function previewSessions(): string[] {
-    const date = parseDate();
-    if (!date) return [];
-    const startStr = toDateStr(date);
-    // 8-week sessions with 7-day breaks (63-day period per session)
-    return [0, 63, 126, 189, 252, 315].map((offset, i) => {
-      const s = addCalendarDays(startStr, offset);
-      const e = addCalendarDays(s, 55); // 8 weeks - 1
-      return `Session ${i + 1}: ${s} → ${e}`;
-    });
-  }
-
-  function handleGenerate() {
+  function handleContinue() {
     const date = parseDate();
     if (!date) {
       setError('Enter a valid date (month 1–12, day 1–31, year 2024–2035).');
@@ -79,12 +47,10 @@ export default function StartDateScreen() {
     const cohortId = uuidv7();
     const builder = new CohortBuilder();
     const now = new Date().toISOString();
-
     const cohort = builder.build({ id: cohortId, startDate: date, templateId: TEMPLATE_ID });
 
-    // Attach course instances from the Bellarmine template mapping.
     const sessionsWithCourses: SessionInstance[] = cohort.sessions.map(session => {
-      const courseTemplates = SESSION_COURSES[session.sessionIndex] ?? [];
+      const courseTemplates = BELLARMINE_SESSION_COURSES[session.sessionIndex] ?? [];
       const courses: CourseInstance[] = courseTemplates.map(ct => ({
         id: uuidv7(),
         sessionId: session.id,
@@ -97,7 +63,7 @@ export default function StartDateScreen() {
     });
 
     setDraft({ ...cohort, sessions: sessionsWithCourses });
-    router.push('/setup/session-dates');
+    router.push('/setup/confirm-courses');
   }
 
   const inputStyle = {
@@ -112,7 +78,7 @@ export default function StartDateScreen() {
     minHeight: 44,
   };
 
-  const previews = previewSessions();
+  const isComplete = month.length > 0 && day.length > 0 && year.length === 4;
 
   return (
     <AppSafeArea>
@@ -123,10 +89,10 @@ export default function StartDateScreen() {
           contentContainerStyle={[styles.content, { padding: space[4], gap: space[3] }]}
           keyboardShouldPersistTaps="handled">
 
-          <AppText variant="title">Set up your cohort</AppText>
+          <AppText variant="title">When did your cohort start?</AppText>
           <AppText variant="body" color="inkMuted">
-            Enter your program start date. The app will generate your 12-month
-            Bellarmine ABSN schedule automatically.
+            Past dates are fine — this is the common case.
+            The app will set up your schedule from here.
           </AppText>
 
           <AppCard style={{ gap: space[3] }}>
@@ -178,24 +144,11 @@ export default function StartDateScreen() {
             )}
           </AppCard>
 
-          {previews.length > 0 && (
-            <AppCard variant="alt" style={{ gap: space[2] }}>
-              <AppText variant="label">Schedule preview</AppText>
-              {previews.map(p => (
-                <AppText key={p} variant="caption" color="inkMuted">{p}</AppText>
-              ))}
-            </AppCard>
-          )}
-
-          <AppText variant="caption" color="inkMuted">
-            You can adjust individual session dates in the next step.
-          </AppText>
-
           <AppButton
-            label="Generate schedule"
-            onPress={handleGenerate}
+            label="Continue"
+            onPress={handleContinue}
             fullWidth
-            disabled={!month || !day || !year}
+            disabled={!isComplete}
           />
         </ScrollView>
       </KeyboardAvoidingView>

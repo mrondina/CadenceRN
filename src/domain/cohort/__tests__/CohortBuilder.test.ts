@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CohortBuilder } from '../CohortBuilder';
+import { CohortBuilder, getCurrentSession } from '../CohortBuilder';
 
 // July 1, 2026 is a Wednesday — used to verify non-Monday-anchored week blocks.
 const WED_START = new Date('2026-07-01T00:00:00.000Z');
@@ -144,5 +144,65 @@ describe('CohortBuilder', () => {
       new Date('2026-12-26T00:00:00.000Z'),
     );
     expect(c.sessions[2].startDate).toBe(originalStart);
+  });
+});
+
+// ─── getCurrentSession ────────────────────────────────────────────────────────
+//
+// Covers the past-start-date case (mid-program onboarding) which is the primary
+// path for the confirm-courses derive step.
+
+describe('getCurrentSession', () => {
+  const builder = new CohortBuilder();
+
+  // Cohort starting 2026-07-01. Session 1: Jul 1 → Aug 25.
+  // Session 2 starts Sep 2 (63-day offset).
+  const cohort = builder.build({ id: 'c', startDate: WED_START, templateId: 'bellarmine-absn-v1' });
+
+  it('returns session 1 week 1 when today is the cohort start date', () => {
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-07-01T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(1);
+    expect(weekIndex).toBe(1);
+  });
+
+  it('returns session 1 week 3 when today is 2 full weeks into session 1', () => {
+    // 2026-07-01 + 14 days = 2026-07-15 → 14 elapsed days → floor(14/7)+1 = 3
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-07-15T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(1);
+    expect(weekIndex).toBe(3);
+  });
+
+  it('returns session 1 week 8 on the last day of session 1', () => {
+    // Session 1 ends 2026-08-25 → 55 days after start → floor(55/7)+1 = 8 ✓
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-08-25T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(1);
+    expect(weekIndex).toBe(8);
+  });
+
+  it('returns session 2 week 1 when today is in the break after session 1', () => {
+    // 2026-08-26 is the first break day (past session 1 end, before session 2 start 2026-09-02)
+    // Loop: session 1 endDate 2026-08-25 < today → continue to session 2
+    // session 2 endDate is well past today → return session 2, week 1 (today < s2 start → elapsedDays=0)
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-08-29T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(2);
+    expect(weekIndex).toBe(1);
+  });
+
+  it('returns session 2 week 1 on session 2 start day', () => {
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-09-02T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(2);
+    expect(weekIndex).toBe(1);
+  });
+
+  it('returns session 6 week 8 when today is past all sessions', () => {
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2030-01-01T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(6);
+    expect(weekIndex).toBe(8);
+  });
+
+  it('returns session 1 week 1 when today is before the cohort starts (future admit)', () => {
+    const { session, weekIndex } = getCurrentSession(cohort, new Date('2026-06-15T10:00:00.000Z'));
+    expect(session.sessionIndex).toBe(1);
+    expect(weekIndex).toBe(1);
   });
 });

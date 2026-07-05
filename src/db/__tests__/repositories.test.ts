@@ -482,3 +482,108 @@ describe('DrillResultRepository', () => {
     expect(count).toBe(2);
   });
 });
+
+// ─── Regression: just-in-time onboarding → cold start → Home ─────────────────
+//
+// New onboarding: start-date → confirm-courses (derive / confirm / fallback).
+// The gateway in HomeScreen.useEffect is cohortRepo.findFirst() — non-null routes
+// to Home, null routes to /setup/start-date. These tests lock that invariant and
+// cover the two confirm-courses exits and the past-start-date case.
+
+import { CohortBuilder, BELLARMINE_SESSION_COURSES } from '../../domain/cohort/CohortBuilder';
+import { uuidv7 } from 'uuidv7';
+
+describe('regression: just-in-time onboarding → HomeScreen routes to Home', () => {
+  const builder = new CohortBuilder();
+
+  // Build a cohort the way start-date.tsx does: CohortBuilder + SESSION_COURSES attachment.
+  function makeOnboardingCohort(startDate: Date, cohortId = 'ob-cohort'): Cohort {
+    const built = builder.build({ id: cohortId, startDate, templateId: 'bellarmine-absn-v1' });
+    const now = new Date().toISOString();
+    const sessions = built.sessions.map(s => ({
+      ...s,
+      courses: (BELLARMINE_SESSION_COURSES[s.sessionIndex] ?? []).map(ct => ({
+        id: uuidv7(),
+        sessionId: s.id,
+        title: ct.title,
+        contentPackIds: ct.contentPackIds,
+        examDates: [] as string[],
+        updatedAt: now,
+      })),
+    }));
+    return { ...built, sessions };
+  }
+
+  it('fresh install — findFirst returns null → HomeScreen routes to setup', async () => {
+    const repo = new CohortRepository(db);
+    const found = await repo.findFirst();
+    expect(found, 'no cohort → findFirst must be null → routes to /setup/start-date').toBeNull();
+  });
+
+  it('[Yes, start studying] — all 6 template sessions + courses persist, findFirst non-null', async () => {
+    const repo = new CohortRepository(db);
+    // Past start date is the primary case: student is mid-program when they onboard.
+    const cohort = makeOnboardingCohort(new Date('2026-07-01T00:00:00.000Z'));
+
+    // confirm-courses [Yes] path: save cohort as-is (template courses, no edits).
+    await repo.save(cohort);
+
+    const found = await repo.findFirst();
+    expect(found, 'null here means HomeScreen routes to /setup/start-date').not.toBeNull();
+    expect(found?.sessions).toHaveLength(6);
+    expect(found?.templateId).toBe('bellarmine-absn-v1');
+
+    // Session 1 must have the 3 template courses with correct contentPackIds.
+    const s1 = found!.sessions[0];
+    expect(s1.courses).toHaveLength(3);
+    expect(s1.courses.map(c => c.title)).toContain('Applied Pharmacology');
+    expect(s1.courses.find(c => c.title === 'Applied Pharmacology')?.contentPackIds)
+      .toEqual(['pharm-pack', 'dosage-pack']);
+
+    // Future sessions exist but have no content packs yet (placeholder state).
+    expect(found!.sessions[1].courses).toHaveLength(1);
+    expect(found!.sessions[1].courses[0].contentPackIds).toEqual([]);
+  });
+
+  it('[Not quite] with edits — removed course absent, added Other persists with empty contentPackIds', async () => {
+    const repo = new CohortRepository(db);
+    const base = makeOnboardingCohort(new Date('2026-07-01T00:00:00.000Z'), 'ob-edit');
+    const now = new Date().toISOString();
+
+    // Simulate confirm-courses edit mode on session 1:
+    // remove "Nursing Terminology", keep the other two, add an "Other" course.
+    const s1 = base.sessions[0];
+    const editedCourses = [
+      ...s1.courses.filter(c => c.title !== 'Nursing Terminology'),
+      {
+        id: uuidv7(),
+        sessionId: s1.id,
+        title: 'Clinical Simulation Lab',
+        contentPackIds: [] as string[], // Other course — no content pack
+        examDates: [] as string[],
+        updatedAt: now,
+      },
+    ];
+    const editedCohort: Cohort = {
+      ...base,
+      updatedAt: now,
+      sessions: base.sessions.map(s =>
+        s.id === s1.id ? { ...s, courses: editedCourses, updatedAt: now } : s,
+      ),
+    };
+
+    await repo.save(editedCohort);
+
+    const found = await repo.findFirst();
+    expect(found).not.toBeNull();
+    const foundS1 = found!.sessions[0];
+    const titles = foundS1.courses.map(c => c.title);
+    expect(titles).not.toContain('Nursing Terminology');
+    expect(titles).toContain('Clinical Simulation Lab');
+    const otherCourse = foundS1.courses.find(c => c.title === 'Clinical Simulation Lab')!;
+    expect(otherCourse.contentPackIds, 'Other course must have empty contentPackIds').toEqual([]);
+    // Remaining template courses survived.
+    expect(titles).toContain('Health Assessment & Foundations');
+    expect(titles).toContain('Applied Pharmacology');
+  });
+});
