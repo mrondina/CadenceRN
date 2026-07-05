@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { View, TextInput, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -19,7 +19,10 @@ export default function ExamDatesScreen() {
   const { setCohort } = useCohortStore();
   const { draft, clearDraft } = useWizardStore();
 
-  // All hooks before any conditional returns.
+  // Set to true in handleFinish before clearDraft() so the effect below does
+  // not treat the clearDraft-triggered re-render as a "missing draft on mount".
+  const completedRef = useRef(false);
+
   const [saving, setSaving] = useState(false);
   const [examInputs, setExamInputs] = useState<Record<string, string>>(() => {
     if (!draft) return {};
@@ -30,10 +33,14 @@ export default function ExamDatesScreen() {
     );
   });
 
-  if (!draft) {
-    router.replace('/setup/start-date');
-    return null;
-  }
+  // Redirect to start-date when draft is absent on mount (no wizard in progress).
+  // Suppressed during the completion flow: completedRef is set before clearDraft()
+  // so this effect is a no-op when draft becomes null on the way out to Home.
+  useEffect(() => {
+    if (!draft && !completedRef.current) router.replace('/setup/start-date');
+  }, [draft, router]);
+
+  if (!draft) return null;
 
   // draft is non-null from here down.
   const allCourses = draft.sessions.flatMap(
@@ -69,8 +76,7 @@ export default function ExamDatesScreen() {
     try {
       await db.cohortRepo.save(finalCohort);
       setCohort(finalCohort);
-      // Navigate before clearing draft. If navigation fails, draft remains intact
-      // so the !draft guard cannot redirect the user backward to start-date.
+      completedRef.current = true;  // suppress the !draft redirect effect
       router.replace('/');
       clearDraft();
     } catch {

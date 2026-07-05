@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -24,10 +24,11 @@ export default function SessionDatesScreen() {
     () => draft?.sessions.map(s => s.endDate) ?? [],
   );
 
-  if (!draft) {
-    router.replace('/setup/start-date');
-    return null;
-  }
+  useEffect(() => {
+    if (!draft) router.replace('/setup/start-date');
+  }, [draft, router]);
+
+  if (!draft) return null;
 
   const builder = new CohortBuilder();
 

@@ -580,4 +580,34 @@ describe('regression: wizard completion → HomeScreen routes to Home', () => {
     const found = await repo.findFirst();
     expect(found, 'no cohort saved → findFirst must return null → HomeScreen routes to setup').toBeNull();
   });
+
+  it('skip path (no exam dates entered) persists cohort — save() runs regardless of date input', async () => {
+    // Regression for: the render-phase router.replace error could mask whether
+    // save() ran at all in the skip path. Verify that a cohort with examDates:[]
+    // on every course (the output of handleFinish when inputs are empty) survives
+    // save → findFirst so HomeScreen still routes to Home, not the wizard.
+    const repo = new CohortRepository(db);
+
+    const base = makeWizardCohort();
+    const cohortSkipped: Cohort = {
+      ...base,
+      sessions: base.sessions.map(s => ({
+        ...s,
+        courses: s.courses.map(c => ({ ...c, examDates: [] })),
+      })),
+    };
+
+    await repo.save(cohortSkipped);
+
+    const found = await repo.findFirst();
+    expect(found, 'skip-path save must persist — null here routes to wizard instead of Home').not.toBeNull();
+    expect(found?.id).toBe(base.id);
+
+    // Every course must round-trip as examDates:[] — not null, not undefined.
+    const allCourses = found!.sessions.flatMap(s => s.courses);
+    expect(allCourses.length).toBeGreaterThan(0);
+    for (const course of allCourses) {
+      expect(course.examDates, `course ${course.id} should have examDates:[] after skip`).toEqual([]);
+    }
+  });
 });
