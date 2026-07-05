@@ -69,8 +69,10 @@ export default function ExamDatesScreen() {
     try {
       await db.cohortRepo.save(finalCohort);
       setCohort(finalCohort);
+      // Navigate before clearing draft. If navigation fails, draft remains intact
+      // so the !draft guard cannot redirect the user backward to start-date.
+      router.replace('/');
       clearDraft();
-      router.replace('/(tabs)/');
     } catch {
       setSaving(false);
     }

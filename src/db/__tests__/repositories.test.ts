@@ -482,3 +482,102 @@ describe('DrillResultRepository', () => {
     expect(count).toBe(2);
   });
 });
+
+// ─── Regression: wizard completion → cold start → Home ───────────────────────
+//
+// Root cause (SDK 57 bump): exam-dates.tsx called router.replace('/(tabs)/').
+// Expo Router's getStateFromPath returned null for the group-prefixed path;
+// getNavigateAction silently dropped the action (no dispatch). clearDraft() had
+// already run, so exam-dates' !draft guard fired and redirected to start-date.
+//
+// Fix: router.replace('/') — canonical root path — and navigate before clearing
+// draft so a future navigation failure strands the user on a functional screen.
+//
+// This suite locks the invariant at the DB layer: the gateway condition in
+// HomeScreen.useEffect is `if (found)` on cohortRepo.findFirst(). If findFirst
+// returns null after a wizard save, HomeScreen calls router.replace('/setup/start-date').
+// If it returns non-null, HomeScreen shows Home. The DB write was always correct;
+// this test confirms it and will catch any future regression in the write path.
+
+describe('regression: wizard completion → HomeScreen routes to Home', () => {
+  // Mirrors the full cohort the wizard builds: 6 sessions with courses and exam dates.
+  function makeWizardCohort(): Cohort {
+    const now = '2026-07-05T00:00:00.000Z';
+    const sessions: Cohort['sessions'] = [
+      {
+        id: 'wiz-s1', cohortId: 'wiz-cohort', sessionIndex: 1,
+        label: 'Session 1 (Summer A)', startDate: '2026-07-07', endDate: '2026-09-01',
+        updatedAt: now,
+        courses: [
+          {
+            id: 'wiz-c1', sessionId: 'wiz-s1',
+            title: 'Health Assessment & Foundations',
+            contentPackIds: ['foundations-pack'],
+            examDates: ['2026-08-20'],
+            updatedAt: now,
+          },
+          {
+            id: 'wiz-c2', sessionId: 'wiz-s1',
+            title: 'Applied Pharmacology',
+            contentPackIds: ['pharm-pack', 'dosage-pack'],
+            examDates: [],
+            updatedAt: now,
+          },
+        ],
+      },
+      {
+        id: 'wiz-s2', cohortId: 'wiz-cohort', sessionIndex: 2,
+        label: 'Session 2 (Fall A)', startDate: '2026-09-08', endDate: '2026-11-03',
+        updatedAt: now,
+        courses: [
+          {
+            id: 'wiz-c3', sessionId: 'wiz-s2',
+            title: 'Pathophysiology & Complex Care I',
+            contentPackIds: [],
+            examDates: ['2026-10-15'],
+            updatedAt: now,
+          },
+        ],
+      },
+    ];
+    return {
+      id: 'wiz-cohort',
+      startDate: '2026-07-07',
+      templateId: 'bellarmine-absn-v1',
+      createdAt: now,
+      updatedAt: now,
+      sessions,
+    };
+  }
+
+  it('after wizard save, findFirst returns the cohort — HomeScreen shows Home, not the wizard', async () => {
+    const repo = new CohortRepository(db);
+    const cohort = makeWizardCohort();
+
+    // Step 1: wizard handleFinish calls cohortRepo.save (the write that was always correct).
+    await repo.save(cohort);
+
+    // Step 2: HomeScreen.useEffect executes on cold start, reads findFirst on the same
+    // connection. This is the gateway: non-null → Home, null → router.replace('/setup/start-date').
+    const found = await repo.findFirst();
+
+    expect(found, 'null here means HomeScreen redirects to the wizard instead of Home').not.toBeNull();
+    expect(found?.id).toBe('wiz-cohort');
+
+    // Verify the full session+course structure survived the round-trip — these are
+    // what HomeScreen and session queue building depend on.
+    expect(found?.sessions).toHaveLength(2);
+    const s1 = found!.sessions[0];
+    expect(s1.courses).toHaveLength(2);
+    expect(s1.courses[0].examDates).toEqual(['2026-08-20']);
+    expect(s1.courses[1].contentPackIds).toEqual(['pharm-pack', 'dosage-pack']);
+    expect(found?.sessions[1].courses[0].examDates).toEqual(['2026-10-15']);
+  });
+
+  it('findFirst returns null before any wizard save — HomeScreen correctly routes to setup', async () => {
+    // Confirms the other branch: fresh install with no cohort routes to wizard.
+    const repo = new CohortRepository(db);
+    const found = await repo.findFirst();
+    expect(found, 'no cohort saved → findFirst must return null → HomeScreen routes to setup').toBeNull();
+  });
+});
