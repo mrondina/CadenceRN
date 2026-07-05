@@ -1,6 +1,6 @@
 import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { AppSafeArea } from '@/components/ui/AppSafeArea';
 import { AppText } from '@/components/ui/AppText';
@@ -8,6 +8,7 @@ import { AppButton } from '@/components/ui/AppButton';
 import { AppCard } from '@/components/ui/AppCard';
 import { ForecastStrip } from '@/components/home/ForecastStrip';
 import { ExamBanner } from '@/components/home/ExamBanner';
+import { AddExamDateAffordance } from '@/components/home/AddExamDateAffordance';
 import { StreakChip } from '@/components/home/StreakChip';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useDBContext } from '@/context/DBContext';
@@ -18,6 +19,7 @@ import { useExamMode } from '@/hooks/useExamMode';
 import { DebtForecaster } from '@/domain/scheduler/DebtForecaster';
 import { ExamModeCompressor } from '@/domain/scheduler/ExamModeCompressor';
 import { SchedulerService } from '@/domain/scheduler/SchedulerService';
+import { getCurrentSession } from '@/domain/cohort/CohortBuilder';
 import type { Cohort } from '@/domain/types';
 
 // ── Assumption: 15 seconds average review latency per card (self-rated recall).
@@ -68,6 +70,7 @@ export default function HomeScreen() {
 function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
   const router = useRouter();
   const { space } = useAppTheme();
+  const { setCohort } = useCohortStore();
 
   const { forecast, loading: forecastLoading } = useForecast({
     cohort,
@@ -77,7 +80,32 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
     examCompressor,
   });
 
-  const { activeExam } = useExamMode({ cohort, examCompressor });
+  const { activeExam, refresh: refreshExamMode } = useExamMode({ cohort, examCompressor });
+
+  const currentSessionCourses = useMemo(
+    () => getCurrentSession(cohort, new Date()).session.courses,
+    [cohort],
+  );
+  const hasAnyExamDate = currentSessionCourses.some(c => c.examDates.length > 0);
+
+  async function handleExamDateAdded(courseId: string, dateStr: string) {
+    const now = new Date().toISOString();
+    const updatedCohort: Cohort = {
+      ...cohort,
+      updatedAt: now,
+      sessions: cohort.sessions.map(s => ({
+        ...s,
+        courses: s.courses.map(c =>
+          c.id === courseId
+            ? { ...c, examDates: [...c.examDates, dateStr], updatedAt: now }
+            : c,
+        ),
+      })),
+    };
+    await db.cohortRepo.save(updatedCohort);
+    setCohort(updatedCohort);
+    refreshExamMode();
+  }
 
   // Queue summary from day-0 bucket.
   const todayDue = forecast[0]?.dueCount ?? 0;
@@ -109,11 +137,16 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
           <StreakChip streak={null} />
         </View>
 
-        {/* Exam banner — only shown when an exam window is active.
-            Amendment (f): copy says "reviews tuned for your exam", not "extra reviews added".
-            Well-retained items correctly produce zero exam candidates — the absence of
-            extra cards is a sign of good health, not a bug. */}
-        {activeExam && <ExamBanner activeExam={activeExam} />}
+        {/* Exam banner slot: active exam → tune-up banner; no exam dates set → quiet
+            add-date affordance. Amendment (f) copy applies to the banner state. */}
+        {activeExam ? (
+          <ExamBanner activeExam={activeExam} />
+        ) : !hasAnyExamDate ? (
+          <AddExamDateAffordance
+            courses={currentSessionCourses}
+            onSave={handleExamDateAdded}
+          />
+        ) : null}
 
         {/* Queue summary */}
         <AppCard style={{ gap: space[2] }}>
