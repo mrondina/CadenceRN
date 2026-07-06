@@ -128,14 +128,6 @@ export default function DrillScreen() {
     drill.start(dosageItems, size);
   }
 
-  function handleSubmit() {
-    if (!answer || !revealedAt) {
-      const now = Date.now();
-      setRevealedAt(now);
-      drill.submitAnswer(answer, now - (revealedAt ?? now));
-    }
-  }
-
   function handleSubmitFinal() {
     const now = Date.now();
     drill.submitAnswer(answer, revealedAt ? now - revealedAt : 0);
