@@ -89,6 +89,22 @@ The original design left ambiguous when `ItemMemoryState` rows are created. Corr
 
 ---
 
+## Evidence notes — question format & study design
+
+**(1) Effort hierarchy.** Retention gains track retrieval effort: free recall > short answer > cued recall > recognition; application questions > recall questions. Design consequence: the difficulty-ramp (recognition → cued recall → free recall as item stability grows) is evidence-backed and stands as designed.
+
+**(2) Covert retrieval equals or beats overt.** Mental composition is the active ingredient in retrieval practice; typing the answer adds nothing to the retention benefit. Design consequence: reveal-and-self-grade is the correct free-recall mechanic — never add a mandatory typing requirement.
+
+**(3) Free-recall items are high-cost/high-value.** The cognitive load of free recall is disproportionate relative to other formats. Session budget: cap at 2–3 per 20-card session. UI must cue "think it through, then reveal — no typing needed" before the reveal action.
+
+**(4) Interleaving beats blocking for discrimination.** Mixed-pillar queues produce better long-term discrimination than per-topic blocks. Mixed queue stays the default. A per-course/pillar filter is a legitimate opt-in (pre-exam focus) but must be per-session and never sticky — the app must not carry a filter across sessions.
+
+**(5) Content authoring rule: prefer application stems.** "A patient on lisinopril develops a dry cough — what do you tell them?" outperforms "Define ACE inhibitor." This governs all future content packs and the SME review pass; definition stems are reserved for foundational terminology where no clinical context exists.
+
+**(6) Clinical-judgment items follow the NGN six-skill scaffold.** Next Generation NCLEX items are organized around six cognitive skills: Recognize Cues → Analyze Cues → Prioritize Hypotheses → Generate Solutions → Take Action → Evaluate Outcomes. Mini unfolding cases (a patient scenario that evolves across 2–4 linked items) are the Phase 3 vehicle for this format.
+
+---
+
 ## Module Table
 
 All modules are in `src/domain/`. The domain contract (all interfaces, types, and constants) lives solely in `src/domain/types.ts`. `src/types/declarations.d.ts` is ambient TypeScript declarations for CSS modules (Expo template files only) — not part of the domain.
@@ -189,6 +205,21 @@ A student studying at 1am is still on the previous study day. Any UI string that
 **(j) `placeholder` flag is workflow metadata, not a runtime gate — by decision.** Open — pilot readiness.
 All 106 seeded items have `placeholder: true` (the field means "awaiting SME review," per `types.ts` annotation and the sign-off workflow in `CONTENT_REVIEW.md`). No filter on `placeholder` was ever specced for `findUnlocked`, `QueueBuilder`, or the session screen. Gating on it now would empty the queue entirely (all 106 items flagged) and block all development. Decision: serve placeholder content to developers and internal testers; the flag is a workflow marker for the SME pipeline, not a runtime visibility gate. Pilot readiness requires SME sign-off flipping flags to `false`, update `lastReviewedAt`, bump `contentVersion`, and re-run the suite per `CONTENT_REVIEW.md` governance. Mary's spot-check is the first entry.
 
+**(k) Free-recall session cap + reveal-cue copy.** Shipped — UX punch list commit on `feat/review-session`.
+`FREE_RECALL_CAP = 3` is an exported constant in `QueueBuilder.ts`. `buildQueue` applies it as a combined session-level filter: review free_recall entries take priority (forgetting pressure), then new items fill remaining slots up to the cap. Excess free_recall items are excluded from the returned queue — their due state in the DB is unchanged; they surface in the next session. The `FreeRecallCard` pre-reveal cue reads "Think it through, then reveal — no typing needed." See Evidence note 3.
+
+**(l) Interleaver distribution verification when one pillar dominates the introduced pool.** Open — monitor at Step 17.
+When the introduced pool is heavily skewed toward one pillar (e.g., early weeks where only one course has released content), the accumulated-credit interleaver correctly concentrates that pillar — proportional behavior, not a bug. Concern to verify at Step 17 or earlier: if skew is extreme (e.g., >80% one pillar) and exam mode adds candidates from the same pillar, the queue may feel monotone. Mitigation: the debt meter and forecast already break down load per-pillar; no code change required unless student feedback indicates fatigue. See Evidence note 4.
+
+**(m) Opt-in topic filter; mixed default protected.** Open — scheduled for a future step.
+A per-course/pillar filter (e.g., "show only pharm today") is a legitimate pre-exam study mode. When implemented it must satisfy three constraints: (1) opt-in per session — never auto-applied; (2) non-sticky — next session launches with the full mixed queue unless the student explicitly re-filters; (3) visually indicated — a persistent banner or badge must make the active filter obvious so students do not misread a narrowed queue as system behavior. See Evidence note 4.
+
+**(n) `insertPullAhead` — formal amendment for Step 21 repo extension, announced retroactively.** ✅ Shipped in Step 21.
+`ItemMemoryStateRepository.insertPullAhead(state)` was added to realize the pull-ahead tap invariant in UI. It delegates to `this.insert(this.db, state)` — the same shared SQL path used by `ReviewEventRepository.recordFirstReview()` inside its transaction; no duplicate insert logic. State is built via `SchedulerService.createInitialState(itemId, now)`, not hand-built FSRS fields. Consequence: pull-ahead introduces an item with `due = now` and `state='New'`; it arrives via `dueStates` on the next queue build as a `kind='review'` entry and bypasses `newItemCap` — consistent with the QueueBuilder contract.
+
+**(o) Day-boundary change does not recompute stored study-day strings — known MVP limitation.** Open.
+Stored strings (`lastQualifyingDate` in `ItemMemoryState`, `lastDrillDate` in the drill streak) are written under the boundary in effect at write time and are not retroactively updated when the user changes `dayBoundaryHour`. A boundary change can locally distort streak/relearn day-adjacency at the transition (e.g., a study session crossing the old cut could look consecutive or non-consecutive under the new boundary). This is acceptable for MVP; revisit if user-facing boundary editing survives to pilot. Future mitigation: rewrite stored dates in a migration function on boundary change. Until then the setting only takes effect on the next queue build; the Settings UI carries a one-line warning.
+
 ---
 
 ## Session Protocol
@@ -200,6 +231,6 @@ All 106 seeded items have `placeholder: true` (the field means "awaiting SME rev
 5. **Stall protocol:** If >15 minutes of analysis with no file written, or if already-read files are being re-read, expect an interruption and a narrower prompt. Scope down and act.
 6. **types.ts amendments:** Any edit to `src/domain/types.ts` must be announced in the step report as a formal amendment. It is a frozen contract; drive-by changes break the DB schema and all consumers.
 7. **Test empirically:** Assertion failures get a diagnosis before any fix. If a scripting assumption collides with actual behavior (FSRS scheduling, gate arithmetic), print actuals and adjust the script — never adjust the assertion's meaning to match a wrong script.
-8. **Branching (from Step 14):** Work on feature branches named `feat/<step-group>` per the build-order group assignments above. Commit per step on the branch. Push the branch at session end minimum.
+8. **Branching (from Step 14):** Work on feature branches named `feat/<step-group>` per the build-order group assignments above. Commit per step on the branch. Push the branch at session end minimum. **Cut from up-to-date main — run `git fetch && git log origin/main` to verify the upstream tip before cutting; local main can silently lag behind.**
 9. **PR merge discipline:** Merge to main only via PR, opened when the group's gates pass and the full suite (including the acceptance harness) is green. Main must always pass the full suite — anything on main is a demoable state.
 10. **Docs-only changes** may commit directly to main.

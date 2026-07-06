@@ -6,6 +6,7 @@ import { ContentItemRepository } from '@/db/repositories/ContentItemRepository';
 import { ItemMemoryStateRepository } from '@/db/repositories/ItemMemoryStateRepository';
 import { ReviewEventRepository } from '@/db/repositories/ReviewEventRepository';
 import { DrillResultRepository } from '@/db/repositories/DrillResultRepository';
+import { useAppSettingsStore } from '@/stores/appSettingsStore';
 
 export interface DBContextValue {
   db: IDatabase;
@@ -20,9 +21,11 @@ const DBContext = createContext<DBContextValue | null>(null);
 
 export function DBProvider({ children }: React.PropsWithChildren) {
   const [value, setValue] = useState<DBContextValue | null>(null);
+  const loadSettings = useAppSettingsStore(s => s.load);
 
   useEffect(() => {
-    openAppDb().then((db) => {
+    openAppDb().then(async (db) => {
+      await loadSettings(db);
       setValue({
         db,
         cohortRepo: new CohortRepository(db),

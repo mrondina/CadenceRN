@@ -26,6 +26,10 @@ export default function RootLayout() {
               name="settings"
               options={{ presentation: 'modal' }}
             />
+            <Stack.Screen
+              name="this-week"
+              options={{ presentation: 'modal' }}
+            />
           </Stack>
         </DBProvider>
       </ThemeProvider>

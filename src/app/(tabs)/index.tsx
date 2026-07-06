@@ -25,6 +25,30 @@ import type { Cohort } from '@/domain/types';
 // ── Assumption: 15 seconds average review latency per card (self-rated recall).
 const SECONDS_PER_CARD = 15;
 
+// ── Phase 2/3 teasers ─────────────────────────────────────────────────────────
+const PHASE_TEASERS = [
+  {
+    id: 'procedures',
+    title: 'Procedures practice',
+    description: 'Step-sequencing and check-off prep for skills lab',
+  },
+  {
+    id: 'clinical-packs',
+    title: 'Clinical Prep Packs',
+    description: 'Night-before bundles keyed to your rotation type',
+  },
+  {
+    id: 'audio',
+    title: 'Audio review',
+    description: 'Retrieval prompts for commutes and clinical drives',
+  },
+  {
+    id: 'nclex-runway',
+    title: 'NCLEX Runway',
+    description: 'Cumulative readiness track for the final session',
+  },
+] as const;
+
 // Domain services — stateless, created once at module scope.
 const scheduler = new SchedulerService();
 const forecaster = new DebtForecaster();
@@ -192,6 +216,28 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
           </AppCard>
         )}
 
+        {/* This Week shortcut */}
+        <AppButton
+          label="This Week"
+          variant="secondary"
+          onPress={() => router.push('/this-week')}
+          fullWidth
+        />
+
+        {/* Phase 2/3 teasers — below the fold, quiet, no dates promised */}
+        <AppCard variant="alt" style={{ gap: space[3] }}>
+          <AppText variant="label" color="inkMuted">Coming later</AppText>
+          {PHASE_TEASERS.map(t => (
+            <View key={t.id} style={styles.teaserRow}>
+              <View style={{ flex: 1, gap: 2 }}>
+                <AppText variant="caption">{t.title}</AppText>
+                <AppText variant="caption" color="inkMuted">{t.description}</AppText>
+              </View>
+              <AppText variant="caption" color="inkMuted">Soon</AppText>
+            </View>
+          ))}
+        </AppCard>
+
         {/* Settings shortcut */}
         <AppButton
           label="Settings"
@@ -212,4 +258,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   headerLeft: { gap: 2 },
+  teaserRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
 });

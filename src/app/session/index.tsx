@@ -22,8 +22,9 @@ import { SchedulerService } from '@/domain/scheduler/SchedulerService';
 import { QueueBuilder } from '@/domain/scheduler/QueueBuilder';
 import { ExamModeCompressor } from '@/domain/scheduler/ExamModeCompressor';
 import { RelearningPipeline } from '@/domain/scheduler/RelearningPipeline';
-import { DEFAULT_DAY_BOUNDARY, UnsupportedCardFormatError } from '@/domain/types';
+import { UnsupportedCardFormatError } from '@/domain/types';
 import type { FsrsCardState, QueueEntry, Rating, ReviewMode } from '@/domain/types';
+import { useAppSettingsStore } from '@/stores/appSettingsStore';
 import type { IntervalPreview } from '@/components/session/RatingBar';
 
 // ─── Domain services (stateless — module-scope singletons) ────────────────────
@@ -83,6 +84,7 @@ export default function SessionScreen() {
   const db = useDBContext();
   const { cohort } = useCohortStore();
   const sessionStore = useSessionStore();
+  const dayBoundaryHour = useAppSettingsStore(s => s.dayBoundaryHour);
 
   const [queueReady, setQueueReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -186,7 +188,7 @@ export default function SessionScreen() {
       relearningPipeline,
       memStateRepo: db.memStateRepo,
       reviewEventRepo: db.reviewEventRepo,
-      boundaryConfig: DEFAULT_DAY_BOUNDARY,
+      boundaryConfig: { hourOffset: dayBoundaryHour },
     }).catch((e: unknown) => {
       console.error('[SessionScreen] Rating write failed:', e);
     });
