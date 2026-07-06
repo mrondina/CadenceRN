@@ -113,6 +113,11 @@ export class ItemMemoryStateRepository {
     );
   }
 
+  /** Direct insert for pull-ahead tap (no review event — only path besides recordFirstReview). */
+  async insertPullAhead(state: ItemMemoryState): Promise<void> {
+    return this.insert(this.db, state);
+  }
+
   /** UPDATE an existing row after a rating. */
   async update(state: ItemMemoryState): Promise<void> {
     await this.db.runAsync(

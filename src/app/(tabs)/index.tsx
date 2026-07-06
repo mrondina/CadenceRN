@@ -192,6 +192,14 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
           </AppCard>
         )}
 
+        {/* This Week shortcut */}
+        <AppButton
+          label="This Week"
+          variant="secondary"
+          onPress={() => router.push('/this-week')}
+          fullWidth
+        />
+
         {/* Settings shortcut */}
         <AppButton
           label="Settings"
