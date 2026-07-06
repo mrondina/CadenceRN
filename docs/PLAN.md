@@ -1,7 +1,7 @@
 # CadenceRN — Build Plan
 
-**Status:** Domain and persistence phases complete. v0.2-persistence tagged (238/238 passing).
-**Last updated:** 2026-07-04
+**Status:** Phase 1 (domain + persistence + seed content) complete. Tagged `v0.3-phase1-complete`. Content phase active — governed by `docs/CONTENT-PLAN.md`.
+**Last updated:** 2026-07-06
 
 A new session should read this file and `docs/PRD.md` before writing any code. Every step ends with a named commit; push at session boundaries minimum.
 
@@ -160,6 +160,7 @@ Seven composed integration scenarios exercising the full domain stack. Each scen
 | 12      | Five repositories (`ContentItem`, `ItemMemoryState`, `ReviewEvent`, `Cohort`, `DrillResult`); ADR-8 atomic first-review transaction; `runSchemaOnly` extracted for repository test isolation                              | ✅                           |
 | 13      | Seed content: 106 items across 4 packs (terminology 26, pharm 30, foundations 25, dosage 25); migration 002 with exclusive-transaction atomicity + self-heal test; `CONTENT_REVIEW.md`                                   | ✅                           |
 | —       | Tagged `v0.2-persistence` · 238/238 passing                                                                                                                                                                              | ✅                           |
+| —       | **Phase 1 complete** — domain + persistence + seed content. Tagged `v0.3-phase1-complete`. Content phase begins; see `docs/CONTENT-PLAN.md`.                                                                             | ✅                           |
 | 14      | `useQueue` hook: composes `ReleaseGate`, `QueueBuilder`, `ExamModeCompressor`, repositories → `QueueEntry[]`; overlapping-exam integration suite (amendment c); exam-mode retention wiring (amendment d)                 | — `feat/hooks-and-stores`   |
 | 15      | `useReviewSession` hook: processes ratings, calls `SchedulerService` + `RelearningPipeline`, writes via repositories; Zustand stores (`sessionStore`, `streakStore`, `forecastStore`)                                     | — `feat/hooks-and-stores`   |
 | 16      | Cohort setup wizard screen; This Week view; pull-ahead UI                                                                                                                                                                | — `feat/setup-and-home`     |
@@ -170,7 +171,8 @@ Seven composed integration scenarios exercising the full domain stack. Each scen
 | 21–25   | Remaining screens: profile, progress reports, advanced settings, background sync, full accessibility audit                                                                                                                | — `feat/remaining-screens`  |
 | —       | Hardening: performance, final accessibility audit, App Store prep                                                                                                                                                        | —                           |
 
-**Next immediate step:** Step 14 — `useQueue` hook (`feat/hooks-and-stores` branch, already created).
+**Next immediate step (engineering):** Step 14 — `useQueue` hook (`feat/hooks-and-stores` branch, already created).  
+**Next immediate step (content):** Map Mary's current course — see `docs/CONTENT-PLAN.md` §2 topic map schema and §4 pilot v0.
 
 ---
 
