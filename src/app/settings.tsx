@@ -520,6 +520,10 @@ export default function SettingsScreen() {
             Reviews before this hour count as the previous study day.
             Default 4 am prevents streak breaks for late-night sessions.
           </AppText>
+          <AppText variant="caption" color="inkMuted">
+            Changing this may affect streak counts for sessions crossing the old boundary.
+            Stored review history is not modified — only future sessions use the new value.
+          </AppText>
           <View style={styles.optionRow}>
             {BOUNDARY_OPTIONS.map(h => (
               <Pressable

@@ -8,6 +8,7 @@ import { AppButton } from '@/components/ui/AppButton';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useDBContext } from '@/context/DBContext';
 import { useDrillSession } from '@/hooks/useDrillSession';
+import { useAppSettingsStore } from '@/stores/appSettingsStore';
 import type { ContentItem } from '@/domain/types';
 
 const DOSAGE_PACK_ID = 'dosage-pack';
@@ -90,6 +91,7 @@ function DrillKeypad({
 export default function DrillScreen() {
   const { colors, space, radius, type: { scale, mono } } = useAppTheme();
   const db = useDBContext();
+  const dayBoundaryHour = useAppSettingsStore(s => s.dayBoundaryHour);
   const [dosageItems, setDosageItems] = useState<ContentItem[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loadingItems, setLoadingItems] = useState(true);
@@ -101,6 +103,7 @@ export default function DrillScreen() {
   const drill = useDrillSession({
     db: db?.db!,
     drillRepo: db?.drillRepo!,
+    boundaryConfig: { hourOffset: dayBoundaryHour },
   });
 
   useEffect(() => {

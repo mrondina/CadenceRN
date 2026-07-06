@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { uuidv7 } from 'uuidv7';
-import type { ContentItem, DrillResult, DrillStreak } from '../domain/types';
+import type { ContentItem, DateBoundaryConfig, DrillResult, DrillStreak } from '../domain/types';
 import { DEFAULT_DAY_BOUNDARY } from '../domain/types';
 import { getStudyDay } from '../domain/utils/DateBoundary';
 import type { DrillResultRepository } from '../db/repositories/DrillResultRepository';
@@ -31,18 +31,22 @@ export async function saveDrillStreak(db: IDatabase, streak: DrillStreak): Promi
   );
 }
 
-export function advanceDrillStreak(current: DrillStreak, now: Date): DrillStreak {
-  const todayStr = getStudyDay(now, DEFAULT_DAY_BOUNDARY);
+export function advanceDrillStreak(
+  current: DrillStreak,
+  now: Date,
+  boundaryConfig: DateBoundaryConfig = DEFAULT_DAY_BOUNDARY,
+): DrillStreak {
+  const todayStr = getStudyDay(now, boundaryConfig);
   const lastDate = current.lastDrillDate;
 
   if (lastDate === todayStr) {
-    // Already drilled today — streak unchanged
+    // Already drilled today under this boundary — streak unchanged
     return current;
   }
 
   const yesterdayDate = new Date(now);
   yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
-  const yesterday = getStudyDay(yesterdayDate, DEFAULT_DAY_BOUNDARY);
+  const yesterday = getStudyDay(yesterdayDate, boundaryConfig);
   const consecutive = lastDate === yesterday || lastDate === null;
 
   const newStreak = consecutive ? current.currentStreak + 1 : 1;
@@ -80,8 +84,9 @@ export interface UseDrillSessionResult {
 export function useDrillSession(deps: {
   db: IDatabase;
   drillRepo: DrillResultRepository;
+  boundaryConfig?: DateBoundaryConfig;
 }): UseDrillSessionResult {
-  const { db, drillRepo } = deps;
+  const { db, drillRepo, boundaryConfig = DEFAULT_DAY_BOUNDARY } = deps;
 
   const [phase, setPhase] = useState<DrillPhase>('idle');
   const [items, setItems] = useState<ContentItem[]>([]);
@@ -134,7 +139,7 @@ export function useDrillSession(deps: {
       // Session complete — update streak
       const now = new Date();
       const current = await loadDrillStreak(db);
-      const updated = advanceDrillStreak(current, now);
+      const updated = advanceDrillStreak(current, now, boundaryConfig);
       await saveDrillStreak(db, updated);
       setStreak(updated);
       setPhase('complete');
