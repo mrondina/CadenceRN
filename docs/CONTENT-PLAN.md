@@ -1,7 +1,7 @@
 # CadenceRN — Content Phase Charter
 
 **Status:** Active  
-**Last updated:** 2026-07-06  
+**Last updated:** 2026-07-08  
 **Peer document:** `docs/PLAN.md`
 
 A new content session should read this file before authoring or reviewing any item. Every topic-map row drives a `content/topic-map/` file update; every signed-off chapter unlocks a content pack commit.
@@ -145,7 +145,7 @@ Track per-session pack status here. Update as packs are authored and signed off.
 | s1 | foundations | — | 25 | [ ] | [ ] |
 | s1 | pharm | — | 30 | [ ] | [ ] |
 | s1 | dosage | — | 25 | [ ] | [ ] |
-| s2 | (Mary's current course) | not started | 0 | — | — |
-| s3–s6 | all courses | not started | 0 | — | — |
+| s4 | complex-care-2 | ✓ content/topic-map/s4-complex-care-2.md | 0 | [ ] | [ ] |
+| s2–s3, s5–s6 | all courses | not started | 0 | — | — |
 
 **Note:** All 106 s1 items carry `placeholder: true`. No items are production-ready until Mary's sign-off per the review workflow above.
