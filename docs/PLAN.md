@@ -222,6 +222,9 @@ A per-course/pillar filter (e.g., "show only pharm today") is a legitimate pre-e
 **(o) Day-boundary change does not recompute stored study-day strings — known MVP limitation.** Open.
 Stored strings (`lastQualifyingDate` in `ItemMemoryState`, `lastDrillDate` in the drill streak) are written under the boundary in effect at write time and are not retroactively updated when the user changes `dayBoundaryHour`. A boundary change can locally distort streak/relearn day-adjacency at the transition (e.g., a study session crossing the old cut could look consecutive or non-consecutive under the new boundary). This is acceptable for MVP; revisit if user-facing boundary editing survives to pilot. Future mitigation: rewrite stored dates in a migration function on boundary change. Until then the setting only takes effect on the next queue build; the Settings UI carries a one-line warning.
 
+**(p) Protocol #10 amended: docs changes now merge via PR.** ✅ Adopted 2026-07-08.
+Prior rule allowed direct-to-main docs commits; two such commits exist from earlier today (the CONTENT-PLAN/topic-map commit predates this amendment and is compliant with the rule in force at the time). Rationale: PR history as a single chronological record across docs and engineering work.
+
 ---
 
 ## Session Protocol
@@ -235,4 +238,4 @@ Stored strings (`lastQualifyingDate` in `ItemMemoryState`, `lastDrillDate` in th
 7. **Test empirically:** Assertion failures get a diagnosis before any fix. If a scripting assumption collides with actual behavior (FSRS scheduling, gate arithmetic), print actuals and adjust the script — never adjust the assertion's meaning to match a wrong script.
 8. **Branching (from Step 14):** Work on feature branches named `feat/<step-group>` per the build-order group assignments above. Commit per step on the branch. Push the branch at session end minimum. **Cut from up-to-date main — run `git fetch && git log origin/main` to verify the upstream tip before cutting; local main can silently lag behind.**
 9. **PR merge discipline:** Merge to main only via PR, opened when the group's gates pass and the full suite (including the acceptance harness) is green. Main must always pass the full suite — anything on main is a demoable state.
-10. **Docs-only changes** may commit directly to main.
+10. **Docs-only changes** also merge via PR. Docs PRs do not require the test suite gate (they cannot break tests), but they follow the same branch → PR → merge flow so the PR history is a complete chronological record of all changes, docs and engineering alike. Branch naming: `docs/<short-description>`.
