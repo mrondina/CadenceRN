@@ -54,13 +54,19 @@
   {
     "id": "cc2-003",
     "pillar": "concepts",
-    "format": "cloze",
-    "difficultyTier": 1,
+    "format": "mcq",
+    "difficultyTier": 2,
     "body": {
-      "type": "cloze",
-      "front": "The earliest distinguishing sign of compartment syndrome is pain that is {{blank}} by passive stretch of the affected muscles and is {{blank}} to analgesics.",
-      "back": "worsened; unresponsive",
-      "hint": "Both features distinguish compartment syndrome pain from expected postoperative pain — the stretch worsens it, and opioids don't touch it."
+      "type": "mcq",
+      "stem": "A patient in a long leg cast following tibial fracture repair reports pain rated 9/10, unrelieved after IV morphine. When the nurse passively dorsiflexes the patient's foot, the patient cries out in severe pain. Which action should the nurse take first?",
+      "choices": [
+        { "id": "a", "text": "Administer an additional PRN opioid dose and reassess in 30 minutes" },
+        { "id": "b", "text": "Notify the provider immediately and prepare to bivalve the cast" },
+        { "id": "c", "text": "Apply ice to the extremity to reduce swelling" },
+        { "id": "d", "text": "Elevate the extremity above heart level to promote venous return" }
+      ],
+      "correctId": "b",
+      "explanation": "Pain unrelieved by opioids combined with severe pain on passive stretch of the affected muscles are the two earliest and most specific signs of compartment syndrome — both are present here. Immediate provider notification and cast bivalving (splitting the cast to relieve pressure) are required before irreversible ischemic muscle damage occurs; onset of damage begins within 6 hours of sustained elevated pressure. Waiting for more analgesic, applying ice, or elevating the limb does not address the underlying compartmental pressure and delays a time-critical intervention."
     },
     "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
     "lastReviewedAt": "2026-07-08",
@@ -198,13 +204,19 @@
   {
     "id": "cc2-009",
     "pillar": "concepts",
-    "format": "cloze",
-    "difficultyTier": 1,
+    "format": "mcq",
+    "difficultyTier": 2,
     "body": {
-      "type": "cloze",
-      "front": "When applying an elastic bandage to a residual limb for prosthesis shaping, the bandage is applied beginning at the {{blank}} end and progressing toward the trunk in a figure-of-eight pattern.",
-      "back": "distal",
-      "hint": "Like a compression stocking — tip to trunk — to shape the stump into a cone for the prosthesis socket."
+      "type": "mcq",
+      "stem": "A nurse is teaching a patient how to apply an elastic bandage to the residual limb following below-knee amputation. Which instruction is correct?",
+      "choices": [
+        { "id": "a", "text": "Begin at the proximal (upper) thigh and wrap downward toward the stump tip." },
+        { "id": "b", "text": "Apply a simple spiral wrap, maintaining uniform pressure from end to end." },
+        { "id": "c", "text": "Begin at the distal tip of the stump and wrap upward in a figure-of-eight pattern." },
+        { "id": "d", "text": "Wrap the distal end as tightly as possible to prevent any edema from forming there." }
+      ],
+      "correctId": "c",
+      "explanation": "The elastic bandage is applied distal to proximal — from the tip of the residual limb upward toward the groin — in a figure-of-eight pattern. This shapes the stump into the conical form required for a prosthesis socket while providing graduated compression that prevents distal edema. Starting proximally and wrapping distally creates a tourniquet effect that traps fluid in the stump tip. A simple spiral does not provide adequate conical shaping. Excessive distal tightness impairs circulation; graduated compression is the goal, not maximum constriction."
     },
     "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 70",
     "lastReviewedAt": "2026-07-08",
@@ -738,20 +750,21 @@
   {
     "id": "cc2-032",
     "pillar": "concepts",
-    "format": "mcq",
-    "difficultyTier": 2,
+    "format": "free_recall",
+    "difficultyTier": 3,
     "body": {
-      "type": "mcq",
-      "stem": "A patient newly diagnosed with rheumatoid arthritis asks why the provider prescribed methotrexate instead of ibuprofen for long-term management. The nurse correctly explains:",
-      "choices": [
-        { "id": "a", "text": "Ibuprofen is only used for gout, not rheumatoid arthritis." },
-        { "id": "b", "text": "Methotrexate is a DMARD that slows disease progression by modifying the underlying immune process, while ibuprofen only relieves symptoms." },
-        { "id": "c", "text": "Methotrexate has no significant side effects, making it safer for long-term use than ibuprofen." },
-        { "id": "d", "text": "Ibuprofen requires a prescription and is therefore more expensive to use long-term." }
+      "type": "free_recall",
+      "prompt": "A patient with rheumatoid arthritis is newly started on methotrexate. Describe the nursing responsibilities for monitoring this patient on long-term methotrexate therapy: which laboratory values to track, how often, and when to hold the medication and notify the provider.",
+      "rubric": [
+        "Obtain baseline labs before starting: LFTs (ALT, AST), CBC with differential, serum creatinine, and hepatitis B/C serology — active hepatitis and significant hepatic disease are contraindications",
+        "Monitor LFTs and CBC monthly for the first 6 months, then every 1–3 months once stable; hepatotoxicity and bone marrow suppression are the primary serious toxicities",
+        "Hold methotrexate and notify the provider for significant LFT elevation above baseline or for signs of bone marrow suppression (leukopenia, neutropenia, thrombocytopenia) — specific thresholds are protocol-dependent",
+        "Instruct the patient to take prescribed folic acid (typically 1 mg/day) to reduce mucosal and GI adverse effects without diminishing the antirheumatic benefit",
+        "Counsel strict alcohol avoidance throughout therapy — alcohol synergistically increases methotrexate hepatotoxicity and substantially raises the risk of liver damage"
       ],
-      "correctId": "b",
-      "explanation": "Disease-modifying antirheumatic drugs (DMARDs) such as methotrexate target the underlying autoimmune process — suppressing joint inflammation, preventing synovial destruction (pannus), and slowing or halting disease progression. NSAIDs like ibuprofen provide symptomatic relief (pain, inflammation) but do not alter the disease course. Methotrexate has significant adverse effects requiring monitoring: hepatotoxicity, bone marrow suppression, and pulmonary toxicity. The DMARD vs. symptom-control distinction is central to NCLEX-level RA pharmacology."
+      "modelAnswer": "Before starting methotrexate, obtain baseline LFTs (ALT, AST), a CBC with differential, serum creatinine, and hepatitis B and C serology — pre-existing significant hepatic disease and active hepatitis are contraindications. Once therapy begins, monitor LFTs and CBC monthly for the first 6 months, then every 1–3 months after values are stable. Hepatotoxicity (elevated transaminases, risk of fibrosis with long-term use) and bone marrow suppression (leukopenia, thrombocytopenia) are the primary serious toxicities requiring surveillance. Hold methotrexate and notify the provider if LFTs rise significantly above baseline or if CBC shows bone marrow suppression; exact hold thresholds are institution-specific and protocol-dependent. Teach the patient to take daily folic acid supplementation to reduce dose-limiting mucosal side effects such as oral ulcers and GI upset — folic acid does not reduce methotrexate's antirheumatic effect. Counsel strict alcohol avoidance throughout therapy, as alcohol compounds hepatotoxic risk. Also instruct the patient to report new respiratory symptoms promptly, as methotrexate-induced pneumonitis — though uncommon — is a serious adverse effect requiring immediate evaluation."
     },
+    "_flag": "MARY REVIEW: Methotrexate hold criteria for hepatotoxicity are institution-specific. Common teaching threshold is ALT >2–3× ULN; some programs use >3× or >5× ULN. CBC hold thresholds (WBC floor, neutrophil count, platelet count) also vary across protocols. ACR 2015 monitoring recommendations are a common reference but are not universally adopted. Confirm which values and monitoring intervals your program tests before sign-off.",
     "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 89",
     "lastReviewedAt": "2026-07-08",
     "highAlert": false,
@@ -794,9 +807,9 @@
     "difficultyTier": 1,
     "body": {
       "type": "cloze",
-      "front": "Rheumatoid arthritis morning stiffness characteristically lasts {{blank}} than one hour; osteoarthritis morning stiffness typically resolves within {{blank}} minutes with movement.",
-      "back": "more; 30",
-      "hint": "RA stiffness is prolonged — driven by overnight inflammatory mediator accumulation in the synovium. OA stiffness is brief — the 'gel phenomenon' resolves quickly once the joint warms up."
+      "front": "A key differentiator between osteoarthritis and rheumatoid arthritis is morning stiffness duration. OA morning stiffness (the 'gel phenomenon') resolves within {{blank}} minutes with activity; RA morning stiffness lasts more than one hour.",
+      "back": "30",
+      "hint": "OA stiffness clears quickly once the joint warms up with movement; RA stiffness persists well past the first hour of the day."
     },
     "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 89",
     "lastReviewedAt": "2026-07-08",
@@ -882,13 +895,19 @@
   {
     "id": "cc2-038",
     "pillar": "concepts",
-    "format": "cloze",
-    "difficultyTier": 1,
+    "format": "mcq",
+    "difficultyTier": 2,
     "body": {
-      "type": "cloze",
-      "front": "Age-related macular degeneration causes loss of {{blank}} vision, making reading and facial recognition difficult, while {{blank}} vision is initially preserved.",
-      "back": "central; peripheral",
-      "hint": "The macula handles detail and color — its loss affects tasks requiring fine central focus, not navigating a room."
+      "type": "mcq",
+      "stem": "A patient with age-related macular degeneration tells the nurse, 'I can't read the newspaper or recognize my grandchildren's faces anymore, but I can still walk around my house without bumping into things.' The nurse interprets this as consistent with which expected disease finding?",
+      "choices": [
+        { "id": "a", "text": "Loss of peripheral vision with preserved central vision" },
+        { "id": "b", "text": "Loss of central vision with preserved peripheral vision" },
+        { "id": "c", "text": "Bilateral total vision loss progressing from periphery inward" },
+        { "id": "d", "text": "Intermittent complete vision loss from elevated intraocular pressure" }
+      ],
+      "correctId": "b",
+      "explanation": "Age-related macular degeneration (AMD) damages the macula, which is responsible for fine central vision, color discrimination, and detail work such as reading and facial recognition. Peripheral vision — mediated by rods at the retinal edges — is initially preserved, which explains why patients retain the ability to navigate space while losing reading and face-recognition ability. Loss of peripheral vision with preserved central vision (tunnel vision) is the pattern of advanced glaucoma, not AMD. AMD does not cause intermittent total vision loss; that pattern suggests acute angle-closure glaucoma."
     },
     "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
     "lastReviewedAt": "2026-07-08",

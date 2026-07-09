@@ -123,6 +123,7 @@ All chapter references are 12.0-verified (syllabus ≥ Ch 67 are shifted +1 from
 |----|---------|
 | cc2-017 | Calcium 1,200 mg/day and vitamin D 800 IU/day follow NOF guidance for women >50. ATI 12.0 may cite different thresholds; some sources use 600 IU as the RDA floor. Confirm values your program tests. |
 | cc2-029 | Uric acid target < 6.0 mg/dL is the standard NCLEX/ATI value. ACR 2020 recommends < 5.0 mg/dL for tophaceous gout. Confirm which threshold is taught; consider splitting if both are tested. |
+| cc2-032 | Methotrexate hold criteria for hepatotoxicity are institution-specific. Common teaching threshold is ALT >2–3× ULN; some programs use >3× or >5× ULN. CBC hold thresholds (WBC, neutrophil count, platelets) also vary across protocols. ACR 2015 monitoring recommendations are a common reference but are not universally adopted. Confirm which values and monitoring intervals your program tests. |
 
 ### Bulk sign-off — chapter-anchored batches
 

@@ -69,6 +69,18 @@ Other calendar items: ATI Practice Version A due 08/02 · ATI #1 on 08/06 · ATI
 - **Numeric** appears only in enteral/parenteral feedings (rate calculations); general dosage calc lives in the standing drill track, not this map.
 - **No NGN cases.** Stroke, SCI, and renal unfolding cases are natural Phase 3 candidates — note them in authoring comments, do not build them now.
 
+### Actual format distribution — week 1 batch (post-audit correction, 2026-07-08)
+
+| Topic area | Items | MCQ | Cloze | Free-recall |
+|---|---|---|---|---|
+| Acute MSK (Ch 68/69/70/72) | cc2-001–014 (14) | 12 | 2 | 0 |
+| Chronic MSK (Ch 71/73) | cc2-015–024 (10) | 6 | 4 | 0 |
+| CT disorders (Ch 88/89) | cc2-025–034 (10) | 3 | 5 | 2 |
+| Sensory/perception (Ch 13/14) | cc2-035–044 (10) | 7 | 3 | 0 |
+| **Total** | **44** | **28** | **14** | **2** |
+
+Free-recall items: cc2-031 (RA morning stiffness self-management) and cc2-032 (methotrexate monitoring). Both within the `FREE_RECALL_CAP / 2` ceiling.
+
 ## Interleaver / Load Notes
 
 - Week 3 is the heaviest batch (50 items across neuro + GI) and sits between Exam 1 and Exam 2. Watch amendment (l) skew here — if `complex-care-2` dominates Mary's introduced pool, the debt meter's per-pillar breakdown is the mitigation.
