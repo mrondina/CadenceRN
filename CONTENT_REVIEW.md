@@ -7,6 +7,9 @@ Query: `SELECT id, content_pack_id FROM content_items WHERE placeholder = 1;`
 Step 13 seed: **106 items** across 4 packs (terminology: 26, pharm: 30, foundations: 25, dosage: 25).
 All graph links validated against real IDs at commit time (2026-07-04).
 
+Migration 003 seed: **44 items** in complex-care-2-pack (cc2-001 to cc2-044, s4 week 1).
+Graph links validated at authoring time (2026-07-08).
+
 ---
 
 ## Review Status Key
@@ -106,6 +109,27 @@ protocols supersede these.
 
 - [ ] dose-015 (heparin bolus calculation)
 - [ ] dose-016 (insulin drip rate calculation)
+
+---
+
+## Complex Care 2 Pack — Week 1 (44 items — cc2-001 to cc2-044)
+
+**Source:** ATI RN Adult Medical Surgical Nursing Review Module, Edition 12.0.
+All chapter references are 12.0-verified (syllabus ≥ Ch 67 are shifted +1 from prior edition — see topic map).
+
+### Uncertain / verify
+
+| ID | Concern |
+|----|---------|
+| cc2-017 | Calcium 1,200 mg/day and vitamin D 800 IU/day follow NOF guidance for women >50. ATI 12.0 may cite different thresholds; some sources use 600 IU as the RDA floor. Confirm values your program tests. |
+| cc2-029 | Uric acid target < 6.0 mg/dL is the standard NCLEX/ATI value. ACR 2020 recommends < 5.0 mg/dL for tophaceous gout. Confirm which threshold is taught; consider splitting if both are tested. |
+
+### Bulk sign-off — chapter-anchored batches
+
+- [ ] Acute MSK (cc2-001 to cc2-014) — Ch 68/69/70/72: MSK diagnostics, arthroplasty, amputations, trauma/fractures
+- [ ] Chronic MSK (cc2-015 to cc2-024) — Ch 71/73: osteoporosis, osteoarthritis, low-back pain
+- [ ] CT disorders (cc2-025 to cc2-034) — Ch 88/89: gout, lupus, fibromyalgia, rheumatoid arthritis
+- [ ] Sensory/perception (cc2-035 to cc2-044) — Ch 13/14: eye and ear disorders
 
 ---
 
