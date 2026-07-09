@@ -145,7 +145,7 @@ Track per-session pack status here. Update as packs are authored and signed off.
 | s1 | foundations | — | 25 | [ ] | [ ] |
 | s1 | pharm | — | 30 | [ ] | [ ] |
 | s1 | dosage | — | 25 | [ ] | [ ] |
-| s4 | complex-care-2 | ✓ content/topic-map/s4-complex-care-2.md | 0 | [ ] | [ ] |
+| s4 | complex-care-2 | ✓ content/topic-map/s4-complex-care-2.md | 44 (week 1, cc2-001–044) | [ ] | [ ] |
 | s2–s3, s5–s6 | all courses | not started | 0 | — | — |
 
 **Note:** All 106 s1 items carry `placeholder: true`. No items are production-ready until Mary's sign-off per the review workflow above.

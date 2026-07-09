@@ -1,0 +1,1065 @@
+[
+  {
+    "id": "cc2-001",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is preparing a patient for a bone scan. Which instruction is most important to provide after the radiotracer injection?",
+      "choices": [
+        { "id": "a", "text": "Remain on strict bed rest for 2 hours after the injection." },
+        { "id": "b", "text": "Drink 4–6 glasses of water and urinate frequently before the imaging scan." },
+        { "id": "c", "text": "Avoid all food and fluids for 8 hours before the test." },
+        { "id": "d", "text": "The imaging scan will occur 15 minutes after the injection." }
+      ],
+      "correctId": "b",
+      "explanation": "After injection of the radiotracer (technetium-99m), the patient must wait 2–4 hours for the tracer to distribute to bone tissue before imaging. During this time, drinking 4–6 glasses of water and urinating frequently clears unincorporated tracer from soft tissue, improving image quality and reducing radiation exposure to the bladder. NPO restriction is not required. Bed rest is not indicated. The scan does not occur 15 minutes post-injection."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 68",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-002",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is 6 hours postoperative from open tibia fracture repair and reports severe pain unrelieved by IV opioids. The cast feels tight. Which assessment should the nurse perform next?",
+      "choices": [
+        { "id": "a", "text": "Capillary refill, sensation, and movement in the toes of the affected extremity" },
+        { "id": "b", "text": "Temperature for signs of surgical site infection" },
+        { "id": "c", "text": "Bowel sounds for opioid-induced ileus" },
+        { "id": "d", "text": "Urine output for signs of fluid overload" }
+      ],
+      "correctId": "a",
+      "explanation": "Pain disproportionate to the injury and unrelieved by opioids combined with a tight cast is the classic presentation of evolving compartment syndrome. The priority next step is a full neurovascular assessment — the '5 Ps': Pain, Pressure, Paresthesia, Paralysis, and Pulselessness. Capillary refill, sensation, and movement are the early detectable signs; pulselessness and paralysis are late. Delay in recognition leads to irreversible ischemic muscle damage within 6 hours. Infection and ileus are relevant concerns but are not the immediate priority given this presentation."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-003"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-003",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient in a long leg cast following tibial fracture repair reports pain rated 9/10, unrelieved after IV morphine. When the nurse passively dorsiflexes the patient's foot, the patient cries out in severe pain. Which action should the nurse take first?",
+      "choices": [
+        { "id": "a", "text": "Administer an additional PRN opioid dose and reassess in 30 minutes" },
+        { "id": "b", "text": "Notify the provider immediately and prepare to bivalve the cast" },
+        { "id": "c", "text": "Apply ice to the extremity to reduce swelling" },
+        { "id": "d", "text": "Elevate the extremity above heart level to promote venous return" }
+      ],
+      "correctId": "b",
+      "explanation": "Pain unrelieved by opioids combined with severe pain on passive stretch of the affected muscles are the two earliest and most specific signs of compartment syndrome — both are present here. Immediate provider notification and cast bivalving (splitting the cast to relieve pressure) are required before irreversible ischemic muscle damage occurs; onset of damage begins within 6 hours of sustained elevated pressure. Waiting for more analgesic, applying ice, or elevating the limb does not address the underlying compartmental pressure and delays a time-critical intervention."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-002"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-004",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is providing discharge teaching to a patient following a right total hip arthroplasty. Which patient statement indicates a need for further teaching?",
+      "choices": [
+        { "id": "a", "text": "I will use a raised toilet seat until my surgeon clears me to stop." },
+        { "id": "b", "text": "I like to sit cross-legged on the floor to meditate — I will keep doing that." },
+        { "id": "c", "text": "I will put a pillow between my knees when I sleep on my side." },
+        { "id": "d", "text": "I should ask someone to help me put on my socks and shoes for now." }
+      ],
+      "correctId": "b",
+      "explanation": "Sitting cross-legged violates two THA precautions simultaneously: it adducts the operative hip past the midline and flexes it beyond 90°, both of which risk prosthesis dislocation. Standard THA precautions — typically maintained 6–12 weeks or per surgeon protocol — prohibit hip flexion greater than 90°, adduction past the midline, and internal rotation. Using a raised toilet seat (A) maintains safe hip flexion. Sleeping with an abduction pillow (C) prevents adduction. Using assistive devices for dressing (D) avoids forward-bending past 90°."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 69",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-005"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-005",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "After total hip arthroplasty, three movements risk prosthesis dislocation: hip flexion greater than 90°, hip adduction past the midline, and hip {{blank}} rotation.",
+      "back": "internal",
+      "hint": "Internal rotation brings the femoral head toward the posterior capsule — the direction of least constraint after a posterior approach."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 69",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-004"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-006",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 3,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is 4 hours post total hip arthroplasty. Which nursing finding requires the most immediate intervention?",
+      "choices": [
+        { "id": "a", "text": "Pain rated 6/10 at the incision site" },
+        { "id": "b", "text": "Capillary refill of 4 seconds and absent dorsalis pedis pulse in the operative extremity" },
+        { "id": "c", "text": "Small amount of serosanguineous drainage on the surgical dressing" },
+        { "id": "d", "text": "Patient reluctance to use incentive spirometer" }
+      ],
+      "correctId": "b",
+      "explanation": "Absent or diminished pulses with delayed capillary refill (normal ≤ 2 seconds) in the operative extremity signal acute vascular compromise — a surgical emergency requiring immediate surgeon notification. Post-arthroplasty neurovascular assessment (circulation, movement, sensation) must be performed frequently in the immediate postoperative period. Incision pain rated 6/10 warrants analgesia but not emergent escalation. Serosanguineous drainage in the first hours is expected. Incentive spirometry non-compliance increases atelectasis risk but is not immediately life-threatening."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 69",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-007",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is recovering from total knee arthroplasty. Which nursing action is correct in the immediate postoperative period?",
+      "choices": [
+        { "id": "a", "text": "Position the knee in full flexion to prevent contracture" },
+        { "id": "b", "text": "Apply the CPM machine as prescribed and elevate the operative extremity" },
+        { "id": "c", "text": "Encourage ambulation without assistive devices by postoperative day 1" },
+        { "id": "d", "text": "Apply a heating pad to the operative knee to reduce stiffness" }
+      ],
+      "correctId": "b",
+      "explanation": "A continuous passive motion (CPM) machine provides gentle passive flexion–extension to reduce adhesion formation, promote venous return, and restore range of motion. The extremity is elevated to reduce dependent edema. Full immediate flexion is contraindicated — range of motion progresses gradually. Ambulation begins with a walker per physical therapy guidance, not independently. Cold therapy (cryotherapy units or ice packs) — not heat — is applied postoperatively to reduce swelling and pain; heat increases bleeding risk in the acute period."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 69",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-008",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient who underwent a below-knee amputation 3 days ago tells the nurse, 'I feel terrible burning pain where my foot used to be.' Which nursing response is best?",
+      "choices": [
+        { "id": "a", "text": "'That's not possible — the limb is gone. You may be experiencing stump pain.'" },
+        { "id": "b", "text": "'Phantom limb pain is a real neurological phenomenon; we have several interventions that can help.'" },
+        { "id": "c", "text": "'This burning will resolve completely within 48 hours — it is expected.'" },
+        { "id": "d", "text": "'I will notify the surgeon right away, as this may indicate a wound infection.'" }
+      ],
+      "correctId": "b",
+      "explanation": "Phantom limb pain is a well-documented neurological phenomenon in which the nervous system continues to generate pain signals referencing the missing limb. It is real, not imagined, and requires validation and education. Management options include mirror therapy, desensitization, TENS, gabapentin, tricyclic antidepressants, and opioids. Dismissing the pain is therapeutically harmful and erodes trust. Resolution is unpredictable — it does not reliably resolve within 48 hours. Infection would present with wound findings, not referred phantom sensation."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 70",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-009",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is teaching a patient how to apply an elastic bandage to the residual limb following below-knee amputation. Which instruction is correct?",
+      "choices": [
+        { "id": "a", "text": "Begin at the proximal (upper) thigh and wrap downward toward the stump tip." },
+        { "id": "b", "text": "Apply a simple spiral wrap, maintaining uniform pressure from end to end." },
+        { "id": "c", "text": "Begin at the distal tip of the stump and wrap upward in a figure-of-eight pattern." },
+        { "id": "d", "text": "Wrap the distal end as tightly as possible to prevent any edema from forming there." }
+      ],
+      "correctId": "c",
+      "explanation": "The elastic bandage is applied distal to proximal — from the tip of the residual limb upward toward the groin — in a figure-of-eight pattern. This shapes the stump into the conical form required for a prosthesis socket while providing graduated compression that prevents distal edema. Starting proximally and wrapping distally creates a tourniquet effect that traps fluid in the stump tip. A simple spiral does not provide adequate conical shaping. Excessive distal tightness impairs circulation; graduated compression is the goal, not maximum constriction."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 70",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-010"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-010",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is providing discharge teaching about residual limb care after below-knee amputation. Which patient statement indicates understanding?",
+      "choices": [
+        { "id": "a", "text": "I will soak my stump in a warm bath every evening to keep the skin soft." },
+        { "id": "b", "text": "I will wash the stump with mild soap and water, dry it thoroughly, and inspect it daily." },
+        { "id": "c", "text": "I will apply baby powder generously between my stump and the prosthesis to prevent friction." },
+        { "id": "d", "text": "If I notice redness at the end of the stump, I will apply antibiotic ointment and cover it." }
+      ],
+      "correctId": "b",
+      "explanation": "Daily hygiene includes washing the residual limb with mild soap and warm (not hot) water, patting it completely dry, and performing visual inspection for skin breakdown, pressure areas, or infection. Soaking softens and macerates the skin, increasing infection risk. Excess powder between the socket and skin can create friction and cause breakdown. Redness should be reported to the provider for evaluation — self-treating with topical antibiotics delays appropriate assessment and may mask worsening infection."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 70",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-009"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-011",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with a closed femur fracture develops sudden confusion, petechiae across the chest and axillae, and SpO2 of 87% within 48 hours of injury. The nurse recognizes these findings as consistent with which complication?",
+      "choices": [
+        { "id": "a", "text": "Pulmonary embolism" },
+        { "id": "b", "text": "Fat embolism syndrome" },
+        { "id": "c", "text": "Osteomyelitis" },
+        { "id": "d", "text": "Compartment syndrome" }
+      ],
+      "correctId": "b",
+      "explanation": "Fat embolism syndrome (FES) classically presents 12–72 hours after long-bone or pelvic fracture with the triad of: (1) respiratory distress and hypoxemia, (2) neurological changes (confusion, restlessness), and (3) petechial rash over the upper chest, axillae, and conjunctivae — caused by fat droplets entering the bloodstream from bone marrow. PE presents with respiratory distress but not petechiae. Compartment syndrome produces local limb signs, not systemic petechiae. Osteomyelitis is an infectious process that develops over days to weeks, not acutely."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-012"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-012",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The earliest and most sensitive sign of fat embolism syndrome is {{blank}}, which appears within 12–72 hours after a long-bone or pelvic fracture.",
+      "back": "hypoxemia",
+      "hint": "Respiratory change comes first — before the petechiae and the neurological changes."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-011"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-013",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient sustained a hip fracture and is awaiting surgical repair. Which nursing action is the highest priority for DVT prophylaxis?",
+      "choices": [
+        { "id": "a", "text": "Massage the calves every 4 hours to promote venous return" },
+        { "id": "b", "text": "Apply sequential compression devices to the unaffected leg as prescribed" },
+        { "id": "c", "text": "Keep the patient on strict bed rest until surgery to prevent further fracture displacement" },
+        { "id": "d", "text": "Encourage vigorous active range-of-motion exercises in both legs" }
+      ],
+      "correctId": "b",
+      "explanation": "Sequential compression devices (SCDs) applied to the unaffected extremity intermittently compress the calf to promote venous return and reduce DVT risk in an immobilized patient. The fractured extremity typically cannot accommodate an SCD until after surgical stabilization. Calf massage is contraindicated — it can dislodge a developing thrombus. Strict bed rest without mechanical prophylaxis increases DVT risk substantially. Active ROM of the fractured limb risks further displacement or injury before fixation."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-014",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 3,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient returns from the ED with a new long arm cast for a radius fracture. Which assessment finding should the nurse report to the provider immediately?",
+      "choices": [
+        { "id": "a", "text": "Mild swelling visible at the cast edges over the first 24 hours" },
+        { "id": "b", "text": "Pain rated 4/10 at the cast site" },
+        { "id": "c", "text": "Pale, cool fingers with capillary refill of 4 seconds" },
+        { "id": "d", "text": "Patient reporting itching under the cast" }
+      ],
+      "correctId": "c",
+      "explanation": "Pale, cool fingers with delayed capillary refill (normal ≤ 2 seconds) indicate compromised circulation — a potential sign of compartment syndrome or vascular compression from the cast. This requires immediate provider notification and likely cast bivalving. Mild swelling in the first 24 hours is expected with acute fracture. Pain rated 4/10 warrants analgesia and monitoring but is not emergent without accompanying neurovascular changes. Itching under a cast is common but not immediately dangerous."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 72",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-002"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-015",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "A DXA scan T-score at or below {{blank}} is diagnostic for osteoporosis. A T-score between -1.0 and -2.4 indicates osteopenia.",
+      "back": "-2.5",
+      "hint": "T-score compares bone density to a young healthy adult — the more negative, the lower the density."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 71",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-019"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-016",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is prescribed oral alendronate (Fosamax) for osteoporosis. Which instruction should the nurse include?",
+      "choices": [
+        { "id": "a", "text": "Take the tablet with a glass of milk each morning." },
+        { "id": "b", "text": "You may lie down to rest for 30 minutes after taking the tablet." },
+        { "id": "c", "text": "Take the tablet with a full 8-oz glass of plain water and remain upright for at least 30 minutes." },
+        { "id": "d", "text": "Take the tablet with your other morning medications and breakfast." }
+      ],
+      "correctId": "c",
+      "explanation": "Oral bisphosphonates must be taken with a full glass (240 mL) of plain water to improve absorption and reduce esophageal irritation from tablet contact. The patient must remain upright (sitting or standing) for at least 30 minutes to prevent esophageal erosion and ulceration from reflux. Milk and food (especially calcium-containing foods) significantly reduce bisphosphonate absorption — the tablet should be taken at least 30 minutes before the first food or beverage of the day. Lying down after administration is contraindicated."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 71",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-017",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "For patients with osteoporosis, the recommended daily elemental calcium intake is {{blank}} mg/day, and vitamin D supplementation of at least {{blank}} IU/day is needed to support calcium absorption.",
+      "back": "1,200; 800",
+      "hint": "Higher calcium target applies to postmenopausal women; vitamin D enables intestinal calcium uptake."
+    },
+    "_flag": "MARY REVIEW: Values here (1,200 mg calcium; 800 IU vitamin D) follow National Osteoporosis Foundation guidance for women >50. Some sources cite 600 IU as the RDA minimum. Confirm which thresholds your program tests. If vitamin D dosing per ATI 12.0 differs from NOF, update accordingly.",
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 71",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-018",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is counseling a patient with osteoporosis about exercise to slow bone loss. Which type of exercise should be emphasized?",
+      "choices": [
+        { "id": "a", "text": "Swimming and aquatic aerobics" },
+        { "id": "b", "text": "Stationary cycling" },
+        { "id": "c", "text": "Weight-bearing activities such as walking, dancing, and stair climbing" },
+        { "id": "d", "text": "Upper-body flexibility and stretching exercises" }
+      ],
+      "correctId": "c",
+      "explanation": "Weight-bearing exercises — performed against gravity with the skeleton supporting body weight — stimulate osteoblastic activity and help maintain or improve bone mineral density. Walking, jogging, dancing, and stair climbing are examples. Swimming and cycling are excellent aerobic exercises but are non-weight-bearing and have minimal impact on bone density. Flexibility exercises support balance and fall prevention but do not independently improve bone density."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 71",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-019",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The most common osteoporotic fracture resulting from a fall on an outstretched hand (FOOSH) is a {{blank}} fracture of the distal radius.",
+      "back": "Colles'",
+      "hint": "The wrist fracture with the characteristic 'dinner fork' deformity — dorsal displacement of the distal fragment."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 71",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-015"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-020",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is comparing osteoarthritis and rheumatoid arthritis with a patient. Which clinical feature most clearly distinguishes rheumatoid arthritis from osteoarthritis?",
+      "choices": [
+        { "id": "a", "text": "Joint pain that worsens with prolonged activity" },
+        { "id": "b", "text": "Morning stiffness lasting more than one hour" },
+        { "id": "c", "text": "Involvement of large weight-bearing joints (knees, hips)" },
+        { "id": "d", "text": "Audible or palpable crepitus on joint movement" }
+      ],
+      "correctId": "b",
+      "explanation": "Morning stiffness lasting more than one hour — often 2–4 hours — is a hallmark of rheumatoid arthritis, reflecting synovial inflammation. In osteoarthritis, morning stiffness (the 'gel phenomenon') typically resolves within 30 minutes once the patient starts moving. Both conditions can cause pain with activity, involve large joints, and produce crepitus, so these features alone do not distinguish them. The duration of morning stiffness is the single most useful discriminating feature at this level."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 73",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-034"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-021",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with osteoarthritis of the knee asks about non-pharmacological management. Which intervention should the nurse recommend first?",
+      "choices": [
+        { "id": "a", "text": "Intra-articular corticosteroid injection every 3 months" },
+        { "id": "b", "text": "Complete bed rest to protect the joint" },
+        { "id": "c", "text": "Weight reduction and low-impact aerobic exercise" },
+        { "id": "d", "text": "Topical capsaicin applied to the joint three times daily" }
+      ],
+      "correctId": "c",
+      "explanation": "First-line non-pharmacological management of OA includes weight reduction (even a 5–10% weight loss significantly reduces knee joint load) and low-impact aerobic exercise (swimming, cycling, walking) combined with quadriceps strengthening to support the joint. These interventions address the mechanical drivers of OA. Corticosteroid injections are a pharmacological adjunct, not a first-line non-pharmacological approach. Bed rest worsens stiffness, muscle atrophy, and deconditioning. Topical capsaicin is an adjunctive option for pain relief but is not the first recommendation."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 73",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-022",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "In osteoarthritis, bony overgrowths at the distal interphalangeal joints are called {{blank}} nodes; those at the proximal interphalangeal joints are called {{blank}} nodes.",
+      "back": "Heberden's; Bouchard's",
+      "hint": "DIP = Heberden's (more distal, comes first alphabetically). PIP = Bouchard's."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 73",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-023",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is teaching a patient about proper body mechanics to reduce low back pain. Which instruction is correct?",
+      "choices": [
+        { "id": "a", "text": "Bend at the waist and use your back muscles when lifting objects from the floor." },
+        { "id": "b", "text": "Maintain a wide base of support, bend at the knees, and hold the object close to your body when lifting." },
+        { "id": "c", "text": "Twist your torso to move objects to the side rather than repositioning your feet." },
+        { "id": "d", "text": "Rest in bed for 48–72 hours when back pain flares to allow the spine to recover." }
+      ],
+      "correctId": "b",
+      "explanation": "Correct lifting mechanics protect the lumbar spine: feet shoulder-width apart (wide base of support), knees bent (not waist bent), back straight, and the object held close to the center of gravity to minimize torque on the lumbar spine. Bending at the waist places maximum compressive stress on lumbar discs. Twisting under load is a leading mechanism for acute disc herniation. Prolonged bed rest is no longer recommended for acute low back pain — early return to tolerated activity and mobilization improve outcomes better than immobility."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 73",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-024",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with acute low back pain is prescribed cyclobenzaprine (Flexeril). Which teaching point is most important?",
+      "choices": [
+        { "id": "a", "text": "Take this medication with milk to prevent stomach upset." },
+        { "id": "b", "text": "You can drive safely immediately after taking this medication." },
+        { "id": "c", "text": "Avoid alcohol and do not drive or operate machinery while taking this drug." },
+        { "id": "d", "text": "This medication can be taken as needed without concern for drowsiness." }
+      ],
+      "correctId": "c",
+      "explanation": "Cyclobenzaprine is a centrally acting skeletal muscle relaxant with significant CNS depressant effects, including marked sedation and impaired motor coordination. Alcohol potentiates CNS depression, substantially increasing sedation and accident risk. Patients must be clearly instructed not to drive or operate heavy machinery. These effects are predictable, dose-dependent, and dose-limiting for some patients. Drowsiness is an expected and common adverse effect — the medication is not safe for activities requiring full alertness."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 73",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-025",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is diagnosed with gout. The nurse correctly explains that gout is caused by:",
+      "choices": [
+        { "id": "a", "text": "Autoimmune destruction of articular cartilage with pannus formation" },
+        { "id": "b", "text": "Deposition of calcium pyrophosphate crystals in joint spaces" },
+        { "id": "c", "text": "Accumulation of monosodium urate crystals in joints due to hyperuricemia" },
+        { "id": "d", "text": "Progressive cartilage wear from repetitive mechanical stress" }
+      ],
+      "correctId": "c",
+      "explanation": "Gout results from hyperuricemia — elevated serum uric acid — that causes precipitation of monosodium urate (MSU) crystals in joints and periarticular tissues. The crystals trigger an intense neutrophil-mediated inflammatory response, producing the classic acute gout attack. Pannus formation (autoimmune synovial destruction) is characteristic of rheumatoid arthritis. Calcium pyrophosphate crystal deposition causes pseudogout, not gout. Mechanical cartilage wear describes osteoarthritis."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-026"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-026",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The joint most commonly affected in an initial acute gout attack is the first metatarsophalangeal joint (base of the big toe). This presentation is called {{blank}}.",
+      "back": "podagra",
+      "hint": "Greek for 'foot seizure' — the sudden, excruciating pain that wakes patients at night."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-025"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-027",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with recurrent gout asks about dietary changes to reduce attack frequency. Which instruction is correct?",
+      "choices": [
+        { "id": "a", "text": "Increase intake of organ meats and shellfish for high-quality protein." },
+        { "id": "b", "text": "Limit purine-rich foods such as red meat, organ meats, shellfish, and alcohol, especially beer." },
+        { "id": "c", "text": "Replace water with fruit juice to maintain adequate hydration." },
+        { "id": "d", "text": "Eliminate all dairy products, as they worsen uric acid production." }
+      ],
+      "correctId": "b",
+      "explanation": "High-purine foods increase uric acid production and should be limited: organ meats (liver, kidney), red meat, shellfish (anchovies, sardines, mussels), and alcohol — especially beer, which is itself high in purines and impairs uric acid renal clearance. Patients should stay well-hydrated with water (2–3 L/day) to promote uric acid excretion. Fructose-rich fruit juices can raise uric acid and should also be limited. Low-fat dairy products are associated with a reduced gout risk and are encouraged as protein sources."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-025"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-028",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Allopurinol reduces serum uric acid by inhibiting {{blank}}, the enzyme responsible for converting hypoxanthine and xanthine to uric acid.",
+      "back": "xanthine oxidase",
+      "hint": "Xanthine oxidase is the last step in purine catabolism — block it and uric acid production falls."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-029"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-029",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "For a patient with chronic gout on urate-lowering therapy, the serum uric acid target is below {{blank}} mg/dL.",
+      "back": "6.0",
+      "hint": "Below this level, monosodium urate crystals dissolve over time and acute attacks become less frequent."
+    },
+    "_flag": "MARY REVIEW: Standard NCLEX/ATI teaching value is < 6.0 mg/dL, used here. ACR 2020 guidelines recommend < 5.0 mg/dL for patients with tophi or severe/refractory gout. Confirm which threshold your program emphasizes. If both are taught as distinct targets, consider splitting into two items.",
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-028"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-030",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The characteristic facial rash of systemic lupus erythematosus is a {{blank}} rash that spans the cheeks and bridge of the nose, typically sparing the nasolabial folds.",
+      "back": "butterfly (malar)",
+      "hint": "The rash follows the shape of a butterfly's wings — cheeks and nose bridge, not the skin folds."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-033"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-031",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 3,
+    "body": {
+      "type": "free_recall",
+      "prompt": "A patient newly diagnosed with rheumatoid arthritis says, 'Every morning my hands and knees are so stiff I can barely move for the first hour or two. What can I do about this?' Describe the self-management strategies you would teach.",
+      "rubric": [
+        "Take a warm shower or bath before morning activity — heat reduces synovial viscosity and joint stiffness",
+        "Plan physically demanding tasks for later in the morning after stiffness subsides — RA stiffness lasts more than 1 hour (key discriminator from OA, where stiffness resolves within 30 minutes)",
+        "Perform gentle range-of-motion exercises after warming up to maintain mobility without stressing inflamed tissue",
+        "Allow extra time in the morning routine; avoid forcing movement through pain",
+        "Use assistive devices (jar openers, button hooks, extended-handle tools) during peak stiffness to protect joints"
+      ],
+      "modelAnswer": "Teach the patient to begin each morning with a warm shower or bath — heat reduces synovial stiffness and is the primary non-pharmacologic comfort measure for RA. Emphasize that morning stiffness lasting more than one hour is characteristic of RA (versus osteoarthritis, where stiffness is brief and resolves within 30 minutes with movement). Because the stiff period can be prolonged, physically demanding tasks should be scheduled for later in the morning once stiffness has eased. Gentle range-of-motion exercises performed after warming up help maintain joint mobility; they should stay within a comfortable range, not pushed through pain. The patient should allow extra time in the morning and use assistive devices during peak stiffness to reduce joint loading. For hand and wrist involvement, warm compresses or a paraffin bath are practical alternatives to a full shower. Regarding heat versus cold: heat is the preferred modality for morning stiffness and chronic RA joint stiffness; cold applications (ice, cold packs) are appropriate for acutely inflamed or swollen joints during a flare to reduce acute inflammation, but are not used for stiffness itself."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 89",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-034"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-032",
+    "pillar": "concepts",
+    "format": "free_recall",
+    "difficultyTier": 3,
+    "body": {
+      "type": "free_recall",
+      "prompt": "A patient with rheumatoid arthritis is newly started on methotrexate. Describe the nursing responsibilities for monitoring this patient on long-term methotrexate therapy: which laboratory values to track, how often, and when to hold the medication and notify the provider.",
+      "rubric": [
+        "Obtain baseline labs before starting: LFTs (ALT, AST), CBC with differential, serum creatinine, and hepatitis B/C serology — active hepatitis and significant hepatic disease are contraindications",
+        "Monitor LFTs and CBC monthly for the first 6 months, then every 1–3 months once stable; hepatotoxicity and bone marrow suppression are the primary serious toxicities",
+        "Hold methotrexate and notify the provider for significant LFT elevation above baseline or for signs of bone marrow suppression (leukopenia, neutropenia, thrombocytopenia) — specific thresholds are protocol-dependent",
+        "Instruct the patient to take prescribed folic acid (typically 1 mg/day) to reduce mucosal and GI adverse effects without diminishing the antirheumatic benefit",
+        "Counsel strict alcohol avoidance throughout therapy — alcohol synergistically increases methotrexate hepatotoxicity and substantially raises the risk of liver damage"
+      ],
+      "modelAnswer": "Before starting methotrexate, obtain baseline LFTs (ALT, AST), a CBC with differential, serum creatinine, and hepatitis B and C serology — pre-existing significant hepatic disease and active hepatitis are contraindications. Once therapy begins, monitor LFTs and CBC monthly for the first 6 months, then every 1–3 months after values are stable. Hepatotoxicity (elevated transaminases, risk of fibrosis with long-term use) and bone marrow suppression (leukopenia, thrombocytopenia) are the primary serious toxicities requiring surveillance. Hold methotrexate and notify the provider if LFTs rise significantly above baseline or if CBC shows bone marrow suppression; exact hold thresholds are institution-specific and protocol-dependent. Teach the patient to take daily folic acid supplementation to reduce dose-limiting mucosal side effects such as oral ulcers and GI upset — folic acid does not reduce methotrexate's antirheumatic effect. Counsel strict alcohol avoidance throughout therapy, as alcohol compounds hepatotoxic risk. Also instruct the patient to report new respiratory symptoms promptly, as methotrexate-induced pneumonitis — though uncommon — is a serious adverse effect requiring immediate evaluation."
+    },
+    "_flag": "MARY REVIEW: Methotrexate hold criteria for hepatotoxicity are institution-specific. Common teaching threshold is ALT >2–3× ULN; some programs use >3× or >5× ULN. CBC hold thresholds (WBC floor, neutrophil count, platelet count) also vary across protocols. ACR 2015 monitoring recommendations are a common reference but are not universally adopted. Confirm which values and monitoring intervals your program tests before sign-off.",
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 89",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-033",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with systemic lupus erythematosus is being discharged. Which instruction is most important to include in the teaching plan?",
+      "choices": [
+        { "id": "a", "text": "Exercise vigorously every day to maintain joint mobility." },
+        { "id": "b", "text": "Apply sunscreen with SPF ≥ 30 and avoid prolonged sun exposure, as UV light can trigger a flare." },
+        { "id": "c", "text": "Discontinue hydroxychloroquine if you notice a skin rash." },
+        { "id": "d", "text": "Stress has no effect on lupus symptoms, so no lifestyle modifications are needed." }
+      ],
+      "correctId": "b",
+      "explanation": "Photosensitivity is a cardinal feature of SLE — ultraviolet light (sun, fluorescent lights, tanning beds) triggers disease flares including the malar rash and systemic symptoms. Daily broad-spectrum sunscreen (SPF ≥ 30), protective clothing, and avoidance of peak sun hours are essential. Exercise is appropriate but should be paced during flares to avoid fatigue. Hydroxychloroquine (Plaquenil) is a cornerstone SLE treatment — it must never be discontinued without provider guidance; a new rash may be a disease manifestation, not a drug reaction. Psychological stress is a recognized flare trigger and should be managed."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 88",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-030"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-034",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "A key differentiator between osteoarthritis and rheumatoid arthritis is morning stiffness duration. OA morning stiffness (the 'gel phenomenon') resolves within {{blank}} minutes with activity; RA morning stiffness lasts more than one hour.",
+      "back": "30",
+      "hint": "OA stiffness clears quickly once the joint warms up with movement; RA stiffness persists well past the first hour of the day."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 89",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-031", "cc2-020"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-035",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient presents to the emergency department with sudden severe eye pain, nausea, blurred vision with halos around lights, and a fixed mid-dilated pupil. The nurse recognizes these findings as characteristic of which condition?",
+      "choices": [
+        { "id": "a", "text": "Open-angle glaucoma" },
+        { "id": "b", "text": "Acute angle-closure glaucoma" },
+        { "id": "c", "text": "Retinal detachment" },
+        { "id": "d", "text": "Age-related macular degeneration" }
+      ],
+      "correctId": "b",
+      "explanation": "Acute angle-closure glaucoma is an ophthalmologic emergency. Aqueous humor outflow is suddenly obstructed at the trabecular meshwork by iris contact, causing a rapid and severe rise in intraocular pressure (IOP). Classic signs: sudden severe eye pain, nausea/vomiting, blurred vision with halos, a fixed mid-dilated (4–6 mm) pupil, and a rock-hard eyeball. Immediate treatment (IV acetazolamide, pilocarpine drops, laser iridotomy) is required to prevent permanent vision loss. Open-angle glaucoma is asymptomatic until late-stage peripheral vision loss. Retinal detachment presents with painless flashes, floaters, and a 'curtain' over the visual field. Macular degeneration causes central vision distortion, not acute pain or pupil changes."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-036"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-036",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Normal intraocular pressure (IOP) ranges from {{blank}} to {{blank}} mmHg. Open-angle glaucoma is often asymptomatic until significant peripheral vision is lost because central vision is preserved until late stages.",
+      "back": "10; 21",
+      "hint": "IOP > 21 mmHg on repeated measurements is a risk factor for glaucomatous optic nerve damage, though some patients develop damage at normal pressures (normal-tension glaucoma)."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-035"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-037",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient is discharged after cataract extraction with intraocular lens implant. Which discharge instruction should the nurse emphasize?",
+      "choices": [
+        { "id": "a", "text": "Sleep on the operative side to reduce postoperative swelling." },
+        { "id": "b", "text": "Avoid bending at the waist, lifting more than 5–10 pounds, and straining during bowel movements." },
+        { "id": "c", "text": "Use prescribed eye drops for one week only, then discontinue them." },
+        { "id": "d", "text": "Moderate to severe eye pain after surgery is expected and does not need to be reported." }
+      ],
+      "correctId": "b",
+      "explanation": "Post-cataract surgery precautions prevent sudden increases in intraocular pressure that could disrupt the surgical wound or dislodge the lens implant: avoid bending at the waist (bend the knees instead), restrict lifting to ≤ 5–10 lbs, and avoid straining (use stool softeners). The patient should sleep on the non-operative side or on their back. Prescribed eye drops (antibiotic and/or corticosteroid) are used for several weeks, not discontinued after one week. Significant eye pain is not expected and should be reported promptly — it may indicate elevated IOP or infection."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-038",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with age-related macular degeneration tells the nurse, 'I can't read the newspaper or recognize my grandchildren's faces anymore, but I can still walk around my house without bumping into things.' The nurse interprets this as consistent with which expected disease finding?",
+      "choices": [
+        { "id": "a", "text": "Loss of peripheral vision with preserved central vision" },
+        { "id": "b", "text": "Loss of central vision with preserved peripheral vision" },
+        { "id": "c", "text": "Bilateral total vision loss progressing from periphery inward" },
+        { "id": "d", "text": "Intermittent complete vision loss from elevated intraocular pressure" }
+      ],
+      "correctId": "b",
+      "explanation": "Age-related macular degeneration (AMD) damages the macula, which is responsible for fine central vision, color discrimination, and detail work such as reading and facial recognition. Peripheral vision — mediated by rods at the retinal edges — is initially preserved, which explains why patients retain the ability to navigate space while losing reading and face-recognition ability. Loss of peripheral vision with preserved central vision (tunnel vision) is the pattern of advanced glaucoma, not AMD. AMD does not cause intermittent total vision loss; that pattern suggests acute angle-closure glaucoma."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-039",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is instilling prescribed eye drops into a patient's right eye. Which technique is correct?",
+      "choices": [
+        { "id": "a", "text": "Instill the drop directly onto the cornea to ensure absorption." },
+        { "id": "b", "text": "Have the patient look up, retract the lower eyelid to form a conjunctival sac, and instill the drop into the lower sac." },
+        { "id": "c", "text": "Apply gentle pressure to the outer canthus for 1 minute after instillation." },
+        { "id": "d", "text": "Instill two drops at once to ensure a full dose is delivered." }
+      ],
+      "correctId": "b",
+      "explanation": "The drop is instilled into the lower conjunctival sac — formed by retracting the lower eyelid while the patient looks upward. Direct corneal contact causes reflex blinking, medication loss, and discomfort. After instillation, nasolacrimal occlusion (pressing on the inner canthus at the bridge of the nose, not the outer canthus) for 1–2 minutes reduces systemic absorption through the lacrimal duct. Only one drop is instilled at a time — the conjunctival sac holds approximately 7–10 µL, and a standard drop is 50 µL, so excess is expelled by blinking; a second drop within 5 minutes washes out the first."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 13",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-040",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Ménière's disease results from excess endolymph pressure in the inner ear. The hallmark triad is episodic vertigo, {{blank}}, and fluctuating sensorineural hearing loss.",
+      "back": "tinnitus",
+      "hint": "All three symptoms arise from the same distended endolymphatic compartment — the cochlea contributes the hearing loss and tinnitus, the semicircular canals contribute the vertigo."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 14",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-041"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-041",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with Ménière's disease asks what dietary changes may help reduce attack frequency. Which response is most accurate?",
+      "choices": [
+        { "id": "a", "text": "Increase sodium intake to maintain fluid balance in the inner ear." },
+        { "id": "b", "text": "Follow a low-sodium diet (less than 2,000 mg/day) and limit caffeine and alcohol." },
+        { "id": "c", "text": "Drink at least 4 liters of fluid daily to flush excess endolymph." },
+        { "id": "d", "text": "A high-protein diet will help repair damaged cochlear hair cells." }
+      ],
+      "correctId": "b",
+      "explanation": "Ménière's disease management focuses on reducing endolymph volume. A low-sodium diet (typically < 1,500–2,000 mg/day) reduces systemic fluid retention and endolymph production. Caffeine and alcohol are also restricted as they can exacerbate symptoms. Diuretics are frequently prescribed for the same mechanism. Increasing sodium worsens fluid accumulation. Excess fluid intake increases endolymph production. Cochlear hair cell damage from Ménière's disease is permanent; dietary protein does not reverse sensorineural hearing loss."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 14",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": ["cc2-040"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-042",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient presents with right ear pain, fever of 38.5°C, decreased hearing, and an erythematous bulging tympanic membrane on otoscopic exam. Which nursing action is the priority?",
+      "choices": [
+        { "id": "a", "text": "Instill warm mineral oil drops to soften the tympanic membrane" },
+        { "id": "b", "text": "Document assessment findings and report to the provider for antibiotic therapy decision" },
+        { "id": "c", "text": "Insert a cotton wick to facilitate drainage from the ear canal" },
+        { "id": "d", "text": "Apply cold compresses to the external ear for pain relief" }
+      ],
+      "correctId": "b",
+      "explanation": "An erythematous, bulging tympanic membrane with fever and ear pain indicates acute otitis media with middle ear effusion — typically bacterial. The priority nursing action is to thoroughly document clinical findings and report to the prescribing provider, who will determine whether antibiotic therapy is indicated. Warm oil drops are used for cerumen impaction, not otitis media. Cotton wicks are not a nursing intervention for AOM. Cold compresses are not indicated — warm compresses may provide mild comfort, but provider notification for treatment decisions takes priority."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 14",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-043",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Benign paroxysmal positional vertigo (BPPV) results from displaced otolith crystals in the semicircular canal. The repositioning treatment of choice is the {{blank}} maneuver.",
+      "back": "Epley",
+      "hint": "The Epley maneuver uses a series of head-position changes to guide the displaced crystals back into the utricle where they can no longer trigger vertigo."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 14",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "cc2-044",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "During a Rinne test, a patient's bone conduction is greater than air conduction in the right ear. The nurse interprets this finding as indicating which type of hearing loss?",
+      "choices": [
+        { "id": "a", "text": "Sensorineural hearing loss" },
+        { "id": "b", "text": "Conductive hearing loss" },
+        { "id": "c", "text": "Mixed hearing loss" },
+        { "id": "d", "text": "Normal hearing" }
+      ],
+      "correctId": "b",
+      "explanation": "In a normal Rinne test, air conduction (AC) is greater than bone conduction (BC) — a positive result. When BC ≥ AC (negative Rinne), a problem in the outer or middle ear is blocking sound transmission through air: conductive hearing loss (e.g., cerumen impaction, otitis media, tympanic membrane perforation, ossicular chain damage). Sound conducted directly through bone bypasses the obstruction. Sensorineural hearing loss (cochlear/auditory nerve damage) typically preserves the AC > BC ratio but at reduced amplitude bilaterally. A normal result shows AC > BC."
+    },
+    "sourceCitation": "ATI RN Adult Med Surg 12.0 ch. 14",
+    "lastReviewedAt": "2026-07-08",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "complex-care-2-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]

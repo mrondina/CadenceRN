@@ -5,6 +5,7 @@ import terminologyPack from '../../../content/terminology-pack.json';
 import pharmPack from '../../../content/pharm-pack.json';
 import foundationsPack from '../../../content/foundations-pack.json';
 import dosagePack from '../../../content/dosage-pack.json';
+import complexCare2Pack from '../../../content/complex-care-2-pack.json';
 
 // ─── Migration 001: initial schema ───────────────────────────────────────────
 //
@@ -181,6 +182,19 @@ export async function runMigrations(db: IDatabase): Promise<void> {
       }
       await txn.runAsync(
         `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '2')`,
+      );
+    });
+  }
+
+  if ((await getVersion(db)) < 3) {
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      const itemRepo = new ContentItemRepository(txn);
+      const allPacks = [...complexCare2Pack] as ContentItem[];
+      for (const item of allPacks) {
+        await itemRepo.upsert(item);
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '3')`,
       );
     });
   }

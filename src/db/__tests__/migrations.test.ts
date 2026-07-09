@@ -3,10 +3,10 @@ import { openTestDb } from '../test-utils/BetterSQLiteDatabase';
 import { runMigrations } from '../migrations/runner';
 import type { IDatabase } from '../types';
 
-// ─── Step 11/13 gate: migration runner idempotency ────────────────────────────
+// ─── Step 11/13 gate + migration 003: migration runner idempotency ────────────
 //
 // The runner must execute twice on the same database without error and leave
-// db_version = 2 (migrations 001 + 002 both applied).
+// db_version = 3 (migrations 001 + 002 + 003 all applied).
 
 describe('runMigrations', () => {
   let db: IDatabase;
@@ -15,23 +15,23 @@ describe('runMigrations', () => {
     db = openTestDb();
   });
 
-  it('first run: creates all tables and sets db_version = 2', async () => {
+  it('first run: creates all tables and sets db_version = 3', async () => {
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('2');
+    expect(row?.value).toBe('3');
   });
 
-  it('second run: no error; db_version remains 2', async () => {
+  it('second run: no error; db_version remains 3', async () => {
     await runMigrations(db);
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('2');
+    expect(row?.value).toBe('3');
   });
 
   it('all expected tables exist after migration', async () => {

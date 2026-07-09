@@ -13,15 +13,15 @@ beforeEach(async () => {
   await runMigrations(db);
 });
 
-describe('Seed content migration (002)', () => {
-  it('inserts the correct total item count (106)', async () => {
+describe('Seed content migrations (002 + 003)', () => {
+  it('inserts the correct total item count (150)', async () => {
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(106);
+    expect(row?.cnt).toBe(150);
   });
 
-  it('all four pack ids are represented', async () => {
+  it('all five pack ids are represented', async () => {
     const packs = await db.getAllAsync<{ content_pack_id: string }>(
       `SELECT DISTINCT content_pack_id FROM content_items ORDER BY content_pack_id`,
     );
@@ -30,6 +30,7 @@ describe('Seed content migration (002)', () => {
     expect(ids).toContain('pharm-pack');
     expect(ids).toContain('foundations-pack');
     expect(ids).toContain('dosage-pack');
+    expect(ids).toContain('complex-care-2-pack');
   });
 
   it('terminology pack: 26 items in session 1 weeks 1-2', async () => {
@@ -109,13 +110,13 @@ describe('Seed content migration (002)', () => {
     expect(broken, `Broken graph links: ${broken.join(', ')}`).toHaveLength(0);
   });
 
-  it('migration 002 is idempotent — running twice does not duplicate items', async () => {
+  it('migrations are idempotent — running twice does not duplicate items', async () => {
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(106);
+    expect(row?.cnt).toBe(150);
   });
 
   it('content items include all four body types: cloze, mcq, free_recall, numeric', async () => {
@@ -136,14 +137,22 @@ describe('Seed content migration (002)', () => {
     expect(nonV1?.cnt).toBe(0);
   });
 
-  it('db_version is 2 after both migrations run', async () => {
+  it('db_version is 3 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('2');
+    expect(row?.value).toBe('3');
   });
 
-  it('migration 002 atomicity: partial load (db_version=1, some items present) self-heals on re-run', async () => {
+  it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
+    const repo = new ContentItemRepository(db);
+    const items = await repo.findByPack('complex-care-2-pack');
+    expect(items).toHaveLength(44);
+    const gates = items.map(i => i.releaseGate);
+    expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
+  });
+
+  it('migration atomicity: partial load (db_version=1, some items present) self-heals on re-run', async () => {
     // Simulate a crash mid-seed: schema is applied (001) but version was never
     // bumped to 2, meaning some items may or may not be present.
     // runMigrations must recover to a fully-populated db with db_version=2.
@@ -173,11 +182,11 @@ describe('Seed content migration (002)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('2');
+    expect(versionAfter?.value).toBe('3');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(count?.cnt).toBe(106);
+    expect(count?.cnt).toBe(150);
   });
 });

@@ -42,10 +42,10 @@ Other calendar items: ATI Practice Version A due 08/02 · ATI #1 on 08/06 · ATI
 
 | session | course | week | topic | source.book | source.chapter | methods | item_count_target | item_count_drafted | status |
 |---------|--------|------|-------|-------------|----------------|---------|-------------------|--------------------|--------|
-| s4 | complex-care-2 | 1 | Acute musculoskeletal disorders — mobility alterations, MSK procedures, arthroplasty, amputations, trauma/fractures | ATI RN Adult Med Surg 12.0 | Ch 68 Musculoskeletal Diagnostic Procedures; Ch 69 Arthroplasty; Ch 70 Amputations; Ch 72 Musculoskeletal Trauma | application-stem MCQ, cloze, recognition | 14 | 0 | unmapped |
-| s4 | complex-care-2 | 1 | Chronic musculoskeletal disorders — osteoporosis, osteoarthritis, low-back pain | ATI RN Adult Med Surg 12.0 | Ch 71 Osteoporosis; Ch 73 Osteoarthritis and Low-Back Pain | application-stem MCQ, cloze, recognition | 10 | 0 | unmapped |
-| s4 | complex-care-2 | 1 | Connective tissue disorders — rheumatoid arthritis, gout, lupus (± fibromyalgia per Ch 88 scope) | ATI RN Adult Med Surg 12.0 | Ch 88 Lupus Erythematosus, Gout, and Fibromyalgia; Ch 89 Rheumatoid Arthritis | application-stem MCQ, cloze, free-recall | 10 | 0 | unmapped |
-| s4 | complex-care-2 | 1 | Alterations in sensory/perception — eye and ear problems | ATI RN Adult Med Surg 12.0 | Ch 13 Disorders of the Eye; Ch 14 Middle and Inner Ear Disorders | recognition, application-stem MCQ, cloze | 10 | 0 | unmapped |
+| s4 | complex-care-2 | 1 | Acute musculoskeletal disorders — mobility alterations, MSK procedures, arthroplasty, amputations, trauma/fractures | ATI RN Adult Med Surg 12.0 | Ch 68 Musculoskeletal Diagnostic Procedures; Ch 69 Arthroplasty; Ch 70 Amputations; Ch 72 Musculoskeletal Trauma | application-stem MCQ, cloze, recognition | 14 | 14 | drafted |
+| s4 | complex-care-2 | 1 | Chronic musculoskeletal disorders — osteoporosis, osteoarthritis, low-back pain | ATI RN Adult Med Surg 12.0 | Ch 71 Osteoporosis; Ch 73 Osteoarthritis and Low-Back Pain | application-stem MCQ, cloze, recognition | 10 | 10 | drafted |
+| s4 | complex-care-2 | 1 | Connective tissue disorders — rheumatoid arthritis, gout, lupus (± fibromyalgia per Ch 88 scope) | ATI RN Adult Med Surg 12.0 | Ch 88 Lupus Erythematosus, Gout, and Fibromyalgia; Ch 89 Rheumatoid Arthritis | application-stem MCQ, cloze, free-recall | 10 | 10 | drafted |
+| s4 | complex-care-2 | 1 | Alterations in sensory/perception — eye and ear problems | ATI RN Adult Med Surg 12.0 | Ch 13 Disorders of the Eye; Ch 14 Middle and Inner Ear Disorders | recognition, application-stem MCQ, cloze | 10 | 10 | drafted |
 | s4 | complex-care-2 | 2 | Alterations in spinal cord function — SCI levels, autonomic dysreflexia, neurogenic shock | ATI RN Adult Med Surg 12.0 | Ch 17 Spinal Cord Injury | application-stem MCQ, cloze, free-recall | 10 | 0 | unmapped |
 | s4 | complex-care-2 | 3 | Neurologic function I — meningitis, seizures/epilepsy, Parkinson's disease, multiple sclerosis, headaches | ATI RN Adult Med Surg 12.0 | Ch 6 Meningitis; Ch 7 Seizures and Epilepsy; Ch 8 Parkinson's Disease; Ch 11 Multiple Sclerosis; Ch 12 Headaches (support: Ch 4 Neurologic Diagnostic Procedures) | application-stem MCQ, cloze, recognition | 14 | 0 | unmapped |
 | s4 | complex-care-2 | 3 | Neurologic function II — stroke, head injury, brain tumors, increased ICP | ATI RN Adult Med Surg 12.0 | Ch 15 Head Injury; Ch 16 Stroke; Ch 10 Brain Tumors (support: Ch 4 Neurologic Diagnostic Procedures) | application-stem MCQ, cloze, free-recall | 14 | 0 | unmapped |
@@ -68,6 +68,18 @@ Other calendar items: ATI Practice Version A due 08/02 · ATI #1 on 08/06 · ATI
 - **Free-recall** is rationed to the five highest-yield, most stable topics (CT disorders, spinal cord, stroke/ICP, cirrhosis/hepatitis, AKI/CKD) — ≤1–2 free-recall items authored per week's batch, respecting `FREE_RECALL_CAP = 3` per session. Design for the cap, not against it.
 - **Numeric** appears only in enteral/parenteral feedings (rate calculations); general dosage calc lives in the standing drill track, not this map.
 - **No NGN cases.** Stroke, SCI, and renal unfolding cases are natural Phase 3 candidates — note them in authoring comments, do not build them now.
+
+### Actual format distribution — week 1 batch (post-audit correction, 2026-07-08)
+
+| Topic area | Items | MCQ | Cloze | Free-recall |
+|---|---|---|---|---|
+| Acute MSK (Ch 68/69/70/72) | cc2-001–014 (14) | 12 | 2 | 0 |
+| Chronic MSK (Ch 71/73) | cc2-015–024 (10) | 6 | 4 | 0 |
+| CT disorders (Ch 88/89) | cc2-025–034 (10) | 3 | 5 | 2 |
+| Sensory/perception (Ch 13/14) | cc2-035–044 (10) | 7 | 3 | 0 |
+| **Total** | **44** | **28** | **14** | **2** |
+
+Free-recall items: cc2-031 (RA morning stiffness self-management) and cc2-032 (methotrexate monitoring). Both within the `FREE_RECALL_CAP / 2` ceiling.
 
 ## Interleaver / Load Notes
 
