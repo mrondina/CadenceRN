@@ -140,58 +140,80 @@ function compareByReleaseGate(a: ContentItem, b: ContentItem): number {
 // ─── Pillar interleaver ───────────────────────────────────────────────────────
 
 /**
- * Deterministic accumulated-credit interleaver. No Math.random — the output
- * for a given input is always identical, which the replay harness depends on.
+ * Generic deterministic accumulated-credit interleaver over pre-built buckets.
+ * No Math.random — same input always produces the same output order.
  *
  * Algorithm (integer-scaled to avoid floating-point drift):
- *   weight[p] = bucket size
- *   credit[p] starts equal to weight[p]
- *   Each step: select non-empty pillar with highest credit (alphabetical tie-break);
- *   then all credits += weight; selected credit -= total.
+ *   weight[k] = bucket size at call time
+ *   credit[k] starts equal to weight[k]
+ *   Each step: select non-empty bucket with highest credit (alphabetical key
+ *   tie-break); then all credits += weight; selected credit -= total.
  *
- * Properties:
- *   - Single-pillar input: round-robin over that one pillar, no loop risk.
- *   - Empty input: returns [] immediately.
- *   - Proportional: larger buckets contribute items across more rounds.
- *   - Within each pillar, items appear in arrival order.
+ * Mutates the arrays inside `buckets` (shift). Pass a fresh Map each call.
  */
-function interleaveByPillar(entries: ReviewEntry[]): ReviewEntry[] {
-  if (entries.length === 0) return [];
+function interleaveBuckets<T>(buckets: Map<string, T[]>): T[] {
+  const total = [...buckets.values()].reduce((s, b) => s + b.length, 0);
+  if (total === 0) return [];
 
-  const buckets = new Map<string, ReviewEntry[]>();
-  for (const entry of entries) {
-    const { pillar } = entry.item;
-    if (!buckets.has(pillar)) buckets.set(pillar, []);
-    buckets.get(pillar)!.push(entry);
-  }
-
-  const total = entries.length;
-  // Sort alphabetically → deterministic tie-breaking when credits are equal
-  const pillars = [...buckets.keys()].sort();
-
+  const keys = [...buckets.keys()].sort();
   const weights: Record<string, number> = {};
   const credits: Record<string, number> = {};
-  for (const p of pillars) {
-    weights[p] = buckets.get(p)!.length;
-    credits[p] = weights[p];
+  for (const k of keys) {
+    weights[k] = buckets.get(k)!.length;
+    credits[k] = weights[k];
   }
 
-  const result: ReviewEntry[] = [];
+  const result: T[] = [];
   while (result.length < total) {
-    // Select non-empty pillar with highest credit.
-    // Iterate sorted pillars and update best only on strict improvement →
-    // first-encountered (alphabetically earliest) wins ties.
     let best: string | null = null;
-    for (const p of pillars) {
-      if ((buckets.get(p)?.length ?? 0) === 0) continue;
-      if (best === null || credits[p] > credits[best]) best = p;
+    for (const k of keys) {
+      if ((buckets.get(k)?.length ?? 0) === 0) continue;
+      if (best === null || credits[k] > credits[best]) best = k;
     }
     if (best === null) break;
 
     result.push(buckets.get(best)!.shift()!);
-    for (const p of pillars) credits[p] += weights[p];
+    for (const k of keys) credits[k] += weights[k];
     credits[best] -= total;
   }
 
   return result;
+}
+
+/**
+ * Two-level interleaver: proportional by pillar, then within each pillar
+ * proportional by contentPackId.
+ *
+ * Step 1 — bucket entries by pillar.
+ * Step 2 — within each pillar, sub-bucket by contentPackId and run the
+ *           accumulated-credit algorithm to produce a pack-interleaved sequence.
+ * Step 3 — run the accumulated-credit algorithm across those pillar sequences.
+ *
+ * Deterministic, no Math.random. Same algorithm at both levels.
+ */
+function interleaveByPillar(entries: ReviewEntry[]): ReviewEntry[] {
+  if (entries.length === 0) return [];
+
+  // Step 1 — bucket by pillar
+  const pillarBuckets = new Map<string, ReviewEntry[]>();
+  for (const entry of entries) {
+    const { pillar } = entry.item;
+    if (!pillarBuckets.has(pillar)) pillarBuckets.set(pillar, []);
+    pillarBuckets.get(pillar)!.push(entry);
+  }
+
+  // Step 2 — within each pillar, sub-interleave by contentPackId
+  const pillarMixed = new Map<string, ReviewEntry[]>();
+  for (const [pillar, pillarEntries] of pillarBuckets) {
+    const packBuckets = new Map<string, ReviewEntry[]>();
+    for (const entry of pillarEntries) {
+      const pack = entry.item.contentPackId;
+      if (!packBuckets.has(pack)) packBuckets.set(pack, []);
+      packBuckets.get(pack)!.push(entry);
+    }
+    pillarMixed.set(pillar, interleaveBuckets(packBuckets));
+  }
+
+  // Step 3 — interleave across pillars
+  return interleaveBuckets(pillarMixed);
 }

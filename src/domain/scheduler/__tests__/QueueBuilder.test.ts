@@ -396,6 +396,55 @@ describe('QueueBuilder', () => {
       }
       expect(maxRun).toBe(1); // perfect alternation for equal buckets
     });
+
+    it('mono-pillar with three equal packs: no contiguous same-pack run > 1', () => {
+      // 6 items each from three packs, all same pillar.
+      // Equal-size packs → accumulated-credit round-robins perfectly:
+      // no two consecutive entries from the same pack.
+      const packs = ['alpha-pack', 'beta-pack', 'gamma-pack'];
+      const all = packs.flatMap(packId =>
+        Array.from({ length: 6 }, (_, i) =>
+          makeItem({ id: `${packId}-${i}`, pillar: 'concepts', contentPackId: packId }),
+        ),
+      );
+      const result = build({ dueStates: all.map(i => makeState(i.id)), allItems: itemsToMap(all) });
+
+      expect(result).toHaveLength(18);
+
+      let maxRun = 1, run = 1;
+      for (let i = 1; i < result.length; i++) {
+        const prev = result[i - 1].item.contentPackId;
+        const curr = result[i].item.contentPackId;
+        run = curr === prev ? run + 1 : 1;
+        maxRun = Math.max(maxRun, run);
+      }
+      expect(maxRun).toBe(1);
+    });
+
+    it('mono-pillar with three unequal packs: maxRun is exactly 2', () => {
+      // packA=6, packB=3, packC=1 — total 10, all same pillar.
+      // Traced output: a-0, b-0, a-1, a-2, b-1, a-3, c-0, a-4, b-2, a-5
+      // The one run of 2 (a-1, a-2) occurs because pack-a and pack-c credit-tie
+      // at that step (both at 4) and the alphabetical tie-break selects pack-a again.
+      // That is correct proportional behavior — not a clustering defect.
+      const packA = Array.from({ length: 6 }, (_, i) => makeItem({ id: `a-${i}`, pillar: 'pharm', contentPackId: 'pack-a' }));
+      const packB = Array.from({ length: 3 }, (_, i) => makeItem({ id: `b-${i}`, pillar: 'pharm', contentPackId: 'pack-b' }));
+      const packC = Array.from({ length: 1 }, (_, i) => makeItem({ id: `c-${i}`, pillar: 'pharm', contentPackId: 'pack-c' }));
+      const all = [...packA, ...packB, ...packC];
+      const result = build({ dueStates: all.map(i => makeState(i.id)), allItems: itemsToMap(all) });
+
+      expect(result).toHaveLength(10);
+      expect(new Set(result.map(e => e.item.id)).size).toBe(10);
+
+      let maxRun = 1, run = 1;
+      for (let i = 1; i < result.length; i++) {
+        const prev = result[i - 1].item.contentPackId;
+        const curr = result[i].item.contentPackId;
+        run = curr === prev ? run + 1 : 1;
+        maxRun = Math.max(maxRun, run);
+      }
+      expect(maxRun).toBe(2);
+    });
   });
 
   // ─── New-user day-one: empty review pool ──────────────────────────────────
