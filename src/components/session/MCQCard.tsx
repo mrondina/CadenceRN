@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View, Pressable } from 'react-native';
 import { AppText } from '@/components/ui/AppText';
 import { AppCard } from '@/components/ui/AppCard';
 import { useAppTheme } from '@/context/ThemeContext';
+import { fnv1a32, shuffleWithSeed } from '@/utils/seededRng';
 
 interface MCQBody {
   type: 'mcq';
@@ -15,13 +16,22 @@ interface MCQBody {
 interface MCQCardProps {
   body: MCQBody;
   onReveal: () => void;
+  itemId: string;
 }
 
-export function MCQCard({ body, onReveal }: MCQCardProps) {
+export function MCQCard({ body, onReveal, itemId }: MCQCardProps) {
   const { colors, space, radius } = useAppTheme();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const isMiss = selectedId !== null && selectedId !== body.correctId;
+
+  // Deterministic per-item shuffle seeded on itemId — defeats cross-card position
+  // bias without Math.random. Same card always shows the same order (stable per
+  // item, not per exposure). correctId is matched by .id, never by position.
+  const choices = useMemo(
+    () => shuffleWithSeed(body.choices, fnv1a32(itemId)),
+    [body.choices, itemId],
+  );
 
   const handleChoice = (id: string) => {
     if (selectedId) return; // locked after first selection
@@ -36,7 +46,7 @@ export function MCQCard({ body, onReveal }: MCQCardProps) {
       </AppCard>
 
       <View style={{ gap: space[2] }}>
-        {body.choices.map((choice) => {
+        {choices.map((choice) => {
           const isSelected = selectedId === choice.id;
           const isCorrect = choice.id === body.correctId;
           const isAnswered = selectedId !== null;

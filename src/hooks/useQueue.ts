@@ -10,6 +10,7 @@ import type {
 import type { ContentItemRepository } from '../db/repositories/ContentItemRepository';
 import type { ItemMemoryStateRepository } from '../db/repositories/ItemMemoryStateRepository';
 import { toDateStr } from '../domain/cohort/CohortBuilder';
+import { fnv1a32, shuffleWithSeed } from '../utils/seededRng';
 
 export const NEW_ITEM_CAP = 20;
 
@@ -55,9 +56,16 @@ export async function computeSessionQueue(deps: QueueDeps): Promise<QueueEntry[]
   const nowIso = now.toISOString();
 
   // 1. Load all memory states; split into due/not-due in memory.
+  //    Shuffle dueStates by study-day seed so the same due set presents in a
+  //    different order each day. Domain layer (buildQueue) stays pure and
+  //    deterministic — it receives the (already shuffled) dueStates array and
+  //    processes them identically regardless of order.
   const allMemStates = await memStateRepo.findAll();
   const memStateIds = new Set(allMemStates.map(s => s.itemId));
-  const dueStates = allMemStates.filter(s => s.fsrs.due <= nowIso);
+  const dueStates = shuffleWithSeed(
+    allMemStates.filter(s => s.fsrs.due <= nowIso),
+    fnv1a32(toDateStr(now)),
+  );
 
   // 2. Unlocked new items — SQL gate handles session/week resolution.
   const { sessionIndex, week } = getGateParams(cohort, now);

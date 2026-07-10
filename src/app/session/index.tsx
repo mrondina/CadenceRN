@@ -96,7 +96,7 @@ function CardRouter({ entry, onReveal }: { entry: QueueEntry; onReveal: () => vo
     case 'cloze':
       return <ClozeCard body={body} onReveal={onReveal} />;
     case 'mcq':
-      return <MCQCard body={body} onReveal={onReveal} />;
+      return <MCQCard body={body} onReveal={onReveal} itemId={entry.item.id} />;
     case 'free_recall':
       return <FreeRecallCard body={body} onReveal={onReveal} />;
     case 'numeric':
