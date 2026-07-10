@@ -10,6 +10,7 @@ export default defineConfig({
       'src/hooks/**/__tests__/**/*.test.ts',
       'src/stores/**/__tests__/**/*.test.ts',
       'src/components/**/__tests__/**/*.test.ts',
+      'src/utils/**/__tests__/**/*.test.ts',
     ],
     globals: true,
   },
