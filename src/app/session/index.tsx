@@ -11,6 +11,7 @@ import { MCQCard } from '@/components/session/MCQCard';
 import { FreeRecallCard } from '@/components/session/FreeRecallCard';
 import { NumericCard } from '@/components/session/NumericCard';
 import { RatingBar } from '@/components/session/RatingBar';
+import { RelatedCard } from '@/components/session/RelatedCard';
 import { SessionErrorBoundary } from '@/components/session/SessionErrorBoundary';
 import { useAppTheme } from '@/context/ThemeContext';
 import { useDBContext } from '@/context/DBContext';
@@ -23,9 +24,43 @@ import { QueueBuilder } from '@/domain/scheduler/QueueBuilder';
 import { ExamModeCompressor } from '@/domain/scheduler/ExamModeCompressor';
 import { RelearningPipeline } from '@/domain/scheduler/RelearningPipeline';
 import { UnsupportedCardFormatError } from '@/domain/types';
-import type { FsrsCardState, QueueEntry, Rating, ReviewMode } from '@/domain/types';
+import type { ContentItem, FsrsCardState, QueueEntry, Rating, ReviewMode } from '@/domain/types';
 import { useAppSettingsStore } from '@/stores/appSettingsStore';
 import type { IntervalPreview } from '@/components/session/RatingBar';
+
+// ─── Linked-items lookup ──────────────────────────────────────────────────────
+
+/**
+ * Builds a ContentItem lookup map for graphLink resolution after the queue is
+ * computed. Queue items are seeded first (no extra DB call needed); any linked
+ * IDs not already present are fetched individually. Missing/locked items are
+ * silently omitted — RelatedCard degrades gracefully for any unresolved ID.
+ * The map is computed once at mount; stale links simply show nothing.
+ */
+async function computeLinkedItems(
+  queue: QueueEntry[],
+  repo: { findById(id: string): Promise<ContentItem | null> },
+): Promise<Map<string, ContentItem>> {
+  const map = new Map<string, ContentItem>();
+
+  for (const entry of queue) {
+    map.set(entry.item.id, entry.item);
+  }
+
+  const needed = new Set<string>();
+  for (const entry of queue) {
+    for (const linkId of entry.item.graphLinks) {
+      if (!map.has(linkId)) needed.add(linkId);
+    }
+  }
+
+  for (const id of needed) {
+    const item = await repo.findById(id);
+    if (item) map.set(item.id, item);
+  }
+
+  return map;
+}
 
 // ─── Domain services (stateless — module-scope singletons) ────────────────────
 
@@ -89,6 +124,7 @@ export default function SessionScreen() {
   const [queueReady, setQueueReady] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [linkedItemsMap, setLinkedItemsMap] = useState<Map<string, ContentItem>>(() => new Map());
 
   // Session-level stats for summary.
   const startedAt = useRef(Date.now());
@@ -115,6 +151,11 @@ export default function SessionScreen() {
       .then(async (q) => {
         sessionStore.setQueue(q);        // resets currentIndex to 0
         await restore(db.db);            // overrides with persisted index if present
+        // Non-fatal: a failed lookup falls back to an empty map; RelatedCard
+        // degrades by omitting any unresolved link.
+        const linked = await computeLinkedItems(q, db.contentItemRepo)
+          .catch(() => new Map<string, ContentItem>());
+        setLinkedItemsMap(linked);
         setQueueReady(true);
       })
       .catch((e: unknown) => {
@@ -257,6 +298,11 @@ export default function SessionScreen() {
             onReveal={() => setRevealed(true)}
           />
         </SessionErrorBoundary>
+
+        {/* Related concepts — shown on every reveal when the item has graph links */}
+        {revealed && currentEntry.item.graphLinks.length > 0 && (
+          <RelatedCard links={currentEntry.item.graphLinks} linkedItems={linkedItemsMap} />
+        )}
 
         {/* Rating bar — appears only after answer is revealed */}
         {revealed && (

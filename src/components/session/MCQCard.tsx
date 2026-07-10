@@ -21,6 +21,8 @@ export function MCQCard({ body, onReveal }: MCQCardProps) {
   const { colors, space, radius } = useAppTheme();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  const isMiss = selectedId !== null && selectedId !== body.correctId;
+
   const handleChoice = (id: string) => {
     if (selectedId) return; // locked after first selection
     setSelectedId(id);
@@ -96,7 +98,12 @@ export function MCQCard({ body, onReveal }: MCQCardProps) {
       </View>
 
       {selectedId && (
-        <AppCard variant="alt">
+        <AppCard variant="alt" style={isMiss ? { borderColor: colors.danger } : undefined}>
+          {isMiss && (
+            <AppText variant="label" style={{ color: colors.danger, marginBottom: space[1] }}>
+              Here's why:
+            </AppText>
+          )}
           <AppText variant="caption" color="inkMuted">{body.explanation}</AppText>
         </AppCard>
       )}
