@@ -57,7 +57,10 @@ function makeItem(
 // returns whatever items the test supplies.
 function makeRepo(items: ContentItem[]): ContentItemRepository {
   return {
-    findByPackAndWeek: vi.fn().mockResolvedValue(items),
+    findByPackAndWeek:       vi.fn().mockResolvedValue(items),
+    // Meta queries used by picker — not called by computePracticeItems.
+    findWeeksByPack:         vi.fn().mockResolvedValue([]),
+    findPillarsByPackAndWeek: vi.fn().mockResolvedValue([]),
     // Write methods — must never be called by practice.
     upsert:          vi.fn().mockResolvedValue(undefined),
     findById:        vi.fn().mockResolvedValue(null),

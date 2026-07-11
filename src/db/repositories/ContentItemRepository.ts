@@ -149,6 +149,33 @@ export class ContentItemRepository {
     return rows.map(rowToItem);
   }
 
+  /** Distinct release-gate weeks that have at least one item in this pack, sorted ascending. */
+  async findWeeksByPack(packId: string): Promise<number[]> {
+    const rows = await this.db.getAllAsync<{ week: number }>(
+      `SELECT DISTINCT release_gate_week AS week
+       FROM content_items WHERE content_pack_id = $packId
+       ORDER BY release_gate_week`,
+      { $packId: packId },
+    );
+    return rows.map(r => r.week);
+  }
+
+  /**
+   * Distinct pillars that have at least one item in this pack (and optionally
+   * this exact release-gate week), sorted alphabetically.
+   */
+  async findPillarsByPackAndWeek(packId: string, week?: number): Promise<string[]> {
+    let sql = `SELECT DISTINCT pillar FROM content_items WHERE content_pack_id = $packId`;
+    const params: Record<string, DBBindValue> = { $packId: packId };
+    if (week !== undefined) {
+      sql += ` AND release_gate_week = $week`;
+      params.$week = week;
+    }
+    sql += ` ORDER BY pillar`;
+    const rows = await this.db.getAllAsync<{ pillar: string }>(sql, params);
+    return rows.map(r => r.pillar);
+  }
+
   async countByPack(contentPackId: string): Promise<number> {
     const row = await this.db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items WHERE content_pack_id = $packId`,

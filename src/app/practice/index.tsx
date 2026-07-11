@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -7,6 +7,7 @@ import { AppText } from '@/components/ui/AppText';
 import { AppCard } from '@/components/ui/AppCard';
 import { AppButton } from '@/components/ui/AppButton';
 import { useAppTheme } from '@/context/ThemeContext';
+import { useDBContext } from '@/context/DBContext';
 import { useCohortStore } from '@/stores/cohortStore';
 import { getCurrentSession } from '@/domain/cohort/CohortBuilder';
 import { getGateParams } from '@/hooks/useQueue';
@@ -21,8 +22,6 @@ const PILLAR_LABELS: Record<Pillar, string> = {
   concepts:    'Concepts',
 };
 
-const SESSION_WEEKS = 8;
-
 // ─── Pack option ──────────────────────────────────────────────────────────────
 
 interface PackOption {
@@ -36,11 +35,12 @@ interface PackOption {
 export default function PracticePickerScreen() {
   const router = useRouter();
   const { colors, space, radius } = useAppTheme();
+  const db = useDBContext();
   const cohort = useCohortStore(s => s.cohort);
 
   const now = useMemo(() => new Date(), []);
 
-  // Derive pack options from cohort
+  // Derive pack options and defaults from cohort — no DB needed.
   const { packOptions, currentSessionIndex, currentWeek, defaultPackId } = useMemo(() => {
     if (!cohort) return { packOptions: [], currentSessionIndex: 1, currentWeek: 1, defaultPackId: '' };
 
@@ -73,10 +73,35 @@ export default function PracticePickerScreen() {
   }, [cohort, now]);
 
   const [selectedPackId, setSelectedPackId] = useState(defaultPackId);
-  const [selectedWeek, setSelectedWeek] = useState<number | undefined>(undefined); // undefined = All weeks
+  const [selectedWeek, setSelectedWeek] = useState<number | undefined>(undefined);
   const [selectedPillar, setSelectedPillar] = useState<Pillar | undefined>(undefined);
 
-  // Week label helper — marks future weeks for the selected pack's session
+  // Available weeks and pillars — derived from content, not hardcoded.
+  const [availableWeeks, setAvailableWeeks] = useState<number[]>([]);
+  const [availablePillars, setAvailablePillars] = useState<Pillar[]>([]);
+
+  // Load available weeks whenever the selected pack changes.
+  // Reset week + pillar selections so stale options cannot persist.
+  useEffect(() => {
+    if (!db || !selectedPackId) return;
+    setSelectedWeek(undefined);
+    setSelectedPillar(undefined);
+    db.contentItemRepo.findWeeksByPack(selectedPackId)
+      .then(weeks => setAvailableWeeks(weeks))
+      .catch(() => setAvailableWeeks([]));
+  }, [selectedPackId, db]);
+
+  // Load available pillars whenever pack or week changes.
+  // Resets pillar so a selection from another scope doesn't persist.
+  useEffect(() => {
+    if (!db || !selectedPackId) return;
+    setSelectedPillar(undefined);
+    db.contentItemRepo.findPillarsByPackAndWeek(selectedPackId, selectedWeek)
+      .then(pillars => setAvailablePillars(pillars as Pillar[]))
+      .catch(() => setAvailablePillars([]));
+  }, [selectedPackId, selectedWeek, db]);
+
+  // Week label: marks weeks the student hasn't reached yet.
   const selectedPackSession = packOptions.find(p => p.packId === selectedPackId)?.sessionIndex ?? currentSessionIndex;
   function weekLabel(w: number): string {
     if (selectedPackSession > currentSessionIndex) return `Week ${w} (not yet covered)`;
@@ -97,6 +122,8 @@ export default function PracticePickerScreen() {
   }
 
   if (!cohort) return null;
+
+  const canStart = Boolean(selectedPackId);
 
   return (
     <AppSafeArea edges={['top', 'bottom']}>
@@ -147,19 +174,60 @@ export default function PracticePickerScreen() {
           </View>
         </AppCard>
 
-        {/* Week picker */}
+        {/* Week picker — only shows weeks that have content in the selected pack */}
         <AppCard style={{ gap: space[3] }}>
           <AppText variant="label">Weeks</AppText>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={[styles.chipRow, { flexWrap: 'nowrap' }]}>
-              {/* "All weeks" option — default */}
-              {[undefined, ...Array.from({ length: SESSION_WEEKS }, (_, i) => i + 1)].map(w => {
-                const active = selectedWeek === w;
-                const label = w === undefined ? 'All weeks' : weekLabel(w);
+          {availableWeeks.length === 0 ? (
+            <AppText variant="caption" color="inkMuted">No weeks available</AppText>
+          ) : (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={[styles.chipRow, { flexWrap: 'nowrap' }]}>
+                {/* "All weeks" — default */}
+                {[undefined, ...availableWeeks].map(w => {
+                  const active = selectedWeek === w;
+                  const label = w === undefined ? 'All weeks' : weekLabel(w);
+                  return (
+                    <Pressable
+                      key={w ?? 'all'}
+                      onPress={() => setSelectedWeek(w)}
+                      style={[
+                        styles.chip,
+                        {
+                          borderRadius: radius.pill,
+                          paddingHorizontal: space[3],
+                          paddingVertical: space[1],
+                          borderWidth: 1,
+                          borderColor: active ? colors.primary : colors.border,
+                          backgroundColor: active ? colors.primarySoft : colors.surface,
+                        },
+                      ]}>
+                      <AppText
+                        variant="caption"
+                        style={{ color: active ? colors.primary : colors.ink }}>
+                        {label}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          )}
+        </AppCard>
+
+        {/* Pillar filter — only shows pillars that exist in the selected pack+week */}
+        <AppCard style={{ gap: space[3] }}>
+          <AppText variant="label">Pillar (optional)</AppText>
+          {availablePillars.length === 0 ? (
+            <AppText variant="caption" color="inkMuted">No pillar filter available</AppText>
+          ) : (
+            <View style={styles.chipRow}>
+              {([undefined, ...availablePillars] as (Pillar | undefined)[]).map(p => {
+                const active = selectedPillar === p;
+                const label = p === undefined ? 'All pillars' : PILLAR_LABELS[p];
                 return (
                   <Pressable
-                    key={w ?? 'all'}
-                    onPress={() => setSelectedWeek(w)}
+                    key={p ?? 'all'}
+                    onPress={() => setSelectedPillar(p)}
                     style={[
                       styles.chip,
                       {
@@ -180,40 +248,7 @@ export default function PracticePickerScreen() {
                 );
               })}
             </View>
-          </ScrollView>
-        </AppCard>
-
-        {/* Pillar filter (optional) */}
-        <AppCard style={{ gap: space[3] }}>
-          <AppText variant="label">Pillar (optional)</AppText>
-          <View style={styles.chipRow}>
-            {([undefined, 'pharm', 'terminology', 'concepts', 'procedures'] as const).map(p => {
-              const active = selectedPillar === p;
-              const label = p === undefined ? 'All pillars' : PILLAR_LABELS[p];
-              return (
-                <Pressable
-                  key={p ?? 'all'}
-                  onPress={() => setSelectedPillar(p ?? undefined)}
-                  style={[
-                    styles.chip,
-                    {
-                      borderRadius: radius.pill,
-                      paddingHorizontal: space[3],
-                      paddingVertical: space[1],
-                      borderWidth: 1,
-                      borderColor: active ? colors.primary : colors.border,
-                      backgroundColor: active ? colors.primarySoft : colors.surface,
-                    },
-                  ]}>
-                  <AppText
-                    variant="caption"
-                    style={{ color: active ? colors.primary : colors.ink }}>
-                    {label}
-                  </AppText>
-                </Pressable>
-              );
-            })}
-          </View>
+          )}
         </AppCard>
 
         <AppText variant="caption" color="inkMuted" style={{ textAlign: 'center' }}>
@@ -224,7 +259,7 @@ export default function PracticePickerScreen() {
           label="Start Practice"
           variant="primary"
           onPress={handleStart}
-          disabled={!selectedPackId}
+          disabled={!canStart}
           fullWidth
         />
       </ScrollView>
