@@ -1,4 +1,4 @@
-import type { IDatabase } from '../types';
+import type { IDatabase, DBBindValue } from '../types';
 import type { ContentItem, ItemBody, ReleaseGate } from '../../domain/types';
 
 // ─── Row type ────────────────────────────────────────────────────────────────
@@ -122,6 +122,58 @@ export class ContentItemRepository {
         $placeholder: item.placeholder ? 1 : 0,
       },
     );
+  }
+
+  /**
+   * Items in a specific pack, optionally filtered to one release-gate week and/or pillar.
+   * week omitted → all weeks in the pack.
+   * pillar omitted → all pillars.
+   * Used by practice mode; never called by the scheduled-review path.
+   */
+  async findByPackAndWeek(
+    packId: string,
+    week?: number,
+    pillar?: string,
+  ): Promise<ContentItem[]> {
+    let sql = `SELECT * FROM content_items WHERE content_pack_id = $packId`;
+    const params: Record<string, DBBindValue> = { $packId: packId };
+    if (week !== undefined) {
+      sql += ` AND release_gate_week = $week`;
+      params.$week = week;
+    }
+    if (pillar !== undefined) {
+      sql += ` AND pillar = $pillar`;
+      params.$pillar = pillar;
+    }
+    const rows = await this.db.getAllAsync<ContentItemRow>(sql, params);
+    return rows.map(rowToItem);
+  }
+
+  /** Distinct release-gate weeks that have at least one item in this pack, sorted ascending. */
+  async findWeeksByPack(packId: string): Promise<number[]> {
+    const rows = await this.db.getAllAsync<{ week: number }>(
+      `SELECT DISTINCT release_gate_week AS week
+       FROM content_items WHERE content_pack_id = $packId
+       ORDER BY release_gate_week`,
+      { $packId: packId },
+    );
+    return rows.map(r => r.week);
+  }
+
+  /**
+   * Distinct pillars that have at least one item in this pack (and optionally
+   * this exact release-gate week), sorted alphabetically.
+   */
+  async findPillarsByPackAndWeek(packId: string, week?: number): Promise<string[]> {
+    let sql = `SELECT DISTINCT pillar FROM content_items WHERE content_pack_id = $packId`;
+    const params: Record<string, DBBindValue> = { $packId: packId };
+    if (week !== undefined) {
+      sql += ` AND release_gate_week = $week`;
+      params.$week = week;
+    }
+    sql += ` ORDER BY pillar`;
+    const rows = await this.db.getAllAsync<{ pillar: string }>(sql, params);
+    return rows.map(r => r.pillar);
   }
 
   async countByPack(contentPackId: string): Promise<number> {

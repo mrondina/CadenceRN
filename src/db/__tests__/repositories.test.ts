@@ -587,3 +587,102 @@ describe('regression: just-in-time onboarding → HomeScreen routes to Home', ()
     expect(titles).toContain('Applied Pharmacology');
   });
 });
+
+// ─── ContentItemRepository — practice meta queries ────────────────────────────
+
+describe('ContentItemRepository.findWeeksByPack', () => {
+  function makeItemForWeek(id: string, week: number, pillar = 'terminology'): ContentItem {
+    return {
+      id,
+      pillar: pillar as ContentItem['pillar'],
+      format: 'cloze',
+      difficultyTier: 1,
+      body: { type: 'cloze', front: `Q {{blank}}`, back: 'A' },
+      sourceCitation: 'test',
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week },
+      contentPackId: 'meta-pack',
+      contentVersion: 1,
+      placeholder: false,
+    };
+  }
+
+  it('returns distinct weeks sorted ascending', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert(makeItemForWeek('a', 3));
+    await repo.upsert(makeItemForWeek('b', 1));
+    await repo.upsert(makeItemForWeek('c', 3)); // duplicate week
+    await repo.upsert(makeItemForWeek('d', 2));
+    const weeks = await repo.findWeeksByPack('meta-pack');
+    expect(weeks).toEqual([1, 2, 3]);
+  });
+
+  it('returns empty array for a pack with no content', async () => {
+    const repo = new ContentItemRepository(db);
+    const weeks = await repo.findWeeksByPack('nonexistent-pack');
+    expect(weeks).toEqual([]);
+  });
+
+  it('does not return weeks from other packs', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert({ ...makeItemForWeek('x', 5), contentPackId: 'other-pack' });
+    await repo.upsert(makeItemForWeek('y', 1));
+    const weeks = await repo.findWeeksByPack('meta-pack');
+    expect(weeks).toEqual([1]);
+  });
+});
+
+describe('ContentItemRepository.findPillarsByPackAndWeek', () => {
+  function makeItemForPillar(id: string, week: number, pillar: string): ContentItem {
+    return {
+      id,
+      pillar: pillar as ContentItem['pillar'],
+      format: 'cloze',
+      difficultyTier: 1,
+      body: { type: 'cloze', front: `Q {{blank}}`, back: 'A' },
+      sourceCitation: 'test',
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week },
+      contentPackId: 'pillar-pack',
+      contentVersion: 1,
+      placeholder: false,
+    };
+  }
+
+  it('returns distinct pillars across all weeks when week omitted', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert(makeItemForPillar('p1', 1, 'pharm'));
+    await repo.upsert(makeItemForPillar('p2', 2, 'concepts'));
+    await repo.upsert(makeItemForPillar('p3', 1, 'pharm')); // duplicate pillar
+    const pillars = await repo.findPillarsByPackAndWeek('pillar-pack');
+    expect(pillars.sort()).toEqual(['concepts', 'pharm']);
+  });
+
+  it('returns only pillars present in the specified week', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert(makeItemForPillar('p1', 1, 'pharm'));
+    await repo.upsert(makeItemForPillar('p2', 2, 'concepts'));
+    await repo.upsert(makeItemForPillar('p3', 2, 'terminology'));
+    const pillars = await repo.findPillarsByPackAndWeek('pillar-pack', 2);
+    expect(pillars.sort()).toEqual(['concepts', 'terminology']);
+  });
+
+  it('returns empty array when no items match the week', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert(makeItemForPillar('p1', 1, 'pharm'));
+    const pillars = await repo.findPillarsByPackAndWeek('pillar-pack', 5);
+    expect(pillars).toEqual([]);
+  });
+
+  it('does not return pillars from other packs', async () => {
+    const repo = new ContentItemRepository(db);
+    await repo.upsert({ ...makeItemForPillar('p1', 1, 'procedures'), contentPackId: 'other-pack' });
+    await repo.upsert(makeItemForPillar('p2', 1, 'pharm'));
+    const pillars = await repo.findPillarsByPackAndWeek('pillar-pack', 1);
+    expect(pillars).toEqual(['pharm']);
+  });
+});
