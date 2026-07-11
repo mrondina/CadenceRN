@@ -1,4 +1,4 @@
-import type { IDatabase } from '../types';
+import type { IDatabase, DBBindValue } from '../types';
 import type { ContentItem, ItemBody, ReleaseGate } from '../../domain/types';
 
 // ─── Row type ────────────────────────────────────────────────────────────────
@@ -122,6 +122,31 @@ export class ContentItemRepository {
         $placeholder: item.placeholder ? 1 : 0,
       },
     );
+  }
+
+  /**
+   * Items in a specific pack, optionally filtered to one release-gate week and/or pillar.
+   * week omitted → all weeks in the pack.
+   * pillar omitted → all pillars.
+   * Used by practice mode; never called by the scheduled-review path.
+   */
+  async findByPackAndWeek(
+    packId: string,
+    week?: number,
+    pillar?: string,
+  ): Promise<ContentItem[]> {
+    let sql = `SELECT * FROM content_items WHERE content_pack_id = $packId`;
+    const params: Record<string, DBBindValue> = { $packId: packId };
+    if (week !== undefined) {
+      sql += ` AND release_gate_week = $week`;
+      params.$week = week;
+    }
+    if (pillar !== undefined) {
+      sql += ` AND pillar = $pillar`;
+      params.$pillar = pillar;
+    }
+    const rows = await this.db.getAllAsync<ContentItemRow>(sql, params);
+    return rows.map(rowToItem);
   }
 
   async countByPack(contentPackId: string): Promise<number> {

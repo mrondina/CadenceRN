@@ -224,6 +224,14 @@ function HomeContent({ cohort, db }: { cohort: Cohort; db: DBContextValue }) {
           fullWidth
         />
 
+        {/* Practice: demand-drill outside the scheduled queue */}
+        <AppButton
+          label="Practice"
+          variant="secondary"
+          onPress={() => router.push('/practice')}
+          fullWidth
+        />
+
         {/* Phase 2/3 teasers — below the fold, quiet, no dates promised */}
         <AppCard variant="alt" style={{ gap: space[3] }}>
           <AppText variant="label" color="inkMuted">Coming later</AppText>

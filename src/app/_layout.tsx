@@ -30,6 +30,10 @@ export default function RootLayout() {
               name="this-week"
               options={{ presentation: 'modal' }}
             />
+            <Stack.Screen
+              name="practice"
+              options={{ presentation: 'modal', animation: 'slide_from_bottom' }}
+            />
           </Stack>
         </DBProvider>
       </ThemeProvider>
