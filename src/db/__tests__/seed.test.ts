@@ -6,6 +6,7 @@ import { ItemMemoryStateRepository } from '../repositories/ItemMemoryStateReposi
 import { ChainGate } from '../../domain/cohort/ChainGate';
 import type { IDatabase } from '../types';
 import type { GraphLink } from '../../domain/types';
+import { BELLARMINE_SESSION_COURSES } from '../../domain/cohort/CohortBuilder';
 
 // ─── Step 13 gate: seed content ───────────────────────────────────────────────
 
@@ -17,11 +18,11 @@ beforeEach(async () => {
 });
 
 describe('Seed content migrations (002 + 003)', () => {
-  it('inserts the correct total item count (150)', async () => {
+  it('inserts the correct total item count (190)', async () => {
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(150);
+    expect(row?.cnt).toBe(190);
   });
 
   it('all five pack ids are represented', async () => {
@@ -34,6 +35,7 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(ids).toContain('foundations-pack');
     expect(ids).toContain('dosage-pack');
     expect(ids).toContain('complex-care-2-pack');
+    expect(ids).toContain('mental-health-pack');
   });
 
   it('terminology pack: 26 items in session 1 weeks 1-2', async () => {
@@ -119,7 +121,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(150);
+    expect(row?.cnt).toBe(190);
   });
 
   it('content items include all four body types: cloze, mcq, free_recall, numeric', async () => {
@@ -144,7 +146,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const v1 = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 1`,
     );
-    expect(v1?.cnt).toBe(79); // 150 total - 71 re-tagged
+    expect(v1?.cnt).toBe(119); // 190 total - 71 re-tagged
   });
 
   it('contentQA: every item pillar is one of the five valid values', async () => {
@@ -159,11 +161,11 @@ describe('Seed content migrations (002 + 003)', () => {
     ).toHaveLength(0);
   });
 
-  it('db_version is 4 after all migrations run', async () => {
+  it('db_version is 5 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('4');
+    expect(row?.value).toBe('5');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -174,11 +176,27 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
   });
 
+  it('mental-health pack: 40 items all in session 4 week 1', async () => {
+    const repo = new ContentItemRepository(db);
+    const items = await repo.findByPack('mental-health-pack');
+    expect(items).toHaveLength(40);
+    const gates = items.map(i => i.releaseGate);
+    expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
+  });
+
+  it('session 4 template carries both complex-care-2-pack and mental-health-pack', () => {
+    const session4 = BELLARMINE_SESSION_COURSES[4];
+    expect(session4).toHaveLength(2);
+    const allPackIds = session4.flatMap(c => c.contentPackIds);
+    expect(allPackIds).toContain('complex-care-2-pack');
+    expect(allPackIds).toContain('mental-health-pack');
+  });
+
   it('all current items are standalone (no rampTier): ChainGate returns active for all with empty states', async () => {
     const repo = new ContentItemRepository(db);
-    const packIds = ['terminology-pack', 'pharm-pack', 'foundations-pack', 'dosage-pack', 'complex-care-2-pack'];
+    const packIds = ['terminology-pack', 'pharm-pack', 'foundations-pack', 'dosage-pack', 'complex-care-2-pack', 'mental-health-pack'];
     const allItems = (await Promise.all(packIds.map(p => repo.findByPack(p)))).flat();
-    expect(allItems.length).toBe(150);
+    expect(allItems.length).toBe(190);
 
     const gate = new ChainGate(allItems);
     const emptyStates = new Map();
@@ -265,11 +283,11 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('4');
+    expect(versionAfter?.value).toBe('5');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(count?.cnt).toBe(150);
+    expect(count?.cnt).toBe(190);
   });
 });

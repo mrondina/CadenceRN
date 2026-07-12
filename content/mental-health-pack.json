@@ -1,0 +1,976 @@
+[
+  {
+    "id": "mh-001",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with bipolar disorder declines to attend a peer support group, stating, 'People like me are weak — I can't let anyone see me this way.' Which type of stigma is the nurse observing?",
+      "choices": [
+        { "id": "a", "text": "Public stigma — negative societal attitudes held by the general public toward people with mental illness" },
+        { "id": "b", "text": "Structural stigma — policies and institutional practices that disadvantage people with mental illness" },
+        { "id": "c", "text": "Self-stigma — internalized negative beliefs about oneself resulting from having a mental illness" },
+        { "id": "d", "text": "Courtesy stigma — negative social judgments directed at family members of people with mental illness" }
+      ],
+      "correctId": "c",
+      "explanation": "Self-stigma (internalized stigma) occurs when a person with mental illness incorporates society's negative attitudes into their own self-concept. The patient's statement — framing herself as 'weak' and avoiding peers — reflects internalized shame about her diagnosis, the defining feature of self-stigma. Public stigma originates in the community. Structural stigma is embedded in laws and institutions. Courtesy (affiliate) stigma is directed at family members or associates, not the person with the diagnosis."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-009"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-002",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which statement best reflects the mental health continuum model?",
+      "choices": [
+        { "id": "a", "text": "Mental health and mental illness are mutually exclusive — a person either has mental health or has mental illness at any given time." },
+        { "id": "b", "text": "Mental health equals the absence of a diagnosable psychiatric disorder." },
+        { "id": "c", "text": "Mental health and mental illness are dynamic, coexisting states that can fluctuate in response to biological, psychological, and social stressors." },
+        { "id": "d", "text": "Mental illness is a permanent condition determined solely by genetic factors." }
+      ],
+      "correctId": "c",
+      "explanation": "The continuum model holds that mental health and mental illness are not binary opposites but exist on a dynamic spectrum. A person can experience periods of impaired mental health even without a formal diagnosis, and someone with a diagnosed mental illness can experience periods of strong mental wellness. This model reflects the biopsychosocial understanding that mental states fluctuate based on biological vulnerabilities, psychological coping, and social circumstances — none of which is fixed."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-003",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is conducting a mental health intake and asks about factors that may protect the patient from developing a mental illness. Which of the following is a protective factor?",
+      "choices": [
+        { "id": "a", "text": "History of adverse childhood experiences (ACEs)" },
+        { "id": "b", "text": "Chronic housing instability and poverty" },
+        { "id": "c", "text": "Family history of schizophrenia" },
+        { "id": "d", "text": "Strong social support network and a sense of personal purpose" }
+      ],
+      "correctId": "d",
+      "explanation": "Protective factors reduce the likelihood of developing mental illness or mitigate its severity when it does occur. Strong social connectedness and a sense of purpose are among the most consistently identified protective factors across the mental health literature. In contrast, adverse childhood experiences (ACEs), chronic poverty, and a family history of schizophrenia are all established risk factors that increase vulnerability. The nurse documents both categories to build a complete biopsychosocial picture."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-004",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse overhears a colleague say, 'Psychiatric patients are all manipulative — they just want attention.' Which response by the nurse most professionally addresses the structural dimensions of this belief?",
+      "choices": [
+        { "id": "a", "text": "\"I understand your frustration — these patients can be exhausting to work with.\"" },
+        { "id": "b", "text": "\"Behaviors that look manipulative often reflect the patient's unmet needs and the symptoms of their illness, not deliberate intent.\"" },
+        { "id": "c", "text": "\"You should file a formal report with HR if you feel this way about a patient population.\"" },
+        { "id": "d", "text": "\"Just try not to take it personally — it's part of the job in this unit.\"" }
+      ],
+      "correctId": "b",
+      "explanation": "The most effective response to a stigmatizing generalization is psychoeducation that reframes the behavior in clinical terms — validating that certain behaviors are challenging while correcting the misattribution of intent. Option (b) does this: it names the underlying dynamic (unmet needs, symptoms) without dismissing the colleague's experience. Option (a) reinforces the colleague's framing rather than challenging it. Option (c) escalates prematurely before attempting peer education. Option (d) normalizes stigmatizing attitudes, perpetuating structural stigma within the unit culture."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-010"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-005",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with a history of major depressive disorder tells the nurse, 'I'll never be well — this is just how my life is.' Which nurse response best reflects recovery-model principles?",
+      "choices": [
+        { "id": "a", "text": "\"With the right medication, most people with depression achieve full remission within a year.\"" },
+        { "id": "b", "text": "\"It sounds like you're feeling hopeless. Let me ask the provider about adjusting your antidepressant.\"" },
+        { "id": "c", "text": "\"Recovery isn't about being cured — many people with depression build meaningful, self-directed lives. What matters most to you right now?\"" },
+        { "id": "d", "text": "\"I hear that you're struggling. Your symptoms will improve with time and consistent treatment.\"" }
+      ],
+      "correctId": "c",
+      "explanation": "The recovery model is person-driven and defined by the patient's own meaningful goals — not by symptom elimination or clinical cure. Option (c) explicitly reframes recovery away from a cure endpoint and redirects to the patient's own values and aspirations, both hallmarks of recovery-oriented care. Options (a) and (d), while reassuring, center clinical outcomes rather than the patient's self-defined meaning. Option (b) defaults to a medical model response (medication adjustment) without addressing the underlying hopelessness in recovery-model terms."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-008"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-006",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "During a mental health assessment for new-onset depression, the nurse asks the patient whether any first-degree relatives have been diagnosed with a mood disorder or have taken antidepressants. Which domain of the biopsychosocial model is the nurse primarily exploring?",
+      "choices": [
+        { "id": "a", "text": "Psychological — assessing the patient's cognitive patterns and history of learned helplessness" },
+        { "id": "b", "text": "Social — evaluating family relationships and interpersonal support systems" },
+        { "id": "c", "text": "Biological — evaluating genetic predisposition and neurobiological vulnerability" },
+        { "id": "d", "text": "Spiritual — understanding the patient's sense of meaning and connection to a larger purpose" }
+      ],
+      "correctId": "c",
+      "explanation": "Asking about family psychiatric diagnoses and medication use targets the biological domain: genetic predisposition is a primary biological risk factor for mood disorders. Family history of depression in first-degree relatives significantly increases an individual's risk, reflecting heritable neurobiological vulnerabilities in neurotransmitter regulation and stress-response circuitry. Social domain assessment would focus on relationships, support, and stressors. Psychological domain assessment targets thoughts, beliefs, and coping patterns. Spiritual assessment explores meaning and purpose."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-007",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse on an inpatient psychiatric unit believes the unit's routine use of physical restraints for agitated patients is not consistent with current evidence. Which action best reflects evidence-based practice (EBP) integration?",
+      "choices": [
+        { "id": "a", "text": "Submit a formal complaint to hospital administration about the current restraint policy" },
+        { "id": "b", "text": "Continue following the current policy until management formally revises it" },
+        { "id": "c", "text": "Conduct a literature review on de-escalation alternatives and present findings to the unit practice committee" },
+        { "id": "d", "text": "Discuss concerns privately with trusted colleagues to build informal consensus before taking any action" }
+      ],
+      "correctId": "c",
+      "explanation": "EBP integration in nursing involves using current evidence to question and improve clinical practice through established channels. The correct EBP sequence is to identify the clinical question, review the evidence, and bring findings to a practice committee — the structure designed to evaluate and implement policy change. Filing a complaint (a) bypasses the evidence synthesis step. Passively waiting for management action (b) abdicates the nurse's professional responsibility to participate in practice improvement. Building informal consensus (d) without a structured evidence base is not EBP — it is opinion-driven practice change."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-008",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which principle is the defining hallmark of the recovery model in mental health?",
+      "choices": [
+        { "id": "a", "text": "Achieving full symptom remission as the central treatment goal" },
+        { "id": "b", "text": "Maintaining consistent medication adherence as the primary measure of wellness" },
+        { "id": "c", "text": "Prevention of relapse through structured clinical monitoring and early intervention" },
+        { "id": "d", "text": "Person-driven self-determination of meaningful life goals and quality of life, regardless of symptom status" }
+      ],
+      "correctId": "d",
+      "explanation": "The recovery model defines recovery not as the elimination of symptoms but as a person-driven process of building a meaningful, self-directed life. A person can be 'in recovery' while still experiencing symptoms if they are pursuing the goals and relationships that matter to them. This distinguishes the recovery model from a purely medical model (options a and b), which frames success in clinical terms, and from a prevention framework (option c), which centers relapse avoidance rather than positive self-determined living."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-005"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-009",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with schizophrenia refuses his antipsychotic medication, stating, 'Taking pills means I'm crazy.' Which nursing intervention most directly addresses self-stigma?",
+      "choices": [
+        { "id": "a", "text": "Emphasize the serious consequences of non-adherence, including risk of relapse and hospitalization" },
+        { "id": "b", "text": "Explore the patient's personal meaning attached to taking medication and collaboratively challenge the internalized shame" },
+        { "id": "c", "text": "Contact the prescriber to consider switching to a long-acting injectable formulation" },
+        { "id": "d", "text": "Provide written education that reframes psychiatric medication as equivalent to taking medication for a physical illness like diabetes" }
+      ],
+      "correctId": "b",
+      "explanation": "Self-stigma is an internalized belief system, not simply an information deficit. The most direct intervention targets the belief itself: exploring what medication symbolizes to this patient and working collaboratively to challenge the shame attached to it. Option (a) uses fear-based persuasion, which can deepen shame rather than address it. Option (c) circumvents the patient's autonomy without addressing the underlying belief. Option (d) provides a reframe, which has some utility, but written education alone does not engage the interpersonal process required to shift deeply held self-stigma."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-001"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-010",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which term describes discrimination against people with mental illness that is embedded in laws, institutional policies, and social systems — rather than in the attitudes of individual people?",
+      "choices": [
+        { "id": "a", "text": "Public stigma" },
+        { "id": "b", "text": "Self-stigma" },
+        { "id": "c", "text": "Structural stigma" },
+        { "id": "d", "text": "Courtesy stigma" }
+      ],
+      "correctId": "c",
+      "explanation": "Structural stigma refers to the ways in which societal systems — insurance limitations on mental health benefits, laws that restrict employment or parental rights for people with psychiatric diagnoses, and underresourced mental health infrastructure — institutionalize disadvantage for people with mental illness. It is distinct from public stigma (individual attitudes), self-stigma (internalized beliefs), and courtesy stigma (spillover stigma onto family members). Structural stigma is often invisible because it is built into systems rather than expressed through interpersonal behavior."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 1",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-004"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-011",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient mentions a childhood memory of being embarrassed at school that she had not thought about in years but recalled clearly when the nurse asked about past experiences. In Freudian theory, this memory was stored in which level of awareness?",
+      "choices": [
+        { "id": "a", "text": "Conscious — material actively present in immediate awareness at all times" },
+        { "id": "b", "text": "Preconscious — material not in active awareness but retrievable with effort" },
+        { "id": "c", "text": "Unconscious — material permanently blocked from awareness and only accessible through dream analysis or free association" },
+        { "id": "d", "text": "Superego — the moral and idealized component of the psychic structure" }
+      ],
+      "correctId": "b",
+      "explanation": "In Freud's topographical model, the preconscious contains material that is not currently in active awareness but can be brought into consciousness through deliberate recall. The fact that the patient had not thought of this memory 'in years' but could retrieve it clearly when prompted is the defining feature of preconscious storage. Conscious material is actively held in present awareness. Unconscious material is actively repressed and inaccessible to voluntary recall (it surfaces only indirectly through dreams, slips, or free association). The superego is a structural, not topographical, concept."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-012",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient enrolled in anger management therapy frequently insists that his coworkers are hostile toward him and treat him unfairly, despite his supervisor reporting that coworkers describe the patient as difficult and confrontational. Which defense mechanism does this pattern most likely represent?",
+      "choices": [
+        { "id": "a", "text": "Rationalization — constructing plausible but self-serving justifications for unacceptable feelings or actions" },
+        { "id": "b", "text": "Displacement — redirecting anger away from its original target toward a safer substitute" },
+        { "id": "c", "text": "Projection — attributing one's own unacceptable feelings or impulses to another person" },
+        { "id": "d", "text": "Reaction formation — behaving in a manner that is the direct opposite of an unacceptable internal impulse" }
+      ],
+      "correctId": "c",
+      "explanation": "Projection involves unconsciously attributing one's own unacceptable thoughts, feelings, or impulses to another person. The patient who is struggling with his own hostility (confirmed by the supervisor) experiences coworkers as hostile toward him — he projects outward what he cannot acknowledge inward. Rationalization would involve him explaining his anger with seemingly logical but self-serving reasons. Displacement would involve directing the anger at a safer target (e.g., kicking a chair rather than confronting a boss). Reaction formation would produce the opposite — excessive friendliness toward those he actually resents."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-013",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient recently diagnosed with terminal pancreatic cancer calmly recites five-year survival statistics to the nurse and discusses clinical trial options in detail, but expresses no personal emotion about her own prognosis during the entire conversation. Which defense mechanism is most likely operating?",
+      "choices": [
+        { "id": "a", "text": "Rationalization — explaining away distress by constructing logical justifications for the situation" },
+        { "id": "b", "text": "Intellectualization — detaching from the emotional reality of a situation by focusing on abstract or technical information" },
+        { "id": "c", "text": "Suppression — making a conscious decision not to discuss emotional reactions with healthcare providers" },
+        { "id": "d", "text": "Sublimation — channeling the distress of the diagnosis into a socially productive activity" }
+      ],
+      "correctId": "b",
+      "explanation": "Intellectualization is the defense mechanism in which a person manages overwhelming emotion by retreating into abstract, cognitive, or factual engagement with a situation — divorcing thought from feeling. The patient is highly engaged with facts (statistics, trials) but entirely emotionally detached from her personal reality. SME note for Mary: the distinction between intellectualization and rationalization is clinically important. Rationalization involves post-hoc justification of a behavior or attitude ('I'm not upset — cancer was always a risk'); intellectualization involves emotionally vacating the subjective experience of the situation entirely. Both involve cognitive distancing, but the emphasis differs: rationalization defends against guilt/conflict; intellectualization defends against grief/fear."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-014",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Peplau's four interpersonal phases of the nurse-client relationship in sequence: orientation → {{blank}} → exploitation → resolution.",
+      "back": "identification",
+      "hint": "In this phase the client begins to identify who can help and clarifies their expectations of the relationship."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-015"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-015",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "In Peplau's interpersonal model, the phase in which treatment goals have been met and the client works toward greater independence from the nurse is the {{blank}} phase.",
+      "back": "resolution",
+      "hint": "Also called the termination phase — it is characterized by ending the therapeutic relationship and preparing the client for independence."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-014"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-016",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nursing student states, 'I failed one exam — I'm a complete failure and I will never make it through nursing school.' Which cognitive distortion described by Aaron Beck does this statement best represent?",
+      "choices": [
+        { "id": "a", "text": "Magnification — exaggerating the negative significance of a single event out of proportion to its actual impact" },
+        { "id": "b", "text": "All-or-nothing thinking — viewing outcomes in absolute, black-or-white terms with no allowance for middle ground" },
+        { "id": "c", "text": "Overgeneralization — drawing a broad negative conclusion across all situations from a single isolated event" },
+        { "id": "d", "text": "Catastrophizing — assuming that the absolute worst possible outcome will inevitably occur" }
+      ],
+      "correctId": "b",
+      "explanation": "All-or-nothing thinking (also called dichotomous or black-or-white thinking) involves evaluating outcomes in absolute extremes — one failure equals total failure, no middle ground exists. The student's leap from 'failed one exam' to 'complete failure' and 'will never make it' is the defining pattern: a single imperfect event triggers a total-failure conclusion with no acknowledgment of the full range of outcomes in between. SME note for Mary: the distinction from overgeneralization is worth reviewing — overgeneralization applies a pattern globally ('I always fail'; 'nothing ever works out'), whereas all-or-nothing thinking is an evaluative polarity in a single domain ('success or failure, nothing between'). This item is borderline; the phrase 'will never make it' edges toward overgeneralization. Flag if the preferred teaching example differs."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-017",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "In Carl Rogers' humanistic model of therapy, which term describes the therapist's complete, non-evaluative acceptance of the client regardless of what the client says or does?",
+      "choices": [
+        { "id": "a", "text": "Empathy — accurately perceiving and reflecting the client's internal emotional experience" },
+        { "id": "b", "text": "Genuineness (congruence) — the therapist's authentic self-disclosure and consistency between feeling and expression" },
+        { "id": "c", "text": "Unconditional positive regard — accepting the client without judgment or conditions attached to the relationship" },
+        { "id": "d", "text": "Positive transference — the client's displacement of positive feelings from a past relationship onto the therapist" }
+      ],
+      "correctId": "c",
+      "explanation": "Rogers identified three core conditions for therapeutic growth: unconditional positive regard, empathy, and genuineness. Unconditional positive regard is the therapist's non-judgmental acceptance of the client as a person of worth — the acceptance is not contingent on the client's behavior, beliefs, or disclosure. It differs from empathy (which involves perceiving and reflecting the client's emotional world) and genuineness (the therapist's authentic self-presentation). Positive transference is a psychoanalytic concept, not a Rogerian construct."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-018",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is caring for an unmedicated patient with schizophrenia who is also experiencing homelessness and reports not eating in 24 hours. Using Maslow's hierarchy of needs to prioritize the care plan, which need does the nurse address first?",
+      "choices": [
+        { "id": "a", "text": "Safety — addressing the immediate threat of decompensation from untreated psychosis" },
+        { "id": "b", "text": "Physiological — ensuring the patient has immediate access to food, water, and a safe sleeping environment" },
+        { "id": "c", "text": "Love and belonging — connecting the patient to community mental health services and peer support" },
+        { "id": "d", "text": "Esteem — affirming the patient's dignity and acknowledging personal strengths" }
+      ],
+      "correctId": "b",
+      "explanation": "Maslow's hierarchy requires that foundational physiological needs be met before higher-level needs can be meaningfully addressed. A patient who has not eaten in 24 hours and lacks shelter has unmet physiological needs (food, warmth, rest) that take precedence over safety, social, or esteem concerns — including the important but hierarchically higher need to address the untreated psychosis. In practice, the nurse can attend to both simultaneously, but the hierarchical framework and care planning language prioritizes the most foundational deficit first."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-019",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "According to Erikson's stages of psychosocial development, the central conflict for young adulthood (approximately ages 18–40) is intimacy vs. {{blank}}.",
+      "back": "isolation",
+      "hint": "Successful resolution → capacity for deep, committed relationships; unresolved → social withdrawal and loneliness."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-020"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-020",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "According to Erikson's stages of psychosocial development, the central conflict for middle adulthood (approximately ages 40–65) is generativity vs. {{blank}}.",
+      "back": "stagnation",
+      "hint": "Generativity = contributing to the next generation through work, parenting, or mentorship; stagnation = self-absorption and lack of meaningful contribution."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-019"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-021",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which statement best reflects the biological model's explanation of the cause of mental illness?",
+      "choices": [
+        { "id": "a", "text": "Mental illness results from unresolved unconscious conflicts originating in early childhood development." },
+        { "id": "b", "text": "Mental illness is primarily a product of maladaptive learned behaviors that developed through conditioning." },
+        { "id": "c", "text": "Mental illness arises from abnormal neurotransmitter activity, structural brain differences, and genetic vulnerability." },
+        { "id": "d", "text": "Mental illness reflects a failure of the individual to achieve authentic self-actualization and personal growth." }
+      ],
+      "correctId": "c",
+      "explanation": "The biological model frames mental illness as having neurobiological origins: dysregulation in neurotransmitter systems (e.g., serotonin in depression, dopamine in psychosis), structural or functional brain differences identifiable on imaging, and heritable genetic risk factors. This model underpins pharmacological treatment — medications target the neurobiological mechanisms implicated in each disorder. Option (a) describes the psychoanalytic model. Option (b) describes the behavioral model. Option (d) describes the humanistic model."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-022",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "In classical conditioning, a neutral stimulus that is repeatedly paired with an unconditioned stimulus eventually produces a response on its own. Once this occurs, it is called a {{blank}} stimulus.",
+      "back": "conditioned",
+      "hint": "Pavlov's bell: neutral → paired with food (unconditioned) → bell alone elicits salivation. The bell has become a conditioned stimulus."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 2",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-023",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "During a mental status examination, a patient sits with slumped posture, maintains no eye contact, and shows a flat facial expression throughout the interview, but reports feeling 'completely fine.' Which finding should the nurse document?",
+      "choices": [
+        { "id": "a", "text": "Mood and affect are congruent — both indicate euthymia" },
+        { "id": "b", "text": "Thought process is disorganized based on the patient's verbal responses" },
+        { "id": "c", "text": "Affect is flat and incongruent with the patient's reported mood" },
+        { "id": "d", "text": "Level of consciousness is impaired, consistent with depressive stupor" }
+      ],
+      "correctId": "c",
+      "explanation": "In the mental status examination, mood is the patient's subjective, self-reported emotional state (here: 'completely fine'), while affect is the nurse's objective observation of the patient's outward emotional expression (here: flat — no facial variation, no eye contact, slumped posture). When mood and affect do not match, the nurse documents incongruence. This finding is clinically significant and may suggest depression, blunted affect in psychosis, or emotional suppression. Level of consciousness refers to alertness/orientation, not emotional expression."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-029"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-024",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient tells the nurse, 'My neighbors installed a device in my television that transmits my private thoughts directly to the government.' Under which mental status examination category does the nurse document this finding?",
+      "choices": [
+        { "id": "a", "text": "Perceptual disturbances — specifically a command auditory hallucination" },
+        { "id": "b", "text": "Thought content — specifically a delusion of thought broadcasting" },
+        { "id": "c", "text": "Thought process — demonstrating loose associations and tangentiality" },
+        { "id": "d", "text": "Insight — reflecting the patient's lack of awareness that his experiences are symptoms of illness" }
+      ],
+      "correctId": "b",
+      "explanation": "The patient's belief that his thoughts are being transmitted outward through an external device is a delusion of thought broadcasting — a fixed, false belief that one's thoughts are being sent out and accessible to others. Delusions belong under thought content in the MSE (what the patient thinks about, not how). SME note for Mary: thought broadcasting (thoughts transmitted out) is distinct from thought insertion (external thoughts placed into one's mind) — both are delusions under thought content, but the direction of transmission differs. Perceptual disturbances cover sensory experiences without external stimuli (hallucinations). Thought process describes the flow and organization of thinking (loose associations, flight of ideas, tangentiality). Insight is whether the patient recognizes these experiences as symptoms — relevant here, but not the primary documentation category for the content of the belief itself."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-025",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "The nurse asks the patient to spell the word WORLD backwards. Which component of the mental status examination is being assessed?",
+      "choices": [
+        { "id": "a", "text": "Immediate memory — ability to retain and repeat information within seconds" },
+        { "id": "b", "text": "Insight — the patient's awareness of her illness and need for treatment" },
+        { "id": "c", "text": "Concentration and attention" },
+        { "id": "d", "text": "Judgment — the patient's capacity to make safe and reasonable decisions" }
+      ],
+      "correctId": "c",
+      "explanation": "Spelling WORLD backwards (or serial 7 subtraction — counting down from 100 by 7s) is the standard bedside test for concentration and sustained attention. It requires holding information in working memory while simultaneously performing a cognitive operation, which taxes attentional resources. Memory testing uses digit-span tasks or three-item recall at 5 minutes. Insight is assessed through interview about the patient's understanding of her diagnosis and need for treatment. Judgment is assessed through hypothetical scenario questions."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-030"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-026",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient with a 3-week history of low mood and sleep disturbance states during an intake assessment, 'Sometimes I think everyone would be better off without me.' Which action is the nurse's priority?",
+      "choices": [
+        { "id": "a", "text": "Complete all remaining MSE components before addressing the suicidal statement to maintain assessment structure" },
+        { "id": "b", "text": "Immediately conduct a structured suicide risk assessment" },
+        { "id": "c", "text": "Document the statement verbatim and notify the attending provider at the end of the shift" },
+        { "id": "d", "text": "Offer reassurance that passive suicidal ideation is a common depression symptom and does not require immediate action" }
+      ],
+      "correctId": "b",
+      "explanation": "Any statement indicating passive suicidal ideation — even indirect expressions like 'everyone would be better off without me' — requires immediate structured risk assessment. Safety always takes priority over completing a routine assessment sequence. The nurse must determine the nature of the ideation (passive vs. active), presence of a plan, access to means, and intent before continuing with or returning to the standard intake flow. Delaying to the end of the shift (c) violates the duty to protect and is clinically inappropriate. Reassurance alone (d) without assessment is not a safe response and may minimize a serious risk."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-027",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient reports a 3-week history of depressed mood, loss of interest in activities he previously enjoyed, early morning awakening, decreased appetite, and difficulty concentrating at work. Which validated screening tool is most appropriate for the nurse to administer?",
+      "choices": [
+        { "id": "a", "text": "GAD-7 — Generalized Anxiety Disorder 7-item scale" },
+        { "id": "b", "text": "CAGE questionnaire — four-item alcohol use screener" },
+        { "id": "c", "text": "PHQ-9 — Patient Health Questionnaire, 9-item depression screener" },
+        { "id": "d", "text": "AUDIT-C — three-item Alcohol Use Disorders Identification Test" }
+      ],
+      "correctId": "c",
+      "explanation": "The PHQ-9 (Patient Health Questionnaire) is the standard validated tool for screening and monitoring severity of major depressive disorder. Its nine items directly map to DSM-5 criteria for depression — depressed mood, anhedonia, sleep changes, appetite changes, concentration difficulty, and others. The patient's 3-week presentation of depressed mood, anhedonia, early-morning awakening, appetite loss, and concentration impairment is a textbook PHQ-9 indication. The GAD-7 screens for anxiety, not depression. The CAGE and AUDIT-C screen for alcohol use disorders, with no indication in this presentation."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-028",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A patient's spouse reports that the patient drinks heavily every evening, becomes irritable when without alcohol, and recently missed work due to a hangover. Which brief screening tool is most appropriate for the nurse to use at the bedside?",
+      "choices": [
+        { "id": "a", "text": "PHQ-9 — Patient Health Questionnaire for depression" },
+        { "id": "b", "text": "CAGE questionnaire — four-item alcohol use screener" },
+        { "id": "c", "text": "AUDIT — full 10-item Alcohol Use Disorders Identification Test" },
+        { "id": "d", "text": "CIWA-Ar — Clinical Institute Withdrawal Assessment for Alcohol, revised" }
+      ],
+      "correctId": "b",
+      "explanation": "The CAGE questionnaire (Cut down / Annoyed / Guilty / Eye-opener) is a four-item validated bedside screener for alcohol use disorder that takes under a minute to administer. It is appropriate as a first-line brief screen when collateral history suggests problem drinking. SME note for Mary: the CAGE vs. AUDIT distinction is testable — CAGE is faster and most appropriate at the bedside for initial screening; the 10-item AUDIT provides more detailed severity characterization and is better for comprehensive assessment. CIWA-Ar is used to monitor alcohol withdrawal severity (not screen for alcohol use disorder) and would not be the initial tool here unless active withdrawal were already established."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-029",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The mental status examination component that reflects a patient's awareness of having a mental illness, understanding of its nature, and recognition that treatment is needed is called {{blank}}.",
+      "back": "insight",
+      "hint": "A patient who denies being ill and refuses all treatment has absent or poor insight."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-023"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-030",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The mental status examination component assessed by asking the patient hypothetical questions (e.g., 'What would you do if you found a stamped, addressed envelope on the sidewalk?') is called {{blank}}.",
+      "back": "judgment",
+      "hint": "Judgment = capacity to make safe, practical decisions. Distinct from insight (understanding of illness) — a patient can have good insight and poor judgment."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 3",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-025"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-031",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which neurotransmitter is primarily implicated in the pathophysiology of major depressive disorder and is the main target of selective serotonin reuptake inhibitors (SSRIs)?",
+      "choices": [
+        { "id": "a", "text": "Dopamine" },
+        { "id": "b", "text": "Norepinephrine" },
+        { "id": "c", "text": "Serotonin" },
+        { "id": "d", "text": "Gamma-aminobutyric acid (GABA)" }
+      ],
+      "correctId": "c",
+      "explanation": "Serotonin (5-hydroxytryptamine, 5-HT) is the primary neurotransmitter target of SSRIs. The monoamine hypothesis of depression proposes that reduced serotonergic (and to a lesser extent noradrenergic) transmission underlies depressive symptoms. SSRIs block the serotonin transporter (SERT) at presynaptic terminals, preventing reuptake and increasing serotonin availability in the synapse. Dopamine is more prominently implicated in psychosis and reward. GABA is the primary inhibitory neurotransmitter, targeted by benzodiazepines for anxiety."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-037"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-032",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which neurotransmitter is the primary inhibitory neurotransmitter in the central nervous system, with reduced CNS activity linked to anxiety disorders?",
+      "choices": [
+        { "id": "a", "text": "Glutamate" },
+        { "id": "b", "text": "Serotonin" },
+        { "id": "c", "text": "Dopamine" },
+        { "id": "d", "text": "Gamma-aminobutyric acid (GABA)" }
+      ],
+      "correctId": "d",
+      "explanation": "GABA (gamma-aminobutyric acid) is the principal inhibitory neurotransmitter in the CNS. It reduces neuronal excitability by increasing chloride ion conductance through GABA-A receptors, hyperpolarizing the neuron. Reduced GABAergic tone is associated with heightened neuronal excitability, which underlies anxiety disorders. This is why GABAergic drugs (benzodiazepines, barbiturates) are effective anxiolytics and sedatives. Glutamate is the primary excitatory neurotransmitter. Serotonin and dopamine are monoamines with distinct roles in mood and reward circuits."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-035"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-033",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Hyperactivity of dopaminergic transmission in which brain pathway is most directly responsible for the positive symptoms of schizophrenia — including hallucinations, delusions, and disorganized thought?",
+      "choices": [
+        { "id": "a", "text": "Mesocortical pathway — projecting from the ventral tegmental area to the prefrontal cortex" },
+        { "id": "b", "text": "Nigrostriatal pathway — projecting from the substantia nigra to the striatum" },
+        { "id": "c", "text": "Mesolimbic pathway — projecting from the ventral tegmental area to the limbic system" },
+        { "id": "d", "text": "Tuberoinfundibular pathway — projecting from the hypothalamus to the pituitary" }
+      ],
+      "correctId": "c",
+      "explanation": "Mesolimbic dopamine hyperactivity is the pathway most directly linked to positive symptoms of schizophrenia. The mesolimbic pathway (VTA → nucleus accumbens, amygdala, hippocampus) is the brain's primary reward and salience system; excessive dopaminergic activity here is thought to produce aberrant salience — random stimuli are experienced as highly meaningful, contributing to hallucinations and delusions. SME note for Mary: the four dopamine pathways are a high-yield testable cluster. Mesocortical hypodopaminergia → negative symptoms (flat affect, alogia, avolition); nigrostriatal → motor control (antipsychotic block here → EPS); tuberoinfundibular → prolactin inhibition (antipsychotic block → hyperprolactinemia)."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-036"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-034",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A nurse is educating a patient prescribed venlafaxine for generalized anxiety disorder. Which statement most accurately describes this drug's mechanism of action?",
+      "choices": [
+        { "id": "a", "text": "It enhances GABA-A receptor activity, producing CNS inhibition and anxiolysis." },
+        { "id": "b", "text": "It selectively blocks serotonin reuptake at the presynaptic terminal, increasing synaptic serotonin only." },
+        { "id": "c", "text": "It inhibits the reuptake of both serotonin and norepinephrine at the presynaptic terminal, increasing both monoamines in the synapse." },
+        { "id": "d", "text": "It irreversibly inhibits monoamine oxidase, preventing breakdown of serotonin, norepinephrine, and dopamine." }
+      ],
+      "correctId": "c",
+      "explanation": "Venlafaxine is a serotonin-norepinephrine reuptake inhibitor (SNRI). It inhibits the presynaptic transporters for both serotonin (SERT) and norepinephrine (NET), increasing the synaptic availability of both neurotransmitters. This dual mechanism distinguishes SNRIs from SSRIs (which target SERT only) and contributes to efficacy in both depression and anxiety. Option (a) describes benzodiazepines. Option (b) describes SSRIs. Option (d) describes MAOIs (irreversible enzyme inhibition, not transporter blockade — an important distinction because MAOI drug interactions are far more dangerous)."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-035",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Which mechanism best explains the anxiolytic and sedative effects of benzodiazepines?",
+      "choices": [
+        { "id": "a", "text": "Irreversible blockade of dopamine D2 receptors in the mesolimbic pathway" },
+        { "id": "b", "text": "Selective inhibition of serotonin reuptake at presynaptic neurons" },
+        { "id": "c", "text": "Potentiation of GABA-A receptor activity, increasing chloride ion influx and CNS inhibition" },
+        { "id": "d", "text": "Competitive antagonism of norepinephrine at alpha-1 adrenergic receptors" }
+      ],
+      "correctId": "c",
+      "explanation": "Benzodiazepines are positive allosteric modulators of the GABA-A receptor — they bind to a site distinct from GABA's binding site and increase the frequency of chloride channel opening in the presence of GABA. Greater chloride influx hyperpolarizes the neuron, increasing inhibitory tone throughout the CNS. This mechanism produces anxiolysis, sedation, anticonvulsant effects, and muscle relaxation. Option (a) describes typical antipsychotic mechanism. Option (b) describes SSRIs. Option (d) describes alpha-blockers used in PTSD (e.g., prazosin) — not benzodiazepines."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-032"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-036",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Second-generation (atypical) antipsychotics differ from first-generation (typical) antipsychotics primarily because they also block which receptor, which is associated with a lower risk of extrapyramidal side effects?",
+      "choices": [
+        { "id": "a", "text": "Dopamine D1 receptors in the prefrontal cortex" },
+        { "id": "b", "text": "Serotonin 5-HT2A receptors" },
+        { "id": "c", "text": "Histamine H1 receptors" },
+        { "id": "d", "text": "Muscarinic acetylcholine M1 receptors" }
+      ],
+      "correctId": "b",
+      "explanation": "Atypical (second-generation) antipsychotics block both dopamine D2 receptors and serotonin 5-HT2A receptors. The 5-HT2A antagonism in the nigrostriatal pathway modulates dopamine release, partially offsetting the D2 blockade that causes extrapyramidal symptoms (EPS) with first-generation agents. This is why atypicals have a lower EPS risk profile than typicals. H1 blockade (sedation, weight gain) and muscarinic blockade (anticholinergic effects) are also present in many atypicals but are not the defining pharmacodynamic difference from typicals. D1 blockade is not a primary mechanism of either class."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-033"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-037",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The onset of meaningful therapeutic antidepressant effect for SSRIs and SNRIs typically requires {{blank}} weeks of consistent dosing — patient education must address this delay to support adherence.",
+      "back": "4–6",
+      "hint": "Reuptake blockade is immediate. The 4–6 week delay reflects downstream neuroplastic adaptations: receptor downregulation, BDNF upregulation, and synaptic remodeling."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": ["mh-031"],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-038",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "For a psychotropic drug to cross the blood-brain barrier efficiently and enter the CNS, it must primarily be {{blank}} in nature.",
+      "back": "lipid-soluble (lipophilic)",
+      "hint": "The BBB is formed by tight junctions between endothelial cells with a high lipid content — water-soluble drugs are excluded; lipophilic drugs diffuse freely across the lipid bilayer."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-039",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "A drug with a shorter half-life requires {{blank}} dosing frequency compared to a drug with a longer half-life in order to maintain therapeutic plasma concentrations.",
+      "back": "more frequent",
+      "hint": "Half-life = time for plasma concentration to fall by 50%. Short half-life → rapid clearance → drug must be redosed more often to stay within therapeutic range."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-040",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "The primary excitatory neurotransmitter in the central nervous system — whose NMDA receptors are targeted by ketamine and memantine — is {{blank}}.",
+      "back": "glutamate",
+      "hint": "GABA inhibits; glutamate excites — the balance between the two regulates overall CNS excitability. Excess glutamate is implicated in excitotoxicity."
+    },
+    "sourceCitation": "OpenStax Psychiatric-Mental Health Nursing ch. 4",
+    "lastReviewedAt": "2026-07-11",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 1 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  }
+]
