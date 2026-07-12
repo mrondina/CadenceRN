@@ -7,6 +7,7 @@ import type {
   ReviewMode,
   SyntheticItemState,
 } from '../types';
+import { ChainGate } from '../cohort/ChainGate';
 
 type ReviewEntry = {
   item: ContentItem;
@@ -27,22 +28,43 @@ export class QueueBuilder implements IQueueBuilder {
     newItems: ContentItem[];
     newItemCap: number;
     now: Date;
+    allKnownStates: ItemMemoryState[];
   }): QueueEntry[] {
-    const { dueStates, examCandidates, allItems, newItems, newItemCap, now } = params;
+    const { dueStates, examCandidates, allItems, newItems, newItemCap, now, allKnownStates } = params;
+
+    // Build ChainGate from all known content items so the predecessor/successor
+    // index is complete. For the current all-standalone content set this is a
+    // no-op index (zero rampChain links); check() fast-paths every item.
+    const chainGate = new ChainGate(allItems.values());
+    const allStatesMap = new Map<string, ItemMemoryState>(
+      allKnownStates.map(s => [s.itemId, s]),
+    );
 
     // 1. Merge due reviews + exam candidates into one review pool.
     //    Exam mode wins on dual membership — the analytics label is more informative,
     //    and the mode tag is what routes the event to the correct FSRS parameters.
-    const reviewPool = buildReviewPool(dueStates, examCandidates, allItems);
+    //    Filter retired items BEFORE merging — a retired tier-N must not resurface
+    //    via the due set even if its fsrs.due <= now.
+    const activeDue = dueStates.filter(s => {
+      const item = allItems.get(s.itemId);
+      return item ? chainGate.check(item, allStatesMap) !== 'retired' : true;
+    });
+    const activeExamCandidates = examCandidates.filter(s => {
+      const item = allItems.get(s.itemId);
+      return item ? chainGate.check(item, allStatesMap) !== 'retired' : true;
+    });
+    const reviewPool = buildReviewPool(activeDue, activeExamCandidates, allItems);
 
     // 2. Exclude sequence-format items from the review pool (Phase 2, Procedures).
     const filteredReview = reviewPool.filter(e => e.item.format !== 'sequence');
 
-    // 3. Select new items: exclude sequences, sort by curriculum order, apply cap.
+    // 3. Select new items: exclude sequences and locked chain tiers, sort by
+    //    curriculum order, apply cap.
     //    Sort is deterministic: (sessionIndex, week, id) preserves teaching sequence
     //    and tie-breaks stably so "which 20 of 40" is not a Map-iteration accident.
     const selectedNew = newItems
       .filter(item => item.format !== 'sequence')
+      .filter(item => chainGate.check(item, allStatesMap) !== 'locked')
       .sort(compareByReleaseGate)
       .slice(0, newItemCap);
 

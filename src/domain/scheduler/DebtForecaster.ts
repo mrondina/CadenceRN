@@ -9,6 +9,7 @@ export class DebtForecaster implements IDebtForecaster {
     boundaryConfig,
     examCandidates = [],
     activeExam = null,
+    excludeRetiredIds,
   }: ForecastParams): DayForecast[] {
     const studyDay0 = getStudyDay(now, boundaryConfig);
     const dayKeys = Array.from({ length: days }, (_, k) => addCalendarDays(studyDay0, k));
@@ -16,8 +17,11 @@ export class DebtForecaster implements IDebtForecaster {
     // Count dues per study day. Anything due before or on today's study day
     // folds into day-0 — overdue items ARE today's debt and the forecaster
     // must make that visible. Items beyond the window are silently ignored.
+    // Retired chain-tier items are excluded: their successor has taken over;
+    // showing them in the forecast would double-count the obligation.
     const counts = new Map<string, number>(dayKeys.map(k => [k, 0]));
     for (const state of states) {
+      if (excludeRetiredIds?.has(state.itemId)) continue;
       const dueDay = getStudyDay(new Date(state.fsrs.due), boundaryConfig);
       if (dueDay <= studyDay0) {
         counts.set(studyDay0, counts.get(studyDay0)! + 1);

@@ -83,6 +83,7 @@ describe('QueueBuilder', () => {
       newItems:       params.newItems       ?? [],
       newItemCap:     params.newItemCap     ?? 20,
       now:            NOW,
+      allKnownStates: params.dueStates      ?? [],
     });
 
   // ─── Review pool merge ─────────────────────────────────────────────────────

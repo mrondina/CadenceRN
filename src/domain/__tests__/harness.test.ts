@@ -185,7 +185,7 @@ function buildQueue(deps: OrchestratorDeps): QueueEntry[] {
   const unlockedItems = allItems.filter(item => releaseGate.check(item, cohort, now) === 'unlocked');
   const newItems = unlockedItems.filter(item => !memRepo.has(item.id));
   const dueStates = memRepo.dueBy(now);
-  return queueBuilder.buildQueue({ dueStates, examCandidates: [], allItems: itemMap, newItems, newItemCap, now });
+  return queueBuilder.buildQueue({ dueStates, examCandidates: [], allItems: itemMap, newItems, newItemCap, now, allKnownStates: dueStates });
 }
 
 // ─── Day-loop orchestrator ────────────────────────────────────────────────────
@@ -903,6 +903,7 @@ describe('Harness stage 3: weeks 6-8', () => {
         newItems: [],
         newItemCap: 0,
         now: clock.get(),
+        allKnownStates: dueStates,
       });
       for (const s of dualMembers) {
         const entries = queue.filter(e => e.item.id === s.itemId);
