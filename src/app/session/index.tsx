@@ -49,8 +49,10 @@ async function computeLinkedItems(
 
   const needed = new Set<string>();
   for (const entry of queue) {
-    for (const linkId of entry.item.graphLinks) {
-      if (!map.has(linkId)) needed.add(linkId);
+    for (const link of entry.item.graphLinks) {
+      // Filter to plain string IDs — RampChainLink objects are structural chain
+      // pointers, not conceptual associations to surface in RelatedCard.
+      if (typeof link === 'string' && !map.has(link)) needed.add(link);
     }
   }
 
@@ -299,10 +301,17 @@ export default function SessionScreen() {
           />
         </SessionErrorBoundary>
 
-        {/* Related concepts — shown on every reveal when the item has graph links */}
-        {revealed && currentEntry.item.graphLinks.length > 0 && (
-          <RelatedCard links={currentEntry.item.graphLinks} linkedItems={linkedItemsMap} />
-        )}
+        {/* Related concepts — shown on every reveal when the item has conceptual graph links.
+            RampChainLink objects (chain-tier pointers) are filtered out here; RelatedCard
+            shows only plain-string item-ID associations. */}
+        {revealed && (() => {
+          const conceptualLinks = currentEntry.item.graphLinks.filter(
+            (l): l is string => typeof l === 'string',
+          );
+          return conceptualLinks.length > 0 ? (
+            <RelatedCard links={conceptualLinks} linkedItems={linkedItemsMap} />
+          ) : null;
+        })()}
 
         {/* Rating bar — appears only after answer is revealed */}
         {revealed && (

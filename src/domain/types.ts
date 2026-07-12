@@ -1,6 +1,6 @@
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
-export type Pillar = 'pharm' | 'procedures' | 'terminology' | 'concepts';
+export type Pillar = 'pharm' | 'procedures' | 'terminology' | 'concepts' | 'dosage';
 
 export type ItemFormat = 'cloze' | 'mcq' | 'free_recall' | 'numeric' | 'sequence';
 
@@ -42,6 +42,25 @@ export interface CourseInstance {
   examDates: string[];   // ISO dates; may be empty
   updatedAt: string;
 }
+
+// ─── Graph links ──────────────────────────────────────────────────────────────
+
+/**
+ * Typed link from one ContentItem to another via the difficulty-ramp chain.
+ * Points from a lower tier to the NEXT tier (tier1→tier2→tier3).
+ * When this link exists on item N, item N+1's itemId is targetId.
+ */
+export interface RampChainLink {
+  linkType: 'rampChain';
+  targetId: string;  // itemId of the next tier in the chain
+}
+
+/**
+ * A graph link is either a plain item ID (conceptual association, used by
+ * RelatedCard) or a typed RampChainLink (chain-tier pointer, used by ChainGate).
+ * All existing content uses plain strings; chain content adds RampChainLink entries.
+ */
+export type GraphLink = string | RampChainLink;
 
 // ─── Content ──────────────────────────────────────────────────────────────────
 
@@ -95,11 +114,12 @@ export interface ContentItem {
   sourceCitation: string;
   lastReviewedAt: string; // ISO date — content QA date, not user review date
   highAlert: boolean;     // true for medications requiring heightened caution
-  graphLinks: string[];   // ids of conceptually related ContentItems
+  graphLinks: GraphLink[];  // conceptual associations (string IDs) and/or chain-tier pointers
   releaseGate: ReleaseGate;
   contentPackId: string;
   contentVersion: number;
-  placeholder: boolean;   // true = awaiting SME review; queryable in SQLite
+  placeholder: boolean;     // true = awaiting SME review; queryable in SQLite
+  rampTier?: 1 | 2 | 3;    // absent on standalone items (the overwhelming majority)
 }
 
 // ─── Learning state ───────────────────────────────────────────────────────────
@@ -275,6 +295,11 @@ export interface IQueueBuilder {
     newItems: ContentItem[];
     newItemCap: number;
     now: Date;
+    /** Complete ItemMemoryState map from the repository — required for correct
+     *  ChainGate evaluation. A tier-N item that is stable but not due must still
+     *  unblock its tier-(N+1) successor; a tier-(N+1) introduction must retire
+     *  tier-N even when tier-N is not in the current due set. */
+    allKnownStates: ItemMemoryState[];
   }): QueueEntry[];
 }
 
@@ -308,6 +333,12 @@ export interface IRelearningPipeline {
 
 /** Number of successful spaced retrievals required to graduate an item. */
 export const RELEARN_GRADUATION_N = 3;
+
+/**
+ * Minimum FSRS stability (days) a tier-N item must reach — in addition to
+ * graduation — before its tier-(N+1) successor is admitted to scheduling.
+ */
+export const CHAIN_PROMOTION_STABILITY_DAYS = 7;
 
 // ─── Exam mode ────────────────────────────────────────────────────────────────
 
@@ -368,10 +399,11 @@ export interface DayForecast {
 export interface ForecastParams {
   states: ItemMemoryState[];
   now: Date;
-  days?: number;                    // default 7
+  days?: number;                       // default 7
   boundaryConfig: DateBoundaryConfig;
-  examCandidates?: ItemMemoryState[]; // added to day-0 bucket when window is active
-  activeExam?: ActiveExam | null;    // drives isExamWindow annotation
+  examCandidates?: ItemMemoryState[];  // added to day-0 bucket when window is active
+  activeExam?: ActiveExam | null;      // drives isExamWindow annotation
+  excludeRetiredIds?: ReadonlySet<string>; // retired chain-tier items; excluded from counts
 }
 
 export interface IDebtForecaster {
@@ -418,6 +450,34 @@ export interface INotificationPlanner {
     activeExams: ActiveExam[],
     now: Date,
   ): ProposedReminder[];
+}
+
+// ─── Chain gate ───────────────────────────────────────────────────────────────
+
+export type ChainGateStatus = 'active' | 'locked' | 'retired';
+
+export interface IChainGate {
+  /**
+   * Evaluates an item's position within its difficulty-ramp chain.
+   *
+   * 'active'  — item may be introduced or reviewed normally. All standalone items
+   *             (no rampTier) return 'active' via a fast-path, adding no per-item
+   *             cost to the current all-standalone content set.
+   *
+   * 'locked'  — tier N+1 whose tier-N predecessor has NOT yet met the promotion
+   *             gate (graduated AND stability ≥ CHAIN_PROMOTION_STABILITY_DAYS).
+   *             Locked items are never introduced as new candidates.
+   *
+   * 'retired' — tier N whose tier-N+1 successor has been introduced (has any
+   *             ItemMemoryState). Retired items are excluded from the due set and
+   *             from ExamModeCompressor candidates. Their FSRS state is preserved.
+   *
+   * @param allStates Complete ItemMemoryState map from the repository — not merely
+   *   the current due/exam subset. A tier-N item that is stable but not currently
+   *   due must still unlock tier-(N+1); a tier-(N+1) introduction must retire
+   *   tier-N even when tier-N has not surfaced as due.
+   */
+  check(item: ContentItem, allStates: Map<string, ItemMemoryState>): ChainGateStatus;
 }
 
 // ─── Release gate ─────────────────────────────────────────────────────────────
