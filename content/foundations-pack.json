@@ -131,7 +131,7 @@
   },
   {
     "id": "fnd-006",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "free_recall",
     "difficultyTier": 1,
     "body": {
@@ -150,12 +150,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-007",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -170,12 +170,12 @@
     "graphLinks": ["fnd-024"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-008",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "free_recall",
     "difficultyTier": 2,
     "body": {
@@ -196,12 +196,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-009",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 2,
     "body": {
@@ -216,7 +216,7 @@
     "graphLinks": ["term-012", "pharm-007"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -429,7 +429,7 @@
   },
   {
     "id": "fnd-018",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 2,
     "body": {
@@ -444,12 +444,12 @@
     "graphLinks": ["fnd-019", "fnd-020"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-019",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 2,
     "body": {
@@ -464,12 +464,12 @@
     "graphLinks": ["fnd-018", "fnd-020"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-020",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 2,
     "body": {
@@ -484,12 +484,12 @@
     "graphLinks": ["fnd-018", "fnd-019"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-021",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "free_recall",
     "difficultyTier": 2,
     "body": {
@@ -510,12 +510,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-022",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -530,12 +530,12 @@
     "graphLinks": ["fnd-008"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-023",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "cloze",
     "difficultyTier": 2,
     "body": {
@@ -550,12 +550,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-024",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "free_recall",
     "difficultyTier": 2,
     "body": {
@@ -575,12 +575,12 @@
     "graphLinks": ["fnd-007"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "fnd-025",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "free_recall",
     "difficultyTier": 2,
     "body": {
@@ -601,7 +601,7 @@
     "graphLinks": ["fnd-001"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "foundations-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   }
 ]

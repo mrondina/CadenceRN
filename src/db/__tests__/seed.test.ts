@@ -133,18 +133,37 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(typeNames).toContain('numeric');
   });
 
-  it('pack versioning: all items have contentVersion = 1', async () => {
-    const nonV1 = await db.getFirstAsync<{ cnt: number }>(
-      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version != 1`,
+  it('pack versioning: re-tagged items have contentVersion = 2, untouched items = 1', async () => {
+    // 71 items re-tagged: 25 dosage + 12 foundations + 34 cc2.
+    // Pharm (30) and terminology (26) packs are untouched.
+    const v2 = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 2`,
     );
-    expect(nonV1?.cnt).toBe(0);
+    expect(v2?.cnt).toBe(71);
+
+    const v1 = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 1`,
+    );
+    expect(v1?.cnt).toBe(79); // 150 total - 71 re-tagged
   });
 
-  it('db_version is 3 after all migrations run', async () => {
+  it('contentQA: every item pillar is one of the five valid values', async () => {
+    const validPillars = new Set(['pharm', 'procedures', 'terminology', 'concepts', 'dosage']);
+    const rows = await db.getAllAsync<{ id: string; pillar: string }>(
+      `SELECT id, pillar FROM content_items`,
+    );
+    const invalid = rows.filter(r => !validPillars.has(r.pillar));
+    expect(
+      invalid,
+      `Items with invalid pillar: ${invalid.map(r => `${r.id}:${r.pillar}`).join(', ')}`,
+    ).toHaveLength(0);
+  });
+
+  it('db_version is 4 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('3');
+    expect(row?.value).toBe('4');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -246,7 +265,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('3');
+    expect(versionAfter?.value).toBe('4');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,

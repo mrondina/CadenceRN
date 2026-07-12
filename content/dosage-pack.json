@@ -1,7 +1,7 @@
 [
   {
     "id": "dose-001",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -21,12 +21,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-002",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -46,12 +46,12 @@
     "graphLinks": ["pharm-021"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-003",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -71,12 +71,12 @@
     "graphLinks": ["pharm-025"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-004",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -96,12 +96,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-005",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -121,12 +121,12 @@
     "graphLinks": ["pharm-005"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-006",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -146,12 +146,12 @@
     "graphLinks": ["pharm-009"],
     "releaseGate": { "sessionIndex": 1, "week": 1 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-007",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -171,12 +171,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-008",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -197,12 +197,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-009",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -222,12 +222,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-010",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -247,12 +247,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-011",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -272,12 +272,12 @@
     "graphLinks": ["fnd-011"],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-012",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -297,12 +297,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 2 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-013",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -322,12 +322,12 @@
     "graphLinks": ["pharm-025"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-014",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -347,12 +347,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-015",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -372,12 +372,12 @@
     "graphLinks": ["pharm-017"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-016",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -398,12 +398,12 @@
     "graphLinks": ["pharm-029"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-017",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -425,12 +425,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-018",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -449,12 +449,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-019",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 3,
     "body": {
@@ -474,12 +474,12 @@
     "graphLinks": ["fnd-013"],
     "releaseGate": { "sessionIndex": 1, "week": 3 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-020",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -498,12 +498,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-021",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 1,
     "body": {
@@ -525,12 +525,12 @@
     "graphLinks": ["fnd-004"],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-022",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -551,12 +551,12 @@
     "graphLinks": ["pharm-009"],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-023",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -576,12 +576,12 @@
     "graphLinks": ["pharm-025"],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-024",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -601,12 +601,12 @@
     "graphLinks": ["pharm-027"],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "dose-025",
-    "pillar": "concepts",
+    "pillar": "dosage",
     "format": "numeric",
     "difficultyTier": 2,
     "body": {
@@ -626,7 +626,7 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 1, "week": 4 },
     "contentPackId": "dosage-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   }
 ]

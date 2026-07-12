@@ -1,7 +1,7 @@
 [
   {
     "id": "cc2-001",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 1,
     "body": {
@@ -22,12 +22,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-002",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -48,12 +48,12 @@
     "graphLinks": ["cc2-003"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-003",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -74,12 +74,12 @@
     "graphLinks": ["cc2-002"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-004",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -100,7 +100,7 @@
     "graphLinks": ["cc2-005"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -151,7 +151,7 @@
   },
   {
     "id": "cc2-007",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -172,12 +172,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-008",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -198,12 +198,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-009",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -224,12 +224,12 @@
     "graphLinks": ["cc2-010"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-010",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -250,7 +250,7 @@
     "graphLinks": ["cc2-009"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -301,7 +301,7 @@
   },
   {
     "id": "cc2-013",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -322,12 +322,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-014",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 3,
     "body": {
@@ -348,12 +348,12 @@
     "graphLinks": ["cc2-002"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-015",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -368,12 +368,12 @@
     "graphLinks": ["cc2-019"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-016",
-    "pillar": "concepts",
+    "pillar": "pharm",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -394,7 +394,7 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -420,7 +420,7 @@
   },
   {
     "id": "cc2-018",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 1,
     "body": {
@@ -441,12 +441,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-019",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -461,7 +461,7 @@
     "graphLinks": ["cc2-015"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -492,7 +492,7 @@
   },
   {
     "id": "cc2-021",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -513,12 +513,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-022",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -533,12 +533,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-023",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -559,12 +559,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-024",
-    "pillar": "concepts",
+    "pillar": "pharm",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -585,7 +585,7 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -616,7 +616,7 @@
   },
   {
     "id": "cc2-026",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -631,12 +631,12 @@
     "graphLinks": ["cc2-025"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-027",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -657,12 +657,12 @@
     "graphLinks": ["cc2-025"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-028",
-    "pillar": "concepts",
+    "pillar": "pharm",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -677,12 +677,12 @@
     "graphLinks": ["cc2-029"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-029",
-    "pillar": "concepts",
+    "pillar": "pharm",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -698,12 +698,12 @@
     "graphLinks": ["cc2-028"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-030",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -718,12 +718,12 @@
     "graphLinks": ["cc2-033"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-031",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "free_recall",
     "difficultyTier": 3,
     "body": {
@@ -744,12 +744,12 @@
     "graphLinks": ["cc2-034"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-032",
-    "pillar": "concepts",
+    "pillar": "pharm",
     "format": "free_recall",
     "difficultyTier": 3,
     "body": {
@@ -771,12 +771,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-033",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -797,7 +797,7 @@
     "graphLinks": ["cc2-030"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -848,7 +848,7 @@
   },
   {
     "id": "cc2-036",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -863,12 +863,12 @@
     "graphLinks": ["cc2-035"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-037",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -889,7 +889,7 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
@@ -920,7 +920,7 @@
   },
   {
     "id": "cc2-039",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -941,12 +941,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-040",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -961,12 +961,12 @@
     "graphLinks": ["cc2-041"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-041",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -987,12 +987,12 @@
     "graphLinks": ["cc2-040"],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-042",
-    "pillar": "concepts",
+    "pillar": "procedures",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -1013,12 +1013,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-043",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "cloze",
     "difficultyTier": 1,
     "body": {
@@ -1033,12 +1033,12 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   },
   {
     "id": "cc2-044",
-    "pillar": "concepts",
+    "pillar": "terminology",
     "format": "mcq",
     "difficultyTier": 2,
     "body": {
@@ -1059,7 +1059,7 @@
     "graphLinks": [],
     "releaseGate": { "sessionIndex": 4, "week": 1 },
     "contentPackId": "complex-care-2-pack",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "placeholder": true
   }
 ]
