@@ -75,6 +75,7 @@ describe('QueueBuilder', () => {
     allItems?: Map<string, ContentItem>;
     newItems?: ContentItem[];
     newItemCap?: number;
+    allKnownStates?: ItemMemoryState[];
   }): QueueEntry[] =>
     builder.buildQueue({
       dueStates:      params.dueStates      ?? [],
@@ -83,7 +84,7 @@ describe('QueueBuilder', () => {
       newItems:       params.newItems       ?? [],
       newItemCap:     params.newItemCap     ?? 20,
       now:            NOW,
-      allKnownStates: params.dueStates      ?? [],
+      allKnownStates: params.allKnownStates ?? params.dueStates ?? [],
     });
 
   // ─── Review pool merge ─────────────────────────────────────────────────────
@@ -579,6 +580,70 @@ describe('QueueBuilder', () => {
       expect(result.filter(e => e.kind === 'new'   && e.item.format === 'free_recall')).toHaveLength(1);
       // Total FR in session exceeds FREE_RECALL_CAP because exam entries are exempt.
       expect(result.filter(e => e.item.format === 'free_recall').length).toBeGreaterThan(FREE_RECALL_CAP);
+    });
+  });
+
+  // ─── ChainGate integration ────────────────────────────────────────────────
+
+  describe('ChainGate integration', () => {
+    function rampLink(targetId: string) {
+      return { linkType: 'rampChain' as const, targetId };
+    }
+
+    it('retired tier-N item is excluded from the review queue even when due', () => {
+      // tier1 →rampChain→ tier2. tier2 has a state → tier1 is retired.
+      const tier1 = makeItem({ id: 'cg-t1', rampTier: 1, graphLinks: [rampLink('cg-t2')] });
+      const tier2 = makeItem({ id: 'cg-t2', rampTier: 2 });
+
+      // tier1 is due and has a state; tier2 has a state (retirement trigger)
+      const tier1State = makeState('cg-t1');
+      const tier2State = makeState('cg-t2', { graduated: false, stability: 1 });
+
+      const result = build({
+        dueStates:      [tier1State],           // tier1 is due
+        allItems:       itemsToMap([tier1, tier2]),
+        allKnownStates: [tier1State, tier2State], // tier2 state → tier1 retired
+      });
+
+      expect(result.map(e => e.item.id)).not.toContain('cg-t1');
+    });
+
+    it('locked tier-N+1 item is excluded from new candidates', () => {
+      // tier1 →rampChain→ tier2. tier1 has no state → tier2 is locked.
+      const tier1 = makeItem({ id: 'cg2-t1', rampTier: 1, graphLinks: [rampLink('cg2-t2')] });
+      const tier2 = makeItem({ id: 'cg2-t2', rampTier: 2 });
+
+      const result = build({
+        newItems:       [tier1, tier2],
+        allItems:       itemsToMap([tier1, tier2]),
+        newItemCap:     10,
+        allKnownStates: [],                     // no states at all → tier2 locked
+      });
+
+      // tier1 is active (no predecessor) and appears as new; tier2 is locked
+      expect(result.map(e => e.item.id)).toContain('cg2-t1');
+      expect(result.map(e => e.item.id)).not.toContain('cg2-t2');
+    });
+
+    it('promoted chain: when tier-2 active, tier-1 is retired and absent from queue', () => {
+      // tier1 is due; tier2 has a state (promotion happened) → tier1 retired, tier2 due.
+      const tier1 = makeItem({ id: 'cg3-t1', rampTier: 1, graphLinks: [rampLink('cg3-t2')] });
+      const tier2 = makeItem({ id: 'cg3-t2', rampTier: 2 });
+
+      const tier1State = makeState('cg3-t1', { graduated: true, stability: 10 });
+      const tier2State = makeState('cg3-t2', { graduated: false, stability: 2 });
+
+      const result = build({
+        dueStates:      [tier1State, tier2State], // both due
+        allItems:       itemsToMap([tier1, tier2]),
+        allKnownStates: [tier1State, tier2State],
+      });
+
+      const ids = result.map(e => e.item.id);
+      // tier-1 retired (tier-2 state exists) — must not appear
+      expect(ids).not.toContain('cg3-t1');
+      // tier-2 active (no successor) — must appear
+      expect(ids).toContain('cg3-t2');
     });
   });
 
