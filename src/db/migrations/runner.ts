@@ -198,4 +198,24 @@ export async function runMigrations(db: IDatabase): Promise<void> {
       );
     });
   }
+
+  if ((await getVersion(db)) < 4) {
+    // Re-seed items whose pillar changed in the A1 re-tag (contentVersion bumped
+    // to 2). Filters at runtime so only changed items are upserted — no-op for
+    // items already at the correct pillar (idempotent ON CONFLICT UPDATE).
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      const itemRepo = new ContentItemRepository(txn);
+      const retaggedItems = [
+        ...dosagePack,
+        ...foundationsPack,
+        ...complexCare2Pack,
+      ].filter(item => item.contentVersion === 2) as ContentItem[];
+      for (const item of retaggedItems) {
+        await itemRepo.upsert(item);
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '4')`,
+      );
+    });
+  }
 }

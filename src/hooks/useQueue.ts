@@ -129,6 +129,8 @@ export async function computeSessionQueue(deps: QueueDeps): Promise<QueueEntry[]
   const examCandidates = [...examCandidateMap.values()];
 
   // 5. Delegate to QueueBuilder for interleaving and cap enforcement.
+  //    Pass allMemStates so ChainGate evaluates against the complete repository
+  //    map — not merely the items that happen to be due or exam candidates today.
   return queueBuilder.buildQueue({
     dueStates,
     examCandidates,
@@ -136,6 +138,7 @@ export async function computeSessionQueue(deps: QueueDeps): Promise<QueueEntry[]
     newItems,
     newItemCap,
     now,
+    allKnownStates: allMemStates,
   });
 }
 

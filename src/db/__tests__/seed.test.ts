@@ -2,7 +2,10 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { openTestDb } from '../test-utils/BetterSQLiteDatabase';
 import { runMigrations, runSchemaOnly } from '../migrations/runner';
 import { ContentItemRepository } from '../repositories/ContentItemRepository';
+import { ItemMemoryStateRepository } from '../repositories/ItemMemoryStateRepository';
+import { ChainGate } from '../../domain/cohort/ChainGate';
 import type { IDatabase } from '../types';
+import type { GraphLink } from '../../domain/types';
 
 // ─── Step 13 gate: seed content ───────────────────────────────────────────────
 
@@ -130,18 +133,37 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(typeNames).toContain('numeric');
   });
 
-  it('pack versioning: all items have contentVersion = 1', async () => {
-    const nonV1 = await db.getFirstAsync<{ cnt: number }>(
-      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version != 1`,
+  it('pack versioning: re-tagged items have contentVersion = 2, untouched items = 1', async () => {
+    // 71 items re-tagged: 25 dosage + 12 foundations + 34 cc2.
+    // Pharm (30) and terminology (26) packs are untouched.
+    const v2 = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 2`,
     );
-    expect(nonV1?.cnt).toBe(0);
+    expect(v2?.cnt).toBe(71);
+
+    const v1 = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 1`,
+    );
+    expect(v1?.cnt).toBe(79); // 150 total - 71 re-tagged
   });
 
-  it('db_version is 3 after all migrations run', async () => {
+  it('contentQA: every item pillar is one of the five valid values', async () => {
+    const validPillars = new Set(['pharm', 'procedures', 'terminology', 'concepts', 'dosage']);
+    const rows = await db.getAllAsync<{ id: string; pillar: string }>(
+      `SELECT id, pillar FROM content_items`,
+    );
+    const invalid = rows.filter(r => !validPillars.has(r.pillar));
+    expect(
+      invalid,
+      `Items with invalid pillar: ${invalid.map(r => `${r.id}:${r.pillar}`).join(', ')}`,
+    ).toHaveLength(0);
+  });
+
+  it('db_version is 4 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('3');
+    expect(row?.value).toBe('4');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -150,6 +172,67 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(items).toHaveLength(44);
     const gates = items.map(i => i.releaseGate);
     expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
+  });
+
+  it('all current items are standalone (no rampTier): ChainGate returns active for all with empty states', async () => {
+    const repo = new ContentItemRepository(db);
+    const packIds = ['terminology-pack', 'pharm-pack', 'foundations-pack', 'dosage-pack', 'complex-care-2-pack'];
+    const allItems = (await Promise.all(packIds.map(p => repo.findByPack(p)))).flat();
+    expect(allItems.length).toBe(150);
+
+    const gate = new ChainGate(allItems);
+    const emptyStates = new Map();
+    const statuses = allItems.map(item => gate.check(item, emptyStates));
+    expect(statuses.every(s => s === 'active')).toBe(true);
+  });
+
+  it('graph links in all-standalone content are plain strings (no rampChain links)', async () => {
+    const allLinks = await db.getAllAsync<{ id: string; graph_links: string }>(
+      `SELECT id, graph_links FROM content_items`,
+    );
+    const rampChainLinks: string[] = [];
+    for (const row of allLinks) {
+      const links = JSON.parse(row.graph_links) as GraphLink[];
+      for (const link of links) {
+        if (typeof link === 'object' && link !== null && link.linkType === 'rampChain') {
+          rampChainLinks.push(`${row.id}`);
+        }
+      }
+    }
+    expect(rampChainLinks, `Items with unexpected rampChain links: ${rampChainLinks.join(', ')}`).toHaveLength(0);
+  });
+
+  it('FSRS state preservation: re-running migrations does not clear item_memory_states', async () => {
+    // Simulate a user who has existing FSRS progress, then receives a content migration.
+    // The item_memory_states table must be untouched by content re-seeding.
+    const memRepo = new ItemMemoryStateRepository(db);
+
+    // Write a synthetic FSRS state for an existing item.
+    await db.runAsync(
+      `INSERT INTO item_memory_states
+         (item_id, fsrs_stability, fsrs_difficulty, fsrs_due, fsrs_state,
+          fsrs_elapsed_days, fsrs_scheduled_days, fsrs_learning_steps,
+          fsrs_reps, fsrs_lapses, relearn_streak, graduated,
+          last_qualifying_date, updated_at)
+       VALUES
+         ('term-001', 21.5, 4.8, '2026-08-01T00:00:00.000Z', 'Review', 21, 21,
+          0, 6, 0, 0, 1, '2026-07-11T00:00:00.000Z', '2026-07-11T00:00:00.000Z')`,
+    );
+
+    const stateBefore = await memRepo.findByItemId('term-001');
+    expect(stateBefore).not.toBeNull();
+    expect(stateBefore!.fsrs.stability).toBeCloseTo(21.5);
+    expect(stateBefore!.graduated).toBe(true);
+
+    // Re-run all migrations (simulates app restart after content update).
+    await runMigrations(db);
+
+    // State must be exactly preserved — content_items upsert never touches item_memory_states.
+    const stateAfter = await memRepo.findByItemId('term-001');
+    expect(stateAfter).not.toBeNull();
+    expect(stateAfter!.fsrs.stability).toBeCloseTo(21.5);
+    expect(stateAfter!.graduated).toBe(true);
+    expect(stateAfter!.fsrs.reps).toBe(6);
   });
 
   it('migration atomicity: partial load (db_version=1, some items present) self-heals on re-run', async () => {
@@ -182,7 +265,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('3');
+    expect(versionAfter?.value).toBe('4');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,

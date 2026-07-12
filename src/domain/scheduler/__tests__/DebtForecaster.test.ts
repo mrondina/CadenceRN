@@ -307,4 +307,62 @@ describe('DebtForecaster', () => {
     expect(result.length).toBe(1);
     expect(result[0].date).toBe('2026-07-03');
   });
+
+  // ─── excludeRetiredIds ────────────────────────────────────────────────────
+
+  describe('excludeRetiredIds', () => {
+    it('retired item is excluded from day-0 count', () => {
+      const states = [
+        makeStateDue('active-a', '2026-07-03T14:00:00.000Z'),
+        makeStateDue('active-b', '2026-07-03T14:00:00.000Z'),
+        makeStateDue('retired-x', '2026-07-03T14:00:00.000Z'),
+      ];
+      const excluded = new Set(['retired-x']);
+
+      const withRetired    = forecast({ states, excludeRetiredIds: undefined });
+      const withoutRetired = forecast({ states, excludeRetiredIds: excluded });
+
+      expect(withRetired[0].dueCount).toBe(3);
+      expect(withoutRetired[0].dueCount).toBe(2);
+    });
+
+    it('retired item is excluded from a future forecast day', () => {
+      const states = [
+        makeStateDue('active-c', '2026-07-05T14:00:00.000Z'),
+        makeStateDue('retired-y', '2026-07-05T14:00:00.000Z'),
+      ];
+      const excluded = new Set(['retired-y']);
+
+      const result = forecast({ states, excludeRetiredIds: excluded });
+      const day2 = result.find(d => d.date === '2026-07-05');
+      expect(day2?.dueCount).toBe(1);
+    });
+
+    it('undefined excludeRetiredIds leaves all items in forecast (no-op)', () => {
+      const states = [
+        makeStateDue('item-1', '2026-07-03T14:00:00.000Z'),
+        makeStateDue('item-2', '2026-07-03T14:00:00.000Z'),
+      ];
+      const result = forecast({ states, excludeRetiredIds: undefined });
+      expect(result[0].dueCount).toBe(2);
+    });
+
+    it('empty excludeRetiredIds set leaves all items in forecast', () => {
+      const states = [
+        makeStateDue('item-3', '2026-07-03T14:00:00.000Z'),
+      ];
+      const result = forecast({ states, excludeRetiredIds: new Set() });
+      expect(result[0].dueCount).toBe(1);
+    });
+
+    it('excluding all items from a day results in dueCount=0 for that day', () => {
+      const states = [
+        makeStateDue('r1', '2026-07-03T14:00:00.000Z'),
+        makeStateDue('r2', '2026-07-03T14:00:00.000Z'),
+      ];
+      const excluded = new Set(['r1', 'r2']);
+      const result = forecast({ states, excludeRetiredIds: excluded });
+      expect(result[0].dueCount).toBe(0);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import type { IDatabase, DBBindValue } from '../types';
-import type { ContentItem, ItemBody, ReleaseGate } from '../../domain/types';
+import type { ContentItem, GraphLink, ItemBody, ReleaseGate } from '../../domain/types';
 
 // ─── Row type ────────────────────────────────────────────────────────────────
 
@@ -32,7 +32,7 @@ function rowToItem(row: ContentItemRow): ContentItem {
     sourceCitation: row.source_citation,
     lastReviewedAt: row.last_reviewed_at,
     highAlert: row.high_alert === 1,
-    graphLinks: JSON.parse(row.graph_links) as string[],
+    graphLinks: JSON.parse(row.graph_links) as GraphLink[],
     releaseGate: {
       sessionIndex: row.release_gate_session_index,
       week: row.release_gate_week,

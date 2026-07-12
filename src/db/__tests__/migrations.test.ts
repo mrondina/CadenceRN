@@ -6,7 +6,7 @@ import type { IDatabase } from '../types';
 // ─── Step 11/13 gate + migration 003: migration runner idempotency ────────────
 //
 // The runner must execute twice on the same database without error and leave
-// db_version = 3 (migrations 001 + 002 + 003 all applied).
+// db_version = 4 (migrations 001 + 002 + 003 all applied).
 
 describe('runMigrations', () => {
   let db: IDatabase;
@@ -15,13 +15,13 @@ describe('runMigrations', () => {
     db = openTestDb();
   });
 
-  it('first run: creates all tables and sets db_version = 3', async () => {
+  it('first run: creates all tables and sets db_version = 4', async () => {
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('3');
+    expect(row?.value).toBe('4');
   });
 
   it('second run: no error; db_version remains 3', async () => {
@@ -31,7 +31,7 @@ describe('runMigrations', () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('3');
+    expect(row?.value).toBe('4');
   });
 
   it('all expected tables exist after migration', async () => {
