@@ -146,6 +146,9 @@ Track per-session pack status here. Update as packs are authored and signed off.
 | s1 | pharm | — | 30 | [ ] | [ ] |
 | s1 | dosage | — | 25 | [ ] | [ ] |
 | s4 | complex-care-2 | ✓ content/topic-map/s4-complex-care-2.md | 44 (week 1, cc2-001–044) | [ ] | [ ] |
+| s4 | mental-health | ✓ content/topic-map/s4-mental-health.md | 40 (week 1, mh-001–040) | [ ] | [ ] |
 | s2–s3, s5–s6 | all courses | not started | 0 | — | — |
 
 **Note:** All 106 s1 items carry `placeholder: true`. No items are production-ready until Mary's sign-off per the review workflow above.
+
+**Note (2026-07-11):** `mental-health` week 1 (40 items, mh-001–040) authored per approved manifest. All items carry `placeholder: true` pending Mary's SME review. Weeks 2–6 authoring is still gated on the B1 difficulty-ramp decision (PLAN.md Open Questions / Evidence note 1) — do not draft further items until B1 resolves.

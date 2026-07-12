@@ -11,7 +11,10 @@ export const BELLARMINE_SESSION_COURSES: Record<number, { title: string; content
   ],
   2: [{ title: 'Pathophysiology & Complex Care I', contentPackIds: [] }],
   3: [{ title: 'Complex Adult Care I', contentPackIds: [] }],
-  4: [{ title: 'Psychiatric Mental Health & OB', contentPackIds: [] }],
+  4: [
+    { title: 'Complex Care 2 (Musculoskeletal & Sensory)', contentPackIds: ['complex-care-2-pack'] },
+    { title: 'Psychiatric Mental Health Nursing', contentPackIds: ['mental-health-pack'] },
+  ],
   5: [{ title: 'Complex Adult Care II', contentPackIds: [] }],
   6: [{ title: 'NCLEX Runway', contentPackIds: [] }],
 };
