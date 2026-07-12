@@ -25,6 +25,7 @@ const lightColors = {
   procedures:  '#0E7C86',
   terminology: '#B7791F',
   concepts:    '#3556A8',
+  dosage:      '#2E7D5B',
 } as const;
 
 const darkColors = {
@@ -50,6 +51,7 @@ const darkColors = {
   procedures:  '#14A3B0',
   terminology: '#D4920A',
   concepts:    '#5577D4',
+  dosage:      '#3FAD7B',
 } as const;
 
 // Structural type: keys match lightColors, values are strings.
