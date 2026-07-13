@@ -835,5 +835,37 @@ describe('QueueBuilder', () => {
       expect(caseEntries).toHaveLength(1);
       expect(caseEntries[0].mode).toBe('exam');
     });
+
+    it('contiguity invariant: all rows for each caseId are adjacent with no interleaving', () => {
+      // Two 3-row due cases: case-a (rows a1/a2/a3) and case-b (rows b1/b2/b3).
+      // Both are within CASE_CAP=2 so both are emitted.
+      // Contiguity requires all case-a rows to be adjacent and all case-b rows to be adjacent.
+      const a1 = makeCaseItem('a1', 'case-a', 1);
+      const a2 = makeCaseItem('a2', 'case-a', 2);
+      const a3 = makeCaseItem('a3', 'case-a', 3);
+      const b1 = makeCaseItem('b1', 'case-b', 1);
+      const b2 = makeCaseItem('b2', 'case-b', 2);
+      const b3 = makeCaseItem('b3', 'case-b', 3);
+      const result = build({
+        dueStates: [a1, a2, a3, b1, b2, b3].map(i => makeState(i.id)),
+        allItems:  itemsToMap([a1, a2, a3, b1, b2, b3]),
+      });
+
+      const caseEntries = result.filter(e => e.item.caseId !== null);
+      expect(caseEntries).toHaveLength(6);
+
+      // Walk the output. Each time we see a new caseId, the previous one must be finished
+      // (i.e., we must not encounter an already-seen caseId again after switching away).
+      let lastSeen: string | null = null;
+      const exhausted = new Set<string>();
+      for (const e of caseEntries) {
+        const id = e.item.caseId!;
+        if (id !== lastSeen) {
+          expect(exhausted.has(id)).toBe(false); // must not reopen a closed group
+          if (lastSeen !== null) exhausted.add(lastSeen);
+          lastSeen = id;
+        }
+      }
+    });
   });
 });

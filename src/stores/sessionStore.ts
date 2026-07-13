@@ -14,6 +14,8 @@ interface SessionState {
   setQueue: (queue: QueueEntry[]) => void;
   /** Advance to the next card. No-ops when already past the end. */
   advance: () => void;
+  /** Advance by n positions (used by case bundles to skip all N rows at once). */
+  advanceBy: (n: number) => void;
   /** Reset all session state (e.g. after session completion). */
   reset: () => void;
 
@@ -52,6 +54,9 @@ export const useSessionStore = create<SessionState>()((set, get) => ({
 
   advance: () =>
     set((s) => ({ currentIndex: Math.min(s.currentIndex + 1, s.queue.length) })),
+
+  advanceBy: (n: number) =>
+    set((s) => ({ currentIndex: Math.min(s.currentIndex + n, s.queue.length) })),
 
   reset: () => set(initialState),
 

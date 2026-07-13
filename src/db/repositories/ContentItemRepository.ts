@@ -141,13 +141,15 @@ export class ContentItemRepository {
    * week omitted → all weeks in the pack.
    * pillar omitted → all pillars.
    * Used by practice mode; never called by the scheduled-review path.
+   * ADR-9 param 3: case rows (case_id IS NOT NULL) are excluded — they must only
+   * render inside a CaseBundleCard, never as standalone practice cards.
    */
   async findByPackAndWeek(
     packId: string,
     week?: number,
     pillar?: string,
   ): Promise<ContentItem[]> {
-    let sql = `SELECT * FROM content_items WHERE content_pack_id = $packId`;
+    let sql = `SELECT * FROM content_items WHERE content_pack_id = $packId AND case_id IS NULL`;
     const params: Record<string, DBBindValue> = { $packId: packId };
     if (week !== undefined) {
       sql += ` AND release_gate_week = $week`;
@@ -161,11 +163,11 @@ export class ContentItemRepository {
     return rows.map(rowToItem);
   }
 
-  /** Distinct release-gate weeks that have at least one item in this pack, sorted ascending. */
+  /** Distinct release-gate weeks that have at least one standalone item in this pack, sorted ascending. */
   async findWeeksByPack(packId: string): Promise<number[]> {
     const rows = await this.db.getAllAsync<{ week: number }>(
       `SELECT DISTINCT release_gate_week AS week
-       FROM content_items WHERE content_pack_id = $packId
+       FROM content_items WHERE content_pack_id = $packId AND case_id IS NULL
        ORDER BY release_gate_week`,
       { $packId: packId },
     );
@@ -173,11 +175,11 @@ export class ContentItemRepository {
   }
 
   /**
-   * Distinct pillars that have at least one item in this pack (and optionally
+   * Distinct pillars that have at least one standalone item in this pack (and optionally
    * this exact release-gate week), sorted alphabetically.
    */
   async findPillarsByPackAndWeek(packId: string, week?: number): Promise<string[]> {
-    let sql = `SELECT DISTINCT pillar FROM content_items WHERE content_pack_id = $packId`;
+    let sql = `SELECT DISTINCT pillar FROM content_items WHERE content_pack_id = $packId AND case_id IS NULL`;
     const params: Record<string, DBBindValue> = { $packId: packId };
     if (week !== undefined) {
       sql += ` AND release_gate_week = $week`;

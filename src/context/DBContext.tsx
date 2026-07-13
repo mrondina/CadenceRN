@@ -6,6 +6,7 @@ import { ContentItemRepository } from '@/db/repositories/ContentItemRepository';
 import { ItemMemoryStateRepository } from '@/db/repositories/ItemMemoryStateRepository';
 import { ReviewEventRepository } from '@/db/repositories/ReviewEventRepository';
 import { DrillResultRepository } from '@/db/repositories/DrillResultRepository';
+import { ContentCaseRepository } from '@/db/repositories/ContentCaseRepository';
 import { useAppSettingsStore } from '@/stores/appSettingsStore';
 
 export interface DBContextValue {
@@ -15,6 +16,7 @@ export interface DBContextValue {
   memStateRepo: ItemMemoryStateRepository;
   reviewEventRepo: ReviewEventRepository;
   drillRepo: DrillResultRepository;
+  caseRepo: ContentCaseRepository;
 }
 
 const DBContext = createContext<DBContextValue | null>(null);
@@ -33,6 +35,7 @@ export function DBProvider({ children }: React.PropsWithChildren) {
         memStateRepo: new ItemMemoryStateRepository(db),
         reviewEventRepo: new ReviewEventRepository(db),
         drillRepo: new DrillResultRepository(db),
+        caseRepo: new ContentCaseRepository(db),
       });
     });
   }, []);
