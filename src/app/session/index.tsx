@@ -10,6 +10,7 @@ import { ClozeCard } from '@/components/session/ClozeCard';
 import { MCQCard } from '@/components/session/MCQCard';
 import { FreeRecallCard } from '@/components/session/FreeRecallCard';
 import { NumericCard } from '@/components/session/NumericCard';
+import { CaseBundleCard } from '@/components/session/CaseBundleCard';
 import { RatingBar } from '@/components/session/RatingBar';
 import { RelatedCard } from '@/components/session/RelatedCard';
 import { SessionErrorBoundary } from '@/components/session/SessionErrorBoundary';
@@ -18,25 +19,23 @@ import { useDBContext } from '@/context/DBContext';
 import { useCohortStore } from '@/stores/cohortStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { computeSessionQueue } from '@/hooks/useQueue';
-import { processRating } from '@/hooks/useReviewSession';
+import { processRating, processCaseRating } from '@/hooks/useReviewSession';
+import type { CaseRowAnswer } from '@/hooks/useReviewSession';
 import { SchedulerService } from '@/domain/scheduler/SchedulerService';
 import { QueueBuilder } from '@/domain/scheduler/QueueBuilder';
 import { ExamModeCompressor } from '@/domain/scheduler/ExamModeCompressor';
 import { RelearningPipeline } from '@/domain/scheduler/RelearningPipeline';
 import { UnsupportedCardFormatError } from '@/domain/types';
-import type { ContentItem, FsrsCardState, QueueEntry, Rating, ReviewMode } from '@/domain/types';
+import type { ContentCase, ContentItem, FsrsCardState, QueueEntry, Rating, ReviewMode } from '@/domain/types';
 import { useAppSettingsStore } from '@/stores/appSettingsStore';
 import type { IntervalPreview } from '@/components/session/RatingBar';
+import {
+  computeLogicalGroups,
+  findCurrentGroup,
+} from '@/components/session/caseBundleUtils';
 
 // ─── Linked-items lookup ──────────────────────────────────────────────────────
 
-/**
- * Builds a ContentItem lookup map for graphLink resolution after the queue is
- * computed. Queue items are seeded first (no extra DB call needed); any linked
- * IDs not already present are fetched individually. Missing/locked items are
- * silently omitted — RelatedCard degrades gracefully for any unresolved ID.
- * The map is computed once at mount; stale links simply show nothing.
- */
 async function computeLinkedItems(
   queue: QueueEntry[],
   repo: { findById(id: string): Promise<ContentItem | null> },
@@ -50,8 +49,6 @@ async function computeLinkedItems(
   const needed = new Set<string>();
   for (const entry of queue) {
     for (const link of entry.item.graphLinks) {
-      // Filter to plain string IDs — RampChainLink objects are structural chain
-      // pointers, not conceptual associations to surface in RelatedCard.
       if (typeof link === 'string' && !map.has(link)) needed.add(link);
     }
   }
@@ -73,8 +70,6 @@ const relearningPipeline = new RelearningPipeline();
 
 // ─── Preview intervals ────────────────────────────────────────────────────────
 
-// Calls scheduler.schedule() for each rating to get predicted scheduledDays.
-// Called once per card (memoized by entry). No side effects.
 function computeIntervalPreview(
   fsrs: FsrsCardState,
   mode: ReviewMode,
@@ -89,7 +84,7 @@ function computeIntervalPreview(
   };
 }
 
-// ─── Card router ──────────────────────────────────────────────────────────────
+// ─── Card router (standalone formats only) ────────────────────────────────────
 
 function CardRouter({ entry, onReveal }: { entry: QueueEntry; onReveal: () => void }) {
   const { body } = entry.item;
@@ -127,15 +122,27 @@ export default function SessionScreen() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [linkedItemsMap, setLinkedItemsMap] = useState<Map<string, ContentItem>>(() => new Map());
+  const [casesMap, setCasesMap] = useState<Map<string, ContentCase>>(() => new Map());
 
-  // Session-level stats for summary.
   const startedAt = useRef(Date.now());
   const correctRef = useRef(0);
   const totalRatedRef = useRef(0);
 
-  const { queue, currentIndex, advance, flush, restore } = sessionStore;
+  const { queue, currentIndex, advance, advanceBy, flush, restore } = sessionStore;
   const currentEntry: QueueEntry | undefined = queue[currentIndex];
   const isComplete = queueReady && currentIndex >= queue.length;
+
+  // ── Logical progress (case bundle = 1 position) ───────────────────────────
+
+  const logicalGroups = useMemo(() => computeLogicalGroups(queue), [queue]);
+  const currentGroupResult = useMemo(
+    () => findCurrentGroup(logicalGroups, currentIndex),
+    [logicalGroups, currentIndex],
+  );
+  const logicalTotal = logicalGroups.length;
+  const logicalIndex = currentGroupResult?.logicalIndex ?? 0;
+
+  const isCaseBundle = currentGroupResult?.group.kind === 'case';
 
   // ── Load queue on mount ────────────────────────────────────────────────────
 
@@ -151,13 +158,22 @@ export default function SessionScreen() {
       examCompressor,
     })
       .then(async (q) => {
-        sessionStore.setQueue(q);        // resets currentIndex to 0
-        await restore(db.db);            // overrides with persisted index if present
-        // Non-fatal: a failed lookup falls back to an empty map; RelatedCard
-        // degrades by omitting any unresolved link.
+        sessionStore.setQueue(q);
+        await restore(db.db);
+
         const linked = await computeLinkedItems(q, db.contentItemRepo)
           .catch(() => new Map<string, ContentItem>());
         setLinkedItemsMap(linked);
+
+        // Pre-fetch all ContentCase metadata so CaseBundleCard never has to wait.
+        const caseIds = [...new Set(
+          q.filter(e => e.item.caseId !== null).map(e => e.item.caseId!),
+        )];
+        if (caseIds.length > 0) {
+          const cases = await db.caseRepo.findByIds(caseIds).catch(() => [] as ContentCase[]);
+          setCasesMap(new Map(cases.map(c => [c.caseId, c])));
+        }
+
         setQueueReady(true);
       })
       .catch((e: unknown) => {
@@ -173,13 +189,33 @@ export default function SessionScreen() {
     setRevealed(false);
   }, [currentIndex]);
 
+  // ── Skip bundles with missing case metadata (data-integrity failure) ──────
+  //
+  // casesMap is fully populated before queueReady flips to true, so any caseId
+  // absent here is a genuine gap (DB write failed, content_pack_id mismatch, etc).
+  // Advance past the whole bundle to avoid stranding the student on a dead card,
+  // mirroring SessionErrorBoundary's onSkip behavior for standalone cards.
+
+  useEffect(() => {
+    if (!queueReady) return;
+    if (!currentGroupResult || currentGroupResult.group.kind !== 'case') return;
+    const { group } = currentGroupResult;
+    if (!casesMap.has(group.caseId)) {
+      console.error(
+        `[SessionScreen] Missing ContentCase for caseId=${group.caseId}; ` +
+        `advancing past ${group.size}-row bundle to prevent session block`,
+      );
+      advanceBy(group.size);
+    }
+  }, [queueReady, currentGroupResult, casesMap, advanceBy]);
+
   // ── Flush session index to SQLite when app backgrounds ────────────────────
 
   useEffect(() => {
     if (!db) return;
     const sub = AppState.addEventListener('change', (nextState) => {
       if (nextState === 'background') {
-        flush(db.db).catch(() => {}); // idempotent; ignore flush errors
+        flush(db.db).catch(() => {});
       }
     });
     return () => sub.remove();
@@ -200,28 +236,24 @@ export default function SessionScreen() {
     });
   }, [isComplete, router]);
 
-  // ── Interval preview (memoised per card) ──────────────────────────────────
+  // ── Interval preview (memoised per standalone card) ───────────────────────
 
   const intervalPreview: IntervalPreview = useMemo(() => {
-    if (!currentEntry) return { 1: 0, 2: 0, 3: 0, 4: 0 };
+    if (!currentEntry || isCaseBundle) return { 1: 0, 2: 0, 3: 0, 4: 0 };
     const fsrs = currentEntry.kind === 'review'
       ? currentEntry.memoryState.fsrs
       : currentEntry.syntheticState.fsrs;
     return computeIntervalPreview(fsrs, currentEntry.mode, new Date());
-  }, [currentEntry]);
+  }, [currentEntry, isCaseBundle]);
 
-  // ── Rating handler ────────────────────────────────────────────────────────
+  // ── Standalone rating handler ──────────────────────────────────────────────
 
   const handleRate = (rating: Rating) => {
     if (!currentEntry || !db) return;
 
-    // Track stats before advancing.
     totalRatedRef.current += 1;
     if (rating >= 3) correctRef.current += 1;
 
-    // Fire write off the interaction path — advance immediately.
-    // Perceived card-to-card latency: tap → advance (sync Zustand) → next card
-    // renders (<16ms) → DB write completes in background (~5–20ms).
     processRating({
       entry: currentEntry,
       rating,
@@ -240,6 +272,36 @@ export default function SessionScreen() {
   };
 
   const handleSkip = () => advance();
+
+  // ── Case bundle handlers ───────────────────────────────────────────────────
+
+  const handleCaseSubmit = (rowAnswers: CaseRowAnswer[]) => {
+    if (!db) return;
+    // reviewedAt captured at the moment Submit is tapped — matches standalone handleRate pattern.
+    const reviewedAt = new Date();
+    // Exam mode wins if any row is exam-mode (conservative: one exam row → all rated as exam).
+    const mode = rowAnswers.some(a => a.entry.mode === 'exam') ? 'exam' : 'daily';
+
+    totalRatedRef.current += rowAnswers.length;
+    correctRef.current += rowAnswers.filter(a => a.correct).length;
+
+    processCaseRating({
+      rowAnswers,
+      mode,
+      reviewedAt,
+      scheduler,
+      relearningPipeline,
+      memStateRepo: db.memStateRepo,
+      reviewEventRepo: db.reviewEventRepo,
+      boundaryConfig: { hourOffset: dayBoundaryHour },
+    }).catch((e: unknown) => {
+      console.error('[SessionScreen] Case rating write failed:', e);
+    });
+  };
+
+  const handleCaseAdvance = (n: number) => {
+    advanceBy(n);
+  };
 
   // ── Error / loading states ────────────────────────────────────────────────
 
@@ -279,19 +341,49 @@ export default function SessionScreen() {
 
   if (isComplete || !currentEntry) return null;
 
+  // ── Case bundle path ──────────────────────────────────────────────────────
+  // CaseBundleCard owns its own ScrollView with stickyHeaderIndices={[0]} so
+  // the scenario + exhibit panel pins while the student works through matrix rows.
+
+  if (isCaseBundle && currentGroupResult?.group.kind === 'case') {
+    const group = currentGroupResult.group;
+    const bundleEntries = queue.slice(group.startIndex, group.startIndex + group.size);
+    const caseData = casesMap.get(group.caseId);
+
+    return (
+      <AppSafeArea edges={['top', 'bottom']}>
+        {/* Logical position: this entire bundle = 1 slot in progress */}
+        <ProgressBar current={logicalIndex} total={logicalTotal} />
+
+        <View style={{ paddingHorizontal: space[4], paddingTop: space[2] }}>
+          <PillarChip pillar={currentEntry.item.pillar} />
+        </View>
+
+        {caseData && (
+          <CaseBundleCard
+            key={group.caseId}
+            caseData={caseData}
+            entries={bundleEntries}
+            onSubmit={handleCaseSubmit}
+            onContinue={() => handleCaseAdvance(group.size)}
+          />
+        )}
+      </AppSafeArea>
+    );
+  }
+
+  // ── Standalone path ───────────────────────────────────────────────────────
+
   return (
     <AppSafeArea edges={['top', 'bottom']}>
-      {/* Thin progress bar — the only session-level indicator */}
-      <ProgressBar current={currentIndex} total={queue.length} />
+      <ProgressBar current={logicalIndex} total={logicalTotal} />
 
       <ScrollView
         contentContainerStyle={[styles.content, { padding: space[4], gap: space[3] }]}
         keyboardShouldPersistTaps="handled">
 
-        {/* Pillar chip — small, quiet */}
         <PillarChip pillar={currentEntry.item.pillar} />
 
-        {/* Card content behind error boundary — boundary resets on each new card */}
         <SessionErrorBoundary
           key={currentEntry.item.id}
           onSkip={handleSkip}>
@@ -301,9 +393,6 @@ export default function SessionScreen() {
           />
         </SessionErrorBoundary>
 
-        {/* Related concepts — shown on every reveal when the item has conceptual graph links.
-            RampChainLink objects (chain-tier pointers) are filtered out here; RelatedCard
-            shows only plain-string item-ID associations. */}
         {revealed && (() => {
           const conceptualLinks = currentEntry.item.graphLinks.filter(
             (l): l is string => typeof l === 'string',
@@ -313,7 +402,6 @@ export default function SessionScreen() {
           ) : null;
         })()}
 
-        {/* Rating bar — appears only after answer is revealed */}
         {revealed && (
           <RatingBar intervals={intervalPreview} onRate={handleRate} />
         )}

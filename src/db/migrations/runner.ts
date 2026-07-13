@@ -2,6 +2,235 @@ import type { IDatabase } from '../types';
 import type { ContentCase, ContentItem } from '../../domain/types';
 import { ContentItemRepository } from '../repositories/ContentItemRepository';
 import { ContentCaseRepository } from '../repositories/ContentCaseRepository';
+
+// ─── Dev fixture bootstrap (never runs in production) ────────────────────────
+//
+// Called from client.ts behind `if (__DEV__)` only. Idempotent via upsert.
+// Out of the versioned migration ledger so that db_version never advances for
+// dev-only data.
+//
+// SOURCE: ATI assessment item reconstructed from pilot-user photograph.
+// All 6 rows flagged for Mary SME review — this is a reconstruction, not
+// verified content. Do NOT promote to a versioned pack without sign-off.
+export async function bootstrapDevFixtures(db: IDatabase): Promise<void> {
+  const caseRepo = new ContentCaseRepository(db);
+  const itemRepo = new ContentItemRepository(db);
+
+  // ATI screenshot case — 6 rows × 2 columns.
+  // caseId / row IDs are stable so upsert replaces prior fixture builds in-place.
+  const devCase: ContentCase = {
+    caseId: 'dev-case-hypoglycemia',
+    session: 1,
+    week: 1,
+    courseSlug: 'dev',
+    pillar: 'concepts',
+    scenario: 'A nurse is caring for a client in the clinic who has manifestations of hypoglycemia.',
+    exhibits: [
+      {
+        label: "Nurses' Notes",
+        title: "Nurses' Notes",
+        body:
+          '1020 — Young adult walked into class. Decreased pigmentation and sweating noted; ' +
+          'altered mental status.\n\n' +
+          '1025 — Professor convinces client to go to the student health clinic. Client ' +
+          'escorted by another student. Client wearing a medical-alert bracelet reading ' +
+          '"diabetic."\n\n' +
+          '1030 — Clinic nurse gives the client orange juice and peanut butter crackers.\n\n' +
+          '1100 — Nurse is finding it more difficult to get the client to drink the orange ' +
+          'juice. Client is lethargic.\n\n' +
+          '1110 — Client goes unresponsive.',
+      },
+      {
+        label: 'Laboratory Results',
+        title: 'Laboratory Results',
+        body:
+          '1030 — Blood glucose: 50 mg/dL (reference: 74–106 mg/dL)\n\n' +
+          '1105 — Blood glucose: 45 mg/dL (reference: 74–106 mg/dL)',
+      },
+    ],
+    prompt:
+      'For each potential provider\'s prescription, specify whether it is anticipated or ' +
+      'contraindicated for the client who is experiencing hypoglycemia.',
+    presentation: 'matrix',
+    presentationData: { columns: ['Anticipated', 'Contraindicated'] },
+    sourceCitation:
+      'DEV FIXTURE — ATI assessment reconstruction from photograph; placeholder; ' +
+      'all 6 rows pending SME review (Mary)',
+    contentVersion: 2,
+    placeholder: true,
+    lastReviewedAt: null,
+  };
+
+  await caseRepo.upsert(devCase);
+
+  // Columns: 0 = Anticipated, 1 = Contraindicated
+  const SME_CITATION =
+    'DEV FIXTURE — ATI reconstruction; placeholder; flagged for Mary SME review';
+
+  const devRows: ContentItem[] = [
+    // SME flag 1/6
+    {
+      id: 'dev-hypo-row-1',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 2,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'Regular insulin IV',
+        correctColumn: 1, // Contraindicated
+        rationale:
+          'Regular insulin lowers blood glucose further in an already-hypoglycemic client, ' +
+          'worsening the emergency and risking severe neurological injury.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 1,
+    },
+    // SME flag 2/6
+    {
+      id: 'dev-hypo-row-2',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 2,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'Glucagon IM',
+        correctColumn: 0, // Anticipated
+        rationale:
+          'Glucagon triggers hepatic glycogenolysis to raise blood glucose and is the ' +
+          'appropriate intervention when the client can no longer safely take oral glucose.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 2,
+    },
+    // SME flag 3/6
+    {
+      id: 'dev-hypo-row-3',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 2,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'Call EMS for transport to nearest E.R.',
+        correctColumn: 0, // Anticipated
+        rationale:
+          'The client is unresponsive at 1110 and requires emergency care beyond the ' +
+          'capability of a student health clinic.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 3,
+    },
+    // SME flag 4/6 — TEMPORAL TURN: oral glucose was appropriate at 1030
+    // (client conscious, glucose 50 mg/dL; orange juice given). By 1110 the
+    // client is unresponsive — the oral route is now contraindicated (aspiration
+    // risk). This row tests whether students apply the 1030 or 1110 clinical
+    // state. The answer is determined by 1110 = Contraindicated.
+    // This temporal flip is the reason this ATI case was specified for the fixture.
+    // Do not flatten it by changing the answer to Anticipated or removing the note.
+    {
+      id: 'dev-hypo-row-4',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 3,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'Provide client with oral glucose tablets',
+        correctColumn: 1, // Contraindicated (at 1110 — client is now unresponsive)
+        rationale:
+          'Although oral glucose was appropriate at 1030 when the client was conscious, ' +
+          'the client is unresponsive at 1110 — administering anything by mouth is ' +
+          'contraindicated due to aspiration risk.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 4,
+    },
+    // SME flag 5/6
+    {
+      id: 'dev-hypo-row-5',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 2,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'D₅W IV',
+        correctColumn: 0, // Anticipated
+        rationale:
+          'IV dextrose is the correct route for an unresponsive hypoglycemic client who ' +
+          'cannot safely receive anything by mouth.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 5,
+    },
+    // SME flag 6/6
+    {
+      id: 'dev-hypo-row-6',
+      pillar: 'concepts',
+      format: 'matrix_row',
+      difficultyTier: 2,
+      body: {
+        type: 'matrix_row',
+        rowLabel: 'IV for hydration',
+        correctColumn: 0, // Anticipated
+        rationale:
+          'IV access is required to deliver dextrose and is therefore anticipated as part ' +
+          'of the emergency intervention for an unresponsive hypoglycemic client.',
+      },
+      sourceCitation: SME_CITATION,
+      lastReviewedAt: '2026-01-01',
+      highAlert: false,
+      graphLinks: [],
+      releaseGate: { sessionIndex: 1, week: 1 },
+      contentPackId: 'dev',
+      contentVersion: 2,
+      placeholder: true,
+      caseId: 'dev-case-hypoglycemia',
+      caseOrder: 6,
+    },
+  ];
+
+  for (const row of devRows) {
+    await itemRepo.upsert(row);
+  }
+}
 import terminologyPack from '../../../content/terminology-pack.json';
 import pharmPack from '../../../content/pharm-pack.json';
 import foundationsPack from '../../../content/foundations-pack.json';

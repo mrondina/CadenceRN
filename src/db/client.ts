@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import type { SQLiteDatabase } from 'expo-sqlite';
 import type { IDatabase, DBBindParams, DBRunResult } from './types';
-import { runMigrations } from './migrations/runner';
+import { runMigrations, bootstrapDevFixtures } from './migrations/runner';
 
 // ─── AppDatabase ──────────────────────────────────────────────────────────────
 //
@@ -56,6 +56,9 @@ export async function openAppDb(): Promise<IDatabase> {
 
   const db = new AppDatabase(raw);
   await runMigrations(db);
+  if (__DEV__) {
+    await bootstrapDevFixtures(db);
+  }
   _db = db;
   return db;
 }

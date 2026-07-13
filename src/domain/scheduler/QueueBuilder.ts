@@ -210,6 +210,11 @@ function buildCaseEntries(
   const newOnlyGroupIds = [...newGroups.keys()].filter(id => !dueGroups.has(id)).sort();
   const selected = [...dueGroupIds, ...newOnlyGroupIds].slice(0, CASE_CAP);
 
+  // Contiguity invariant: all rows for one caseId are emitted before the loop
+  // advances to the next caseId, and buildQueue appends the entire caseEntries
+  // block after standalones. CaseBundleCard exploits this guarantee — the session
+  // screen scans forward while queue[i].item.caseId matches without ever needing
+  // to search backwards or across the full queue to find the bundle's extent.
   const entries: QueueEntry[] = [];
   for (const caseId of selected) {
     type CaseRow =
