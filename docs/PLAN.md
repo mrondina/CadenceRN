@@ -63,6 +63,17 @@ Zustand manages the in-flight session queue, per-session streak counters, and fo
 
 The original design left ambiguous when `ItemMemoryState` rows are created. Corrected decision: a row is created exactly once, atomically with the first `ReviewEvent` in a single SQLite transaction (`FirstReviewTransaction` type in `types.ts`). Before the first rating, the item appears in the queue as `kind:'new'` carrying a `SyntheticItemState` synthesized by `QueueBuilder` — no DB read or write occurs. If the session is abandoned before reaching that card, no row is created and the item reappears in the next session. This invariant is encoded structurally in the `QueueEntry` discriminated union: `kind:'review'` carries `memoryState: ItemMemoryState` (from DB); `kind:'new'` carries `syntheticState: SyntheticItemState` (in-memory only). A caller cannot accidentally treat a synthetic state as persisted because the type system distinguishes them. `ReviewEventRepository.recordFirstReview()` is the only write path for the atomic pair.
 
+### ADR-9 — Binary grade mapping for case rows (correct → Good, incorrect → Again)
+
+Case rows (ATI matrix, dropdown cloze) carry a structured objective response: the student's answer is correct or incorrect by the presentation mechanics, not by self-assessment. Consequently:
+
+- **Scheduling:** each row is scheduled independently through `SchedulerService.schedule()` with its own `ItemMemoryState` and the shared `reviewedAt`.
+- **Relearning:** each row passes independently through `RelearningPipeline.processRating()` — Again resets streak, Good on a new study day advances it.
+- **Exam mode:** case rows respect amendment (d) retention routing — `desiredRetention = 0.95` for `mode='exam'`, `0.90` for `mode='daily'`.
+- **Abandonment:** if the student answers rows but does not submit (session abandoned mid-case), `processCaseRating()` is never called and no write occurs — consistent with the existing abandoned-item invariant (ADR-8).
+- **Atomicity:** all N rows in a case submission commit in a single `withExclusiveTransactionAsync` call (`CaseReviewTransaction` type, amendment t). A crash or write failure after any row rolls back the entire case — zero partial rows persist.
+- **Grade mapping: `correct=true` → Rating 3 (Good); `correct=false` → Rating 1 (Again). Hard (2) and Easy (4) are structurally excluded — no code path in `processCaseRating` accepts them for case rows.**
+
 ---
 
 ## Invariants (Never Violate)
@@ -240,6 +251,9 @@ The project was scaffolded directly on Expo SDK 57 (expo ~57.0.2, React Native 0
 
 **(p) Protocol #10 amended: docs changes now merge via PR.** ✅ Adopted 2026-07-08.
 Prior rule allowed direct-to-main docs commits; two such commits exist from earlier today (the CONTENT-PLAN/topic-map commit predates this amendment and is compliant with the rule in force at the time). Rationale: PR history as a single chronological record across docs and engineering work.
+
+**(t) `CaseRowWrite` and `CaseReviewTransaction` formal types.ts amendment — Step 28.** ✅ Delivered in Step 28.
+`CaseRowWrite` discriminated union (`kind: 'first'` for never-introduced rows, `kind: 'update'` for already-introduced rows) and `CaseReviewTransaction` interface added to `types.ts`. These are the input types for `ReviewEventRepository.recordCaseReview()`, which executes all N rows atomically in a single exclusive transaction. `processCaseRating()` in `useReviewSession.ts` is the sole caller: it applies ADR-9 grade mapping, schedules each row via `SchedulerService`, runs each through `RelearningPipeline`, builds `CaseRowWrite` entries, and enforces a row-count guard before calling `recordCaseReview()`. See ADR-9 for the full grade-mapping and abandonment-invariant decisions.
 
 ---
 

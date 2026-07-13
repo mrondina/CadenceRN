@@ -635,3 +635,24 @@ export interface FirstReviewTransaction {
   event: ReviewEvent;
   initialMemoryState: ItemMemoryState;
 }
+
+// ─── Case review transaction (amendment t) ───────────────────────────────────
+
+/**
+ * One row in an atomic case submission (amendment t).
+ * kind='first': item is new — INSERT event + INSERT state (first introduction).
+ * kind='update': item already introduced — INSERT event + UPDATE state.
+ */
+export type CaseRowWrite =
+  | { kind: 'first'; event: ReviewEvent; initialMemoryState: ItemMemoryState }
+  | { kind: 'update'; event: ReviewEvent; updatedMemoryState: ItemMemoryState };
+
+/**
+ * Input to ReviewEventRepository.recordCaseReview().
+ * All N rows commit in a single exclusive transaction — all or none.
+ * Invariant: rows.length must equal the number of answered case rows;
+ * processCaseRating() enforces this guard before calling recordCaseReview().
+ */
+export interface CaseReviewTransaction {
+  rows: CaseRowWrite[];
+}

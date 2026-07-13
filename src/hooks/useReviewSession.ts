@@ -1,14 +1,17 @@
 import { useState, useCallback } from 'react';
 import { uuidv7 } from 'uuidv7';
 import type {
+  CaseRowWrite,
+  CaseReviewTransaction,
   DateBoundaryConfig,
   FirstReviewTransaction,
   IRelearningPipeline,
   ISchedulerService,
   ItemMemoryState,
   QueueEntry,
-  Rating,
+  ReviewMode,
   ReviewEvent,
+  Rating,
 } from '../domain/types';
 import { DEFAULT_DAY_BOUNDARY } from '../domain/types';
 import type { ItemMemoryStateRepository } from '../db/repositories/ItemMemoryStateRepository';
@@ -115,6 +118,120 @@ export async function processRating(deps: RatingDeps): Promise<ItemMemoryState> 
   }
 
   return nextMemState;
+}
+
+// ─── Case rating ─────────────────────────────────────────────────────────────
+
+/** Answer collected for one row in a case bundle before submission. */
+export interface CaseRowAnswer {
+  entry: QueueEntry;   // item.caseId must be non-null
+  correct: boolean;
+  latencyMs: number;
+}
+
+export interface CaseRatingDeps {
+  rowAnswers: CaseRowAnswer[];
+  mode: ReviewMode;
+  reviewedAt: Date;    // injected — never new Date() in domain code
+  scheduler: ISchedulerService;
+  relearningPipeline: IRelearningPipeline;
+  memStateRepo: ItemMemoryStateRepository;
+  reviewEventRepo: ReviewEventRepository;
+  boundaryConfig?: DateBoundaryConfig;
+}
+
+/**
+ * Processes one case bundle submission:
+ *  - Grade mapping per ADR-9: correct=true → Good (3); correct=false → Again (1).
+ *    Hard (2) and Easy (4) are structurally excluded for case rows.
+ *  - Each row is scheduled independently through SchedulerService with the shared reviewedAt.
+ *  - Exam mode routes desiredRetention=0.95 per amendment (d); daily → 0.90.
+ *  - Each row passes through RelearningPipeline individually.
+ *  - All N rows commit atomically via ReviewEventRepository.recordCaseReview().
+ *    If any write fails the transaction rolls back — zero partial rows persist.
+ *
+ * Returns updated ItemMemoryState for each row in rowAnswers order.
+ */
+export async function processCaseRating(deps: CaseRatingDeps): Promise<ItemMemoryState[]> {
+  const {
+    rowAnswers,
+    mode,
+    reviewedAt,
+    scheduler,
+    relearningPipeline,
+    memStateRepo,
+    reviewEventRepo,
+    boundaryConfig = DEFAULT_DAY_BOUNDARY,
+  } = deps;
+
+  const desiredRetention = mode === 'exam' ? EXAM_RETENTION : BASELINE_RETENTION;
+  const reviewedAtIso = reviewedAt.toISOString();
+
+  const rows: CaseRowWrite[] = [];
+  const updatedStates: ItemMemoryState[] = [];
+
+  for (const { entry, correct, latencyMs } of rowAnswers) {
+    // ADR-9 grade mapping: correct → Good (3), incorrect → Again (1).
+    const rating: Rating = correct ? 3 : 1;
+
+    const currentFsrs = entry.kind === 'review'
+      ? entry.memoryState.fsrs
+      : entry.syntheticState.fsrs;
+    const currentStreak    = entry.kind === 'review' ? entry.memoryState.relearnStreak    : 0;
+    const currentGraduated = entry.kind === 'review' ? entry.memoryState.graduated        : false;
+    const currentLqd       = entry.kind === 'review' ? entry.memoryState.lastQualifyingDate : null;
+
+    const { nextState } = scheduler.schedule(currentFsrs, rating, reviewedAt, desiredRetention);
+
+    const relearn = relearningPipeline.processRating({
+      currentStreak,
+      graduated: currentGraduated,
+      rating,
+      reviewDate: reviewedAt,
+      lastQualifyingDate: currentLqd,
+      boundaryConfig,
+    });
+
+    const nextMemState: ItemMemoryState = {
+      itemId: entry.item.id,
+      fsrs: nextState,
+      relearnStreak: relearn.streak,
+      graduated: relearn.graduated,
+      lastQualifyingDate: relearn.lastQualifyingDate,
+      updatedAt: reviewedAtIso,
+    };
+
+    const event: ReviewEvent = {
+      id: uuidv7(),
+      itemId: entry.item.id,
+      ts: reviewedAtIso,
+      rating,
+      latencyMs,
+      mode,
+      stabilityBefore: currentFsrs.stability,
+      difficultyBefore: currentFsrs.difficulty,
+      dueBefore: currentFsrs.due,
+    };
+
+    if (entry.kind === 'new') {
+      rows.push({ kind: 'first', event, initialMemoryState: nextMemState });
+    } else {
+      rows.push({ kind: 'update', event, updatedMemoryState: nextMemState });
+    }
+    updatedStates.push(nextMemState);
+  }
+
+  // Guard: all rowAnswers must produce a CaseRowWrite. A mismatch means the
+  // loop exited early (throw, break) and would silently submit fewer rows.
+  if (rows.length !== rowAnswers.length) {
+    throw new Error(
+      `Case submission incomplete: expected ${rowAnswers.length} rows, got ${rows.length}`,
+    );
+  }
+
+  const tx: CaseReviewTransaction = { rows };
+  await reviewEventRepo.recordCaseReview(tx);
+  return updatedStates;
 }
 
 // ─── React hook ───────────────────────────────────────────────────────────────
