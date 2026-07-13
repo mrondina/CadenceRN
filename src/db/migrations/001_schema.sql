@@ -4,6 +4,12 @@
 -- Amendments applied:
 --   (a) last_qualifying_date on item_memory_states
 --   (b) No DEFAULT on any fsrs_* column
+--   (s) case_id / case_order present in initial schema so upsert() can include
+--       them from the start. FK from content_items.case_id omitted (SQLite
+--       prepare-time validation vs. migration ordering); integrity enforced by
+--       seed-gate test + loader ordering (cases before items, Step 30) instead.
+--       Existing DBs (db_version < 6) get these columns via conditional ALTER
+--       TABLE in the migration 006 block.
 --
 -- NOTE: This file is the human-readable reference. The runner uses the
 -- inline string in runner.ts (same SQL). Keep both in sync on any edit.
@@ -22,7 +28,9 @@ CREATE TABLE IF NOT EXISTS content_items (
   release_gate_week           INTEGER NOT NULL,
   content_pack_id             TEXT NOT NULL,
   content_version             INTEGER NOT NULL,
-  placeholder                 INTEGER NOT NULL DEFAULT 0
+  placeholder                 INTEGER NOT NULL DEFAULT 0,
+  case_id                     TEXT,     -- no FK: content_cases may not yet exist at DML prepare time
+  case_order                  INTEGER
 );
 
 CREATE INDEX IF NOT EXISTS idx_content_items_pack

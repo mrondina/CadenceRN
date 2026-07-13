@@ -33,6 +33,8 @@ function makeItem(id: string, packId = 'pack-1'): ContentItem {
     contentPackId: packId,
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 
@@ -606,6 +608,8 @@ describe('ContentItemRepository.findWeeksByPack', () => {
       contentPackId: 'meta-pack',
       contentVersion: 1,
       placeholder: false,
+      caseId: null,
+      caseOrder: null,
     };
   }
 
@@ -650,6 +654,8 @@ describe('ContentItemRepository.findPillarsByPackAndWeek', () => {
       contentPackId: 'pillar-pack',
       contentVersion: 1,
       placeholder: false,
+      caseId: null,
+      caseOrder: null,
     };
   }
 

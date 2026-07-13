@@ -2,7 +2,7 @@
 
 export type Pillar = 'pharm' | 'procedures' | 'terminology' | 'concepts' | 'dosage';
 
-export type ItemFormat = 'cloze' | 'mcq' | 'free_recall' | 'numeric' | 'sequence';
+export type ItemFormat = 'cloze' | 'mcq' | 'free_recall' | 'numeric' | 'sequence' | 'matrix_row' | 'dropdown_blank';
 
 /** FSRS internal card state. 'New' means never rated. */
 export type FsrsState = 'New' | 'Learning' | 'Review' | 'Relearning';
@@ -103,6 +103,19 @@ export type ItemBody =
       prompt: string;
       steps: { id: string; text: string }[];
       correctOrder: string[]; // ordered step ids
+    }
+  | {
+      type: 'matrix_row';
+      rowLabel: string;
+      correctColumn: number;
+      rationale: string;
+    }
+  | {
+      type: 'dropdown_blank';
+      blankIndex: number;
+      options: string[];
+      correctIndex: number;
+      rationale: string;
     };
 
 export interface ContentItem {
@@ -120,6 +133,50 @@ export interface ContentItem {
   contentVersion: number;
   placeholder: boolean;     // true = awaiting SME review; queryable in SQLite
   rampTier?: 1 | 2 | 3;    // absent on standalone items (the overwhelming majority)
+  caseId: string | null;    // null for standalone items; set for NGN case-row items
+  caseOrder: number | null; // position within the case (1-based), null for standalone items
+}
+
+// ─── NGN case container ───────────────────────────────────────────────────────
+
+/**
+ * presentationData for 'matrix': columns are the column headers of the ATI
+ * matrix grid (e.g. ['Anticipated', 'Contraindicated']).
+ * presentationData for 'dropdown_sentence': template is the sentence with
+ * {{1}}, {{2}} … blank markers corresponding to dropdown_blank row indices.
+ */
+export interface MatrixPresentationData {
+  columns: string[];
+}
+
+export interface DropdownPresentationData {
+  template: string; // sentence with {{1}}, {{2}} ... blank markers
+}
+
+/**
+ * Presentation container for a grouped NGN item set (ATI matrix/grid or
+ * drop-down cloze). The case is the presentation unit; its rows (ContentItems
+ * with caseId set) are the memory units. A ContentCase never carries an
+ * ItemMemoryState — see invariant in PLAN.md amendment (s).
+ *
+ * session and week mirror the rows' releaseGate.sessionIndex / week:
+ * they are redundant denormalisation for navigation/filtering only.
+ */
+export interface ContentCase {
+  caseId: string;
+  session: number;             // 1–6, matches ContentItem.releaseGate.sessionIndex
+  week: number;
+  courseSlug: string;
+  pillar: Pillar;
+  scenario: string;
+  exhibits: { label: string; title: string; body: string }[];
+  prompt: string;
+  presentation: 'matrix' | 'dropdown_sentence';
+  presentationData: MatrixPresentationData | DropdownPresentationData;
+  sourceCitation: string;
+  contentVersion: number;
+  placeholder: boolean;
+  lastReviewedAt: string | null; // null until SME review; matches placeholder workflow
 }
 
 // ─── Learning state ───────────────────────────────────────────────────────────

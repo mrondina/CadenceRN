@@ -26,8 +26,10 @@ function makeItem(overrides: Partial<ContentItem> = {}): ContentItem {
     contentPackId: 'test-pack',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
     ...overrides,
-  };
+  } as ContentItem;
 }
 
 function makeState(

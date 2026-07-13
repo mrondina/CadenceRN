@@ -2,10 +2,11 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { openTestDb } from '../test-utils/BetterSQLiteDatabase';
 import { runMigrations, runSchemaOnly } from '../migrations/runner';
 import { ContentItemRepository } from '../repositories/ContentItemRepository';
+import { ContentCaseRepository } from '../repositories/ContentCaseRepository';
 import { ItemMemoryStateRepository } from '../repositories/ItemMemoryStateRepository';
 import { ChainGate } from '../../domain/cohort/ChainGate';
 import type { IDatabase } from '../types';
-import type { GraphLink } from '../../domain/types';
+import type { ContentCase, GraphLink } from '../../domain/types';
 import { BELLARMINE_SESSION_COURSES } from '../../domain/cohort/CohortBuilder';
 
 // ─── Step 13 gate: seed content ───────────────────────────────────────────────
@@ -161,11 +162,11 @@ describe('Seed content migrations (002 + 003)', () => {
     ).toHaveLength(0);
   });
 
-  it('db_version is 5 after all migrations run', async () => {
+  it('db_version is 6 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('5');
+    expect(row?.value).toBe('6');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -283,11 +284,90 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('5');
+    expect(versionAfter?.value).toBe('6');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
     expect(count?.cnt).toBe(190);
+  });
+
+  // ─── Migration 006 gates ───────────────────────────────────────────────────
+
+  it('content_cases table exists and is empty after zero-case migration', async () => {
+    const row = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt FROM content_cases`,
+    );
+    expect(row?.cnt).toBe(0);
+  });
+
+  it('case_id and case_order columns exist on content_items after migration', async () => {
+    const cols = await db.getAllAsync<{ name: string }>(
+      `PRAGMA table_info(content_items)`,
+    );
+    const names = cols.map(c => c.name);
+    expect(names).toContain('case_id');
+    expect(names).toContain('case_order');
+  });
+
+  it('seed-gate: every non-null case_id in content_items references a row in content_cases', async () => {
+    // Replaces the FK constraint on content_items.case_id (dropped per amendment (s)
+    // to avoid SQLite prepare-time validation vs. migration ordering). Runs on every
+    // suite pass so an orphaned case_id introduced by a content load is caught
+    // at exactly the moment it could appear.
+    const orphans = await db.getFirstAsync<{ cnt: number }>(
+      `SELECT COUNT(*) AS cnt
+       FROM content_items ci
+       WHERE ci.case_id IS NOT NULL
+         AND NOT EXISTS (
+           SELECT 1 FROM content_cases cc WHERE cc.case_id = ci.case_id
+         )`,
+    );
+    expect(orphans?.cnt).toBe(0);
+  });
+
+  it('invariant: no ItemMemoryState can be created for a caseId — namespace guard via FK', async () => {
+    // This is a namespace guard, not a structural proof that cases cannot carry
+    // memory states (TypeScript cannot enforce this without branded types).
+    // The real structural enforcement arrives in Step 27 when QueueBuilder never
+    // emits a ContentCase as a QueueEntry. The FK provides the runtime backstop:
+    // item_memory_states.item_id REFERENCES content_items(id), and content_cases
+    // IDs are not present in content_items, so the DB rejects the insert.
+
+    const caseRepo = new ContentCaseRepository(db);
+    const testCase: ContentCase = {
+      caseId: 'test-case-001',
+      session: 1,
+      week: 1,
+      courseSlug: 'foundations',
+      pillar: 'concepts',
+      scenario: 'A patient presents with shortness of breath.',
+      exhibits: [{ label: 'Vitals', title: 'Vital Signs', body: 'BP 140/90, HR 102' }],
+      prompt: 'Which findings require immediate action?',
+      presentation: 'matrix',
+      presentationData: { columns: ['Anticipated', 'Contraindicated'] },
+      sourceCitation: 'Potter & Perry 9e ch. 1',
+      contentVersion: 1,
+      placeholder: true,
+      lastReviewedAt: null,
+    };
+    await caseRepo.upsert(testCase);
+
+    // Attempting to insert an ItemMemoryState with item_id = caseId must fail.
+    // The caseId 'test-case-001' exists in content_cases but not in content_items,
+    // so the FK constraint on item_memory_states.item_id REFERENCES content_items(id)
+    // rejects the insert.
+    await expect(
+      db.runAsync(
+        `INSERT INTO item_memory_states
+           (item_id, fsrs_stability, fsrs_difficulty, fsrs_due, fsrs_state,
+            fsrs_elapsed_days, fsrs_scheduled_days, fsrs_learning_steps,
+            fsrs_reps, fsrs_lapses, relearn_streak, graduated,
+            last_qualifying_date, updated_at)
+         VALUES
+           ('test-case-001', 1.0, 5.0, '2026-08-01T00:00:00.000Z', 'New',
+            0, 0, 0, 0, 0, 0, 0, NULL, '2026-07-12T00:00:00.000Z')`,
+      ),
+    ).rejects.toThrow();
   });
 });

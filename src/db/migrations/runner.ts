@@ -1,6 +1,7 @@
 import type { IDatabase } from '../types';
-import type { ContentItem } from '../../domain/types';
+import type { ContentCase, ContentItem } from '../../domain/types';
 import { ContentItemRepository } from '../repositories/ContentItemRepository';
+import { ContentCaseRepository } from '../repositories/ContentCaseRepository';
 import terminologyPack from '../../../content/terminology-pack.json';
 import pharmPack from '../../../content/pharm-pack.json';
 import foundationsPack from '../../../content/foundations-pack.json';
@@ -16,6 +17,13 @@ import mentalHealthPack from '../../../content/mental-health-pack.json';
 //       a same-day qualifying retrieval.
 //   (b) No DEFAULT values on any fsrs_* column — partial inserts fail loudly
 //       rather than silently storing ts-fsrs-invalid values like difficulty=5.
+//   (s) case_id and case_order columns present in initial schema so
+//       ContentItemRepository.upsert() can include them from the start.
+//       FK from content_items.case_id omitted (SQLite prepare-time validation
+//       vs. migration ordering); integrity enforced by seed-gate test in
+//       seed.test.ts + loader ordering (cases upserted before items, Step 30)
+//       instead. Existing DBs (db_version < 6) get these columns via
+//       conditional ALTER TABLE in the migration 006 block.
 
 const SCHEMA_001 = `
   CREATE TABLE IF NOT EXISTS content_items (
@@ -32,7 +40,9 @@ const SCHEMA_001 = `
     release_gate_week           INTEGER NOT NULL,
     content_pack_id             TEXT NOT NULL,
     content_version             INTEGER NOT NULL,
-    placeholder                 INTEGER NOT NULL DEFAULT 0
+    placeholder                 INTEGER NOT NULL DEFAULT 0,
+    case_id                     TEXT,
+    case_order                  INTEGER
   );
 
   CREATE INDEX IF NOT EXISTS idx_content_items_pack
@@ -125,6 +135,43 @@ const SCHEMA_001 = `
   CREATE INDEX IF NOT EXISTS idx_drill_results_item
     ON drill_results(item_id);
 `;
+
+// ─── Migration 006: NGN cases schema ─────────────────────────────────────────
+//
+// Amendment (s): ContentCase + NGN row formats. Adds content_cases table and
+// case_id / case_order columns to content_items. Purely additive — existing
+// 190 items receive NULL for both new columns.
+// No DEFAULT on any new column (amendment b).
+//
+// ALL_CASE_PACKS is empty until cases are authored; the migration runs cleanly
+// with zero iterations, which is the zero-case directory guarantee.
+
+// SCHEMA_006 only creates the content_cases table and index. The case_id /
+// case_order columns are declared in SCHEMA_001 for fresh installs; the
+// migration 006 block adds them conditionally for existing DBs (db_version < 6).
+const SCHEMA_006 = `
+  CREATE TABLE IF NOT EXISTS content_cases (
+    case_id           TEXT NOT NULL PRIMARY KEY,
+    session           INTEGER NOT NULL,
+    week              INTEGER NOT NULL,
+    course_slug       TEXT NOT NULL,
+    pillar            TEXT NOT NULL,
+    scenario          TEXT NOT NULL,
+    exhibits          TEXT NOT NULL,
+    prompt            TEXT NOT NULL,
+    presentation      TEXT NOT NULL,
+    presentation_data TEXT NOT NULL,
+    source_citation   TEXT NOT NULL,
+    content_version   INTEGER NOT NULL,
+    placeholder       INTEGER NOT NULL,
+    last_reviewed_at  TEXT
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_content_cases_session_week
+    ON content_cases(session, week);
+`;
+
+const ALL_CASE_PACKS: ContentCase[] = [];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -228,6 +275,29 @@ export async function runMigrations(db: IDatabase): Promise<void> {
       }
       await txn.runAsync(
         `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '5')`,
+      );
+    });
+  }
+
+  if ((await getVersion(db)) < 6) {
+    // Amendment (s): add content_cases table + case_id/case_order columns.
+    // ALL_CASE_PACKS is currently empty — zero-case directory runs cleanly.
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      // Create content_cases table and index (idempotent).
+      await txn.execAsync(SCHEMA_006);
+      // case_id / case_order are in SCHEMA_001 for fresh installs. For existing
+      // DBs (SCHEMA_001 applied before amendment (s)), add them here if absent.
+      const cols = await txn.getAllAsync<{ name: string }>(`PRAGMA table_info(content_items)`);
+      if (!cols.some(c => c.name === 'case_id')) {
+        await txn.execAsync(`ALTER TABLE content_items ADD COLUMN case_id TEXT`);
+        await txn.execAsync(`ALTER TABLE content_items ADD COLUMN case_order INTEGER`);
+      }
+      const caseRepo = new ContentCaseRepository(txn);
+      for (const c of ALL_CASE_PACKS) {
+        await caseRepo.upsert(c);
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '6')`,
       );
     });
   }

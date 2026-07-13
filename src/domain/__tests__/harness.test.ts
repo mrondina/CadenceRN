@@ -121,6 +121,8 @@ function makeItem(
     contentPackId,
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

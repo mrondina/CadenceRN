@@ -23,8 +23,10 @@ function makeItem(overrides: Partial<ContentItem> & { id?: string; pillar?: Pill
     contentPackId: 'pack-1',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
     ...overrides,
-  };
+  } as ContentItem;
 }
 
 function makeState(itemId: string, overrides: Partial<ItemMemoryState> = {}): ItemMemoryState {

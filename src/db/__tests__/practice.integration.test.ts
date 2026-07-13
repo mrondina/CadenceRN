@@ -41,6 +41,8 @@ function makeItem(id: string, week = 1, format: ContentItem['format'] = 'cloze')
     contentPackId: 'practice-pack',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

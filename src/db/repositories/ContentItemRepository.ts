@@ -18,6 +18,10 @@ interface ContentItemRow {
   content_pack_id: string;
   content_version: number;
   placeholder: number;
+  // Added by migration 006. Optional so SELECT * on pre-006 schema (runSchemaOnly)
+  // returns undefined rather than failing — rowToItem coerces to null.
+  case_id?: string | null;
+  case_order?: number | null;
 }
 
 // ─── Mapping ─────────────────────────────────────────────────────────────────
@@ -40,6 +44,8 @@ function rowToItem(row: ContentItemRow): ContentItem {
     contentPackId: row.content_pack_id,
     contentVersion: row.content_version,
     placeholder: row.placeholder === 1,
+    caseId: row.case_id ?? null,
+    caseOrder: row.case_order ?? null,
   };
 }
 
@@ -84,12 +90,14 @@ export class ContentItemRepository {
          id, pillar, format, difficulty_tier, body,
          source_citation, last_reviewed_at, high_alert, graph_links,
          release_gate_session_index, release_gate_week,
-         content_pack_id, content_version, placeholder
+         content_pack_id, content_version, placeholder,
+         case_id, case_order
        ) VALUES (
          $id, $pillar, $format, $difficultyTier, $body,
          $sourceCitation, $lastReviewedAt, $highAlert, $graphLinks,
          $releaseGateSessionIndex, $releaseGateWeek,
-         $contentPackId, $contentVersion, $placeholder
+         $contentPackId, $contentVersion, $placeholder,
+         $caseId, $caseOrder
        )
        ON CONFLICT(id) DO UPDATE SET
          pillar = excluded.pillar,
@@ -104,7 +112,9 @@ export class ContentItemRepository {
          release_gate_week = excluded.release_gate_week,
          content_pack_id = excluded.content_pack_id,
          content_version = excluded.content_version,
-         placeholder = excluded.placeholder`,
+         placeholder = excluded.placeholder,
+         case_id = excluded.case_id,
+         case_order = excluded.case_order`,
       {
         $id: item.id,
         $pillar: item.pillar,
@@ -120,6 +130,8 @@ export class ContentItemRepository {
         $contentPackId: item.contentPackId,
         $contentVersion: item.contentVersion,
         $placeholder: item.placeholder ? 1 : 0,
+        $caseId: item.caseId ?? null,
+        $caseOrder: item.caseOrder ?? null,
       },
     );
   }
@@ -182,5 +194,14 @@ export class ContentItemRepository {
       { $packId: contentPackId },
     );
     return row?.cnt ?? 0;
+  }
+
+  /** All rows belonging to a case, sorted by case_order ascending. */
+  async findByCaseId(caseId: string): Promise<ContentItem[]> {
+    const rows = await this.db.getAllAsync<ContentItemRow>(
+      `SELECT * FROM content_items WHERE case_id = $caseId ORDER BY case_order ASC`,
+      { $caseId: caseId },
+    );
+    return rows.map(rowToItem);
   }
 }

@@ -18,6 +18,9 @@ type ReviewEntry = {
 /** Maximum free_recall entries allowed in a single session. */
 export const FREE_RECALL_CAP = 3;
 
+/** Maximum NGN case groups surfaced in a single session. Not yet wired into buildQueue — Step 27. */
+export const CASE_CAP = 2;
+
 export class QueueBuilder implements IQueueBuilder {
   constructor(private readonly scheduler: ISchedulerService) {}
 
