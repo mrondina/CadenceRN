@@ -120,7 +120,16 @@ export class ItemMemoryStateRepository {
 
   /** UPDATE an existing row after a rating. */
   async update(state: ItemMemoryState): Promise<void> {
-    await this.db.runAsync(
+    await this.updateWithDb(this.db, state);
+  }
+
+  /** UPDATE inside a transaction — parallel to insert(db, state). */
+  async updateInTxn(txn: IDatabase, state: ItemMemoryState): Promise<void> {
+    await this.updateWithDb(txn, state);
+  }
+
+  private async updateWithDb(db: IDatabase, state: ItemMemoryState): Promise<void> {
+    await db.runAsync(
       `UPDATE item_memory_states SET
          fsrs_stability       = $stability,
          fsrs_difficulty      = $difficulty,

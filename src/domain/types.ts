@@ -635,3 +635,27 @@ export interface FirstReviewTransaction {
   event: ReviewEvent;
   initialMemoryState: ItemMemoryState;
 }
+
+// ─── Case review transaction (amendment t) ───────────────────────────────────
+
+/**
+ * One row in an atomic case submission (amendment t).
+ * kind='first': item is new — INSERT event + INSERT state (first introduction).
+ * kind='update': item already introduced — INSERT event + UPDATE state.
+ */
+export type CaseRowWrite =
+  | { kind: 'first'; event: ReviewEvent; initialMemoryState: ItemMemoryState }
+  | { kind: 'update'; event: ReviewEvent; updatedMemoryState: ItemMemoryState };
+
+/**
+ * Input to ReviewEventRepository.recordCaseReview().
+ * All N rows commit in a single exclusive transaction — all or none.
+ *
+ * Post-loop guard in processCaseRating(): catches early-exit (throw, break)
+ * that would submit fewer CaseRowWrite entries than rowAnswers.length.
+ * N-of-N completeness (all case rows answered before submission) is a
+ * session-UI concern enforced at submission assembly (Step 29), not here.
+ */
+export interface CaseReviewTransaction {
+  rows: CaseRowWrite[];
+}

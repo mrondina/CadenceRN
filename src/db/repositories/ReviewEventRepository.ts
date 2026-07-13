@@ -1,5 +1,5 @@
 import type { IDatabase } from '../types';
-import type { ReviewEvent, FirstReviewTransaction } from '../../domain/types';
+import type { CaseReviewTransaction, ReviewEvent, FirstReviewTransaction } from '../../domain/types';
 import { ItemMemoryStateRepository } from './ItemMemoryStateRepository';
 
 // ─── Row type ────────────────────────────────────────────────────────────────
@@ -53,6 +53,28 @@ export class ReviewEventRepository {
     await this.db.withExclusiveTransactionAsync(async (txn) => {
       await this.appendEvent(txn, tx.event);
       await this.memStateRepo.insert(txn, tx.initialMemoryState);
+    });
+  }
+
+  /**
+   * Atomic case-review transaction (amendment t).
+   *
+   * Persists all N row results in a single exclusive transaction — all or none.
+   * For each row:
+   *   kind='first'  → INSERT review_event + INSERT item_memory_states (first introduction).
+   *   kind='update' → INSERT review_event + UPDATE item_memory_states.
+   * If any write fails, the driver issues ROLLBACK; zero partial rows persist.
+   */
+  async recordCaseReview(tx: CaseReviewTransaction): Promise<void> {
+    await this.db.withExclusiveTransactionAsync(async (txn) => {
+      for (const row of tx.rows) {
+        await this.appendEvent(txn, row.event);
+        if (row.kind === 'first') {
+          await this.memStateRepo.insert(txn, row.initialMemoryState);
+        } else {
+          await this.memStateRepo.updateInTxn(txn, row.updatedMemoryState);
+        }
+      }
     });
   }
 
