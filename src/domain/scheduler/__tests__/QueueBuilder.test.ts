@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { QueueBuilder, FREE_RECALL_CAP } from '../QueueBuilder';
+import { QueueBuilder, FREE_RECALL_CAP, CASE_CAP } from '../QueueBuilder';
 import { SchedulerService } from '../SchedulerService';
 import type { ContentItem, ItemMemoryState, Pillar, QueueEntry } from '../../types';
 
@@ -23,8 +23,26 @@ function makeItem(overrides: Partial<ContentItem> & { id?: string; pillar?: Pill
     contentPackId: 'pack-1',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
     ...overrides,
-  };
+  } as ContentItem;
+}
+
+function makeCaseItem(
+  id: string,
+  caseId: string,
+  caseOrder: number,
+  overrides: Partial<ContentItem> = {},
+): ContentItem {
+  return makeItem({
+    id,
+    format: 'matrix_row',
+    body: { type: 'matrix_row', rowLabel: `Row ${caseOrder}`, correctColumn: 0, rationale: 'Test' },
+    caseId,
+    caseOrder,
+    ...overrides,
+  });
 }
 
 function makeState(itemId: string, overrides: Partial<ItemMemoryState> = {}): ItemMemoryState {
@@ -672,6 +690,150 @@ describe('QueueBuilder', () => {
       expect(reviews).toHaveLength(1);
       expect(reviews[0].item.id).toBe('pull-ahead');
       expect(news).toHaveLength(2); // cap fully available for regular new items
+    });
+  });
+
+  // ─── NGN case-group selection (CASE_CAP) ─────────────────────────────────
+
+  describe('NGN case-group selection (CASE_CAP)', () => {
+    it('zero case rows → standalone queue unchanged (regression)', () => {
+      const item = makeItem({ id: 'solo' });
+      const result = build({ dueStates: [makeState(item.id)], allItems: itemsToMap([item]) });
+      expect(result).toHaveLength(1);
+      expect(result[0].item.id).toBe('solo');
+    });
+
+    it('case-row new items do not consume newItemCap', () => {
+      const standaloneItems = Array.from({ length: 20 }, (_, i) =>
+        makeItem({ id: `solo-${i}` }),
+      );
+      const caseItems = [
+        makeCaseItem('c-row-1', 'case-x', 1),
+        makeCaseItem('c-row-2', 'case-x', 2),
+      ];
+      const result = build({
+        newItems:   [...standaloneItems, ...caseItems],
+        newItemCap: 20,
+      });
+      // 20 standalone new entries + 2 case new entries
+      expect(result.filter(e => e.kind === 'new')).toHaveLength(22);
+      expect(result.filter(e => e.item.caseId === null)).toHaveLength(20);
+      expect(result.filter(e => e.item.caseId === 'case-x')).toHaveLength(2);
+    });
+
+    it('due case group: rows emitted in caseOrder as kind:review mode:daily', () => {
+      const r1 = makeCaseItem('r1', 'case-a', 1);
+      const r2 = makeCaseItem('r2', 'case-a', 2);
+      const r3 = makeCaseItem('r3', 'case-a', 3);
+      const result = build({
+        dueStates: [makeState(r2.id), makeState(r1.id), makeState(r3.id)], // intentionally unordered
+        allItems:  itemsToMap([r1, r2, r3]),
+      });
+      const caseEntries = result.filter(e => e.item.caseId === 'case-a');
+      expect(caseEntries).toHaveLength(3);
+      expect(caseEntries.map(e => e.item.id)).toEqual(['r1', 'r2', 'r3']);
+      expect(caseEntries.every(e => e.kind === 'review')).toBe(true);
+      expect(caseEntries.every(e => e.mode === 'daily')).toBe(true);
+    });
+
+    it('new case group: rows emitted in caseOrder as kind:new mode:daily', () => {
+      const r1 = makeCaseItem('n1', 'case-b', 1);
+      const r2 = makeCaseItem('n2', 'case-b', 2);
+      const result = build({ newItems: [r2, r1] }); // intentionally unordered
+      const caseEntries = result.filter(e => e.item.caseId === 'case-b');
+      expect(caseEntries).toHaveLength(2);
+      expect(caseEntries.map(e => e.item.id)).toEqual(['n1', 'n2']);
+      expect(caseEntries.every(e => e.kind === 'new')).toBe(true);
+      expect(caseEntries.every(e => e.mode === 'daily')).toBe(true);
+    });
+
+    it('mixed group (some due, some new): emitted in caseOrder with correct kinds', () => {
+      // case-c: row1 (caseOrder:1, due), row2 (caseOrder:2, new), row3 (caseOrder:3, due)
+      const row1 = makeCaseItem('mix-1', 'case-c', 1);
+      const row2 = makeCaseItem('mix-2', 'case-c', 2);
+      const row3 = makeCaseItem('mix-3', 'case-c', 3);
+      const result = build({
+        dueStates: [makeState(row1.id), makeState(row3.id)],
+        allItems:  itemsToMap([row1, row3]),
+        newItems:  [row2],
+      });
+      const caseEntries = result.filter(e => e.item.caseId === 'case-c');
+      expect(caseEntries.map(e => e.item.id)).toEqual(['mix-1', 'mix-2', 'mix-3']);
+      expect(caseEntries[0].kind).toBe('review');
+      expect(caseEntries[1].kind).toBe('new');
+      expect(caseEntries[2].kind).toBe('review');
+    });
+
+    it(`CASE_CAP=${CASE_CAP}: 3 due groups → first ${CASE_CAP} by caseId emitted, third excluded`, () => {
+      // Groups 'case-a', 'case-b', 'case-c' — all due; alphabetical selection
+      const a1 = makeCaseItem('a1', 'case-a', 1);
+      const b1 = makeCaseItem('b1', 'case-b', 1);
+      const c1 = makeCaseItem('c1', 'case-c', 1);
+      const result = build({
+        dueStates: [makeState(a1.id), makeState(b1.id), makeState(c1.id)],
+        allItems:  itemsToMap([a1, b1, c1]),
+      });
+      const caseEntries = result.filter(e => e.item.caseId !== null);
+      expect(caseEntries).toHaveLength(CASE_CAP); // only 2 groups emitted
+      const emittedCaseIds = new Set(caseEntries.map(e => e.item.caseId));
+      expect(emittedCaseIds.has('case-a')).toBe(true);
+      expect(emittedCaseIds.has('case-b')).toBe(true);
+      expect(emittedCaseIds.has('case-c')).toBe(false);
+    });
+
+    it('due groups take priority over new groups when total > CASE_CAP', () => {
+      // 1 new group + 2 due groups; CASE_CAP=2 → both due groups win
+      const due1 = makeCaseItem('d1', 'case-due-1', 1);
+      const due2 = makeCaseItem('d2', 'case-due-2', 1);
+      const new1 = makeCaseItem('n1', 'case-new-1', 1);
+      const result = build({
+        dueStates: [makeState(due1.id), makeState(due2.id)],
+        allItems:  itemsToMap([due1, due2]),
+        newItems:  [new1],
+      });
+      const caseEntries = result.filter(e => e.item.caseId !== null);
+      expect(caseEntries).toHaveLength(CASE_CAP);
+      const emittedCaseIds = new Set(caseEntries.map(e => e.item.caseId));
+      expect(emittedCaseIds.has('case-due-1')).toBe(true);
+      expect(emittedCaseIds.has('case-due-2')).toBe(true);
+      expect(emittedCaseIds.has('case-new-1')).toBe(false);
+    });
+
+    it('case entries appear after standalone review + new entries', () => {
+      const solo = makeItem({ id: 'solo' });
+      const caseRow = makeCaseItem('cr1', 'case-x', 1);
+      const result = build({
+        dueStates: [makeState(solo.id), makeState(caseRow.id)],
+        allItems:  itemsToMap([solo, caseRow]),
+      });
+      const soloIdx    = result.findIndex(e => e.item.id === 'solo');
+      const caseRowIdx = result.findIndex(e => e.item.id === 'cr1');
+      expect(soloIdx).toBeGreaterThanOrEqual(0);
+      expect(caseRowIdx).toBeGreaterThan(soloIdx);
+    });
+
+    it('exam-mode case row: kind=review mode=exam', () => {
+      const row = makeCaseItem('exam-cr', 'case-exam', 1);
+      const result = build({
+        examCandidates: [makeState(row.id)],
+        allItems:       itemsToMap([row]),
+      });
+      const caseEntries = result.filter(e => e.item.caseId === 'case-exam');
+      expect(caseEntries).toHaveLength(1);
+      expect(caseEntries[0].kind).toBe('review');
+      expect(caseEntries[0].mode).toBe('exam');
+    });
+
+    it('exam wins over daily for dual-membership case row', () => {
+      const row = makeCaseItem('dual-cr', 'case-dual', 1);
+      const result = build({
+        dueStates:      [makeState(row.id)],
+        examCandidates: [makeState(row.id)],
+        allItems:       itemsToMap([row]),
+      });
+      const caseEntries = result.filter(e => e.item.caseId === 'case-dual');
+      expect(caseEntries).toHaveLength(1);
+      expect(caseEntries[0].mode).toBe('exam');
     });
   });
 });

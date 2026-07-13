@@ -18,6 +18,9 @@ type ReviewEntry = {
 /** Maximum free_recall entries allowed in a single session. */
 export const FREE_RECALL_CAP = 3;
 
+/** Maximum NGN case groups surfaced in a single session. Not yet wired into buildQueue — Step 27. */
+export const CASE_CAP = 2;
+
 export class QueueBuilder implements IQueueBuilder {
   constructor(private readonly scheduler: ISchedulerService) {}
 
@@ -32,6 +35,16 @@ export class QueueBuilder implements IQueueBuilder {
   }): QueueEntry[] {
     const { dueStates, examCandidates, allItems, newItems, newItemCap, now, allKnownStates } = params;
 
+    // ── Case-row separation ───────────────────────────────────────────────────
+    // NGN case-row items (caseId !== null) are processed as groups and must not
+    // enter the standalone review/new/interleaver paths.
+    const caseDue    = dueStates.filter(s      => (allItems.get(s.itemId)?.caseId ?? null) !== null);
+    const standaloneDue  = dueStates.filter(s  => (allItems.get(s.itemId)?.caseId ?? null) === null);
+    const caseExam   = examCandidates.filter(s => (allItems.get(s.itemId)?.caseId ?? null) !== null);
+    const standaloneExam = examCandidates.filter(s => (allItems.get(s.itemId)?.caseId ?? null) === null);
+    const caseNew        = newItems.filter(item => item.caseId !== null);
+    const standaloneNew  = newItems.filter(item => item.caseId === null);
+
     // Build ChainGate from all known content items so the predecessor/successor
     // index is complete. For the current all-standalone content set this is a
     // no-op index (zero rampChain links); check() fast-paths every item.
@@ -45,11 +58,11 @@ export class QueueBuilder implements IQueueBuilder {
     //    and the mode tag is what routes the event to the correct FSRS parameters.
     //    Filter retired items BEFORE merging — a retired tier-N must not resurface
     //    via the due set even if its fsrs.due <= now.
-    const activeDue = dueStates.filter(s => {
+    const activeDue = standaloneDue.filter(s => {
       const item = allItems.get(s.itemId);
       return item ? chainGate.check(item, allStatesMap) !== 'retired' : true;
     });
-    const activeExamCandidates = examCandidates.filter(s => {
+    const activeExamCandidates = standaloneExam.filter(s => {
       const item = allItems.get(s.itemId);
       return item ? chainGate.check(item, allStatesMap) !== 'retired' : true;
     });
@@ -62,7 +75,9 @@ export class QueueBuilder implements IQueueBuilder {
     //    curriculum order, apply cap.
     //    Sort is deterministic: (sessionIndex, week, id) preserves teaching sequence
     //    and tie-breaks stably so "which 20 of 40" is not a Map-iteration accident.
-    const selectedNew = newItems
+    //    Case-row new items are excluded (standaloneNew) — they are capped separately
+    //    at CASE_CAP groups and appended after the standalone queue.
+    const selectedNew = standaloneNew
       .filter(item => item.format !== 'sequence')
       .filter(item => chainGate.check(item, allStatesMap) !== 'locked')
       .sort(compareByReleaseGate)
@@ -109,7 +124,10 @@ export class QueueBuilder implements IQueueBuilder {
       return frUsed++ < FREE_RECALL_CAP;
     });
 
-    return [...cappedReviews, ...cappedNew];
+    // 8. Build NGN case entries (up to CASE_CAP groups) and append after standalone.
+    const caseEntries = buildCaseEntries(caseDue, caseExam, caseNew, allItems, this.scheduler, now);
+
+    return [...cappedReviews, ...cappedNew, ...caseEntries];
   }
 }
 
@@ -142,6 +160,93 @@ function buildReviewPool(
   }
 
   return [...pool.values()];
+}
+
+// ─── NGN case-group selection ─────────────────────────────────────────────────
+
+/**
+ * Builds QueueEntry[] for NGN case groups, applying CASE_CAP.
+ *
+ * Selection priority: due/exam groups (any row in dueStates or examCandidates)
+ * first, then new-only groups (no rows with persisted state). Within each
+ * category groups are sorted alphabetically by caseId for determinism.
+ *
+ * Within each selected group, rows are emitted in caseOrder ASC.
+ * Due/exam rows become kind:'review'; new rows become kind:'new'.
+ * Exam mode wins when a row appears in both caseDue and caseExam.
+ */
+function buildCaseEntries(
+  caseDueStates: ItemMemoryState[],
+  caseExamStates: ItemMemoryState[],
+  caseNewItems: ContentItem[],
+  allItems: Map<string, ContentItem>,
+  scheduler: ISchedulerService,
+  now: Date,
+): QueueEntry[] {
+  // Build active-state index (exam wins over daily on dual membership).
+  const activeById = new Map<string, { state: ItemMemoryState; mode: ReviewMode }>();
+  for (const s of caseDueStates) activeById.set(s.itemId, { state: s, mode: 'daily' });
+  for (const s of caseExamStates) activeById.set(s.itemId, { state: s, mode: 'exam' });
+
+  // Group active (due/exam) states by caseId.
+  const dueGroups = new Map<string, Array<{ state: ItemMemoryState; mode: ReviewMode; caseOrder: number }>>();
+  for (const [itemId, { state, mode }] of activeById) {
+    const item = allItems.get(itemId);
+    if (!item?.caseId) continue;
+    if (!dueGroups.has(item.caseId)) dueGroups.set(item.caseId, []);
+    dueGroups.get(item.caseId)!.push({ state, mode, caseOrder: item.caseOrder ?? 0 });
+  }
+
+  // Group new (no MemoryState) case items by caseId.
+  const newGroups = new Map<string, ContentItem[]>();
+  for (const item of caseNewItems) {
+    if (!item.caseId) continue;
+    if (!newGroups.has(item.caseId)) newGroups.set(item.caseId, []);
+    newGroups.get(item.caseId)!.push(item);
+  }
+
+  // Select up to CASE_CAP groups: due/exam groups first, then new-only groups.
+  const dueGroupIds    = [...dueGroups.keys()].sort();
+  const newOnlyGroupIds = [...newGroups.keys()].filter(id => !dueGroups.has(id)).sort();
+  const selected = [...dueGroupIds, ...newOnlyGroupIds].slice(0, CASE_CAP);
+
+  const entries: QueueEntry[] = [];
+  for (const caseId of selected) {
+    type CaseRow =
+      | { item: ContentItem; caseOrder: number; kind: 'review'; state: ItemMemoryState; mode: ReviewMode }
+      | { item: ContentItem; caseOrder: number; kind: 'new' };
+
+    const rows: CaseRow[] = [];
+
+    for (const { state, mode, caseOrder } of dueGroups.get(caseId) ?? []) {
+      const item = allItems.get(state.itemId);
+      if (item) rows.push({ kind: 'review', item, caseOrder, state, mode });
+    }
+
+    for (const item of newGroups.get(caseId) ?? []) {
+      if (!activeById.has(item.id)) {
+        rows.push({ kind: 'new', item, caseOrder: item.caseOrder ?? 0 });
+      }
+    }
+
+    rows.sort((a, b) => a.caseOrder - b.caseOrder);
+
+    for (const row of rows) {
+      if (row.kind === 'review') {
+        entries.push({ kind: 'review', item: row.item, memoryState: row.state, mode: row.mode });
+      } else {
+        const syntheticState: SyntheticItemState = {
+          itemId: row.item.id,
+          fsrs: scheduler.createInitialState(row.item.id, now),
+          relearnStreak: 0,
+          graduated: false,
+        };
+        entries.push({ kind: 'new', item: row.item, syntheticState, mode: 'daily' });
+      }
+    }
+  }
+
+  return entries;
 }
 
 // ─── New-item sort ────────────────────────────────────────────────────────────

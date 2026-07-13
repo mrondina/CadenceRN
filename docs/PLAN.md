@@ -227,6 +227,17 @@ Stored strings (`lastQualifyingDate` in `ItemMemoryState`, `lastDrillDate` in th
 **A1 sub-decision — dosage fifth pillar.** In progress (`feat/chain-gate-pillar-retag`).
 `'dosage'` added to the `Pillar` union in the same `types.ts` amendment commit. Dosage pack: all 25 items re-tagged `concepts → dosage`. Foundations pack: 12 of 25 items re-tagged (9 → `terminology`, 3 → `procedures`) per PRD four-pillar definitions. Complex-care-2 pack: 34 of 44 items re-tagged (20 → `procedures`, 9 → `terminology`, 5 → `pharm`) per PRD definitions. Pharm and terminology packs untouched. `contentVersion` bumped on all re-tagged items; migration 004 re-seeds changed items in existing DBs. `contentQA.test.ts` gains a pillar-validity assertion (one of five valid values). Session Protocol amendment (q) is the engineering record; this note is the content record.
 
+**(r) Expo SDK 57 adoption — retroactive record (PR chore/expo-sdk-57-verify).** ✅ Ratified 2026-07-12.
+The project was scaffolded directly on Expo SDK 57 (expo ~57.0.2, React Native 0.86.0, React 19.2.3) at initial commit `c085230`. No SDK upgrade was ever performed; SDK 57 was the baseline from day one. This was not documented in the amendments log until this PR. The SDK 57 verification pass (2026-07-12) confirmed:
+- **expo-sqlite 57.0.0**: no user-facing changes vs SDK 56; all 5 repositories and the migration runner are unaffected.
+- **ts-fsrs 5.4.1**: pure TypeScript, zero Expo/RN dependency; `enable_fuzz: false` constant and the Week 8 determinism test are the live guard against silent algorithm changes. Version unchanged.
+- **React Native 0.86**: "no breaking changes from 0.85" (RN team statement); `experimental_backgroundImage` remains under the `experimental_` prefix.
+- **react-native-reanimated 4.5.0 + react-native-worklets 0.10.0**: no babel plugin required (Reanimated 4.x + New Arch). `scheduleOnRN` API stable. Known issue: importing reanimated increases memory 25–30% (Hermes/RN 0.85 regression; not a crash risk).
+- **expo-router 57.0.4**: SDK 56 breaking changes (`Router→ImperativeRouter`, `AutoStatusBar` removed, React Navigation dep removed) do not affect CadenceRN — none of the removed APIs are imported.
+- **React Compiler (`"reactCompiler": true`)**: shipped as a default in the SDK 57 template and has been active since initial commit. It is ratified here as a deliberate choice. Scope: UI layer only — domain code is pure TypeScript outside React. The 28 `useCallback`/`useMemo`/`React.memo` occurrences are harmless under the compiler (manual memos become redundant, not broken). On-device verification is the only complete gate; the test suite cannot exercise compiler output. **On-device verification is a hard gate for this PR — see Step 3.**
+- **4 patch-level updates applied**: `expo ~57.0.4`, `@expo/ui ~57.0.4`, `expo-linking ~57.0.2`, `expo-router ~57.0.4` (all within SDK 57; no API changes).
+- **Suite**: 372/372 green before and after patch updates.
+
 **(p) Protocol #10 amended: docs changes now merge via PR.** ✅ Adopted 2026-07-08.
 Prior rule allowed direct-to-main docs commits; two such commits exist from earlier today (the CONTENT-PLAN/topic-map commit predates this amendment and is compliant with the rule in force at the time). Rationale: PR history as a single chronological record across docs and engineering work.
 

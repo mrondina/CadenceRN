@@ -23,6 +23,8 @@ function makeItem(id: string, body?: ContentItem['body']): ContentItem {
     contentPackId: 'test-pack',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

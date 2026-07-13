@@ -60,6 +60,8 @@ function makeItem(sessionIndex: number, week: number): ContentItem {
     contentPackId: 'pack-1',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

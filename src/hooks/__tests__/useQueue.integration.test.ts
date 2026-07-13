@@ -55,6 +55,8 @@ function makeItem(
     contentPackId: packId,
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

@@ -50,6 +50,8 @@ function makeItem(
     contentPackId: 'test-pack',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

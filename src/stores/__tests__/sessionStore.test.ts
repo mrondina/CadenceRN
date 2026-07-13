@@ -37,6 +37,8 @@ function makeItem(id: string): ContentItem {
     contentPackId: 'pack-1',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 

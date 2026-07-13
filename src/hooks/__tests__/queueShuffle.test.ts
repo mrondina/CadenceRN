@@ -45,6 +45,8 @@ function makeItem(id: string): ContentItem {
     contentPackId: 'test-pack',
     contentVersion: 1,
     placeholder: false,
+    caseId: null,
+    caseOrder: null,
   };
 }
 
