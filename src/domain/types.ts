@@ -650,8 +650,11 @@ export type CaseRowWrite =
 /**
  * Input to ReviewEventRepository.recordCaseReview().
  * All N rows commit in a single exclusive transaction — all or none.
- * Invariant: rows.length must equal the number of answered case rows;
- * processCaseRating() enforces this guard before calling recordCaseReview().
+ *
+ * Post-loop guard in processCaseRating(): catches early-exit (throw, break)
+ * that would submit fewer CaseRowWrite entries than rowAnswers.length.
+ * N-of-N completeness (all case rows answered before submission) is a
+ * session-UI concern enforced at submission assembly (Step 29), not here.
  */
 export interface CaseReviewTransaction {
   rows: CaseRowWrite[];

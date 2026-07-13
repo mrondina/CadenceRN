@@ -63,16 +63,21 @@ Zustand manages the in-flight session queue, per-session streak counters, and fo
 
 The original design left ambiguous when `ItemMemoryState` rows are created. Corrected decision: a row is created exactly once, atomically with the first `ReviewEvent` in a single SQLite transaction (`FirstReviewTransaction` type in `types.ts`). Before the first rating, the item appears in the queue as `kind:'new'` carrying a `SyntheticItemState` synthesized by `QueueBuilder` — no DB read or write occurs. If the session is abandoned before reaching that card, no row is created and the item reappears in the next session. This invariant is encoded structurally in the `QueueEntry` discriminated union: `kind:'review'` carries `memoryState: ItemMemoryState` (from DB); `kind:'new'` carries `syntheticState: SyntheticItemState` (in-memory only). A caller cannot accidentally treat a synthetic state as persisted because the type system distinguishes them. `ReviewEventRepository.recordFirstReview()` is the only write path for the atomic pair.
 
-### ADR-9 — Binary grade mapping for case rows (correct → Good, incorrect → Again)
+### ADR-9 — Case-grouped items: the case is presentation, the row is the memory unit
 
-Case rows (ATI matrix, dropdown cloze) carry a structured objective response: the student's answer is correct or incorrect by the presentation mechanics, not by self-assessment. Consequently:
+**Context.** ATI's graded assessments — roughly 40–50% of the pilot user's exam surface — use NGN item types (matrix/grid, drop-down cloze) wrapped in multi-exhibit unfolding cases. These were assumed Phase 3; they are current-session MVP content. A matrix item yields a score (e.g. 4 of 6), not a single FSRS rating, which collides with the one-item-one-`ItemMemoryState` model.
 
-- **Scheduling:** each row is scheduled independently through `SchedulerService.schedule()` with its own `ItemMemoryState` and the shared `reviewedAt`.
-- **Relearning:** each row passes independently through `RelearningPipeline.processRating()` — Again resets streak, Good on a new study day advances it.
-- **Exam mode:** case rows respect amendment (d) retention routing — `desiredRetention = 0.95` for `mode='exam'`, `0.90` for `mode='daily'`.
-- **Abandonment:** if the student answers rows but does not submit (session abandoned mid-case), `processCaseRating()` is never called and no write occurs — consistent with the existing abandoned-item invariant (ADR-8).
-- **Atomicity:** all N rows in a case submission commit in a single `withExclusiveTransactionAsync` call (`CaseReviewTransaction` type, amendment t). A crash or write failure after any row rolls back the entire case — zero partial rows persist.
-- **Grade mapping: `correct=true` → Rating 3 (Good); `correct=false` → Rating 1 (Again). Hard (2) and Easy (4) are structurally excluded — no code path in `processCaseRating` accepts them for case rows.**
+**Decision.** `ContentCase` is a presentation wrapper only. Its rows are ordinary `ContentItem`s, each with its own `ItemMemoryState`, own FSRS stability/difficulty, own due date. A case never carries an `ItemMemoryState`.
+
+**Rejected alternative.** Treating the case as one item and collapsing the score to a grade (6/6→Good, ≤4→Again). This blinds FSRS to the specific fact the student misses: a student who reliably misses one row of six is graded "Good," the case is pushed out weeks, and the one unknown fact never resurfaces — disabling per-fact spaced repetition, the product's differentiator, across half the content.
+
+**Emergent property (proven by Harness Scenario 8).** The case resurfaces when its earliest-due row comes due — i.e., at the pace of the weakest fact. Strong rows ride along as early reviews, which FSRS handles natively.
+
+**Parameters (approved).** (1) A case's rows count individually against `newItemCap`. (2) `CASE_CAP = 2` per session, session-level filter mirroring `FREE_RECALL_CAP`. (3) Rows never appear standalone — they render only in-case. (4) Binary grading: `correct` → Good (3), `incorrect` → Again (1); Hard/Easy structurally excluded — NGN correctness is deterministic by presentation mechanics, not self-assessment; no code path in `processCaseRating` accepts them. (5) Each row is scheduled independently through `SchedulerService.schedule()` with its own `ItemMemoryState` and the shared `reviewedAt`; each row passes independently through `RelearningPipeline.processRating()`. (6) Exam-mode retention routing applies per row (amendment d): `desiredRetention = 0.95` for `mode='exam'`, `0.90` for `mode='daily'`. (7) Abandonment before submission writes nothing — `processCaseRating()` is never called, consistent with ADR-8's abandoned-item invariant. (8) All N rows commit atomically (`CaseReviewTransaction` type, amendment t); a write failure rolls back the entire case — zero partial rows persist.
+
+**Authoring rule.** Cases are authored over facts that already have standalone coverage, linked via `graphLinks` — the case is the applied tier, not the introduction vehicle.
+
+**Untouched:** `SchedulerService`, `RelearningPipeline`, `DebtForecaster`, `ReleaseGate`, `ExamModeCompressor`. **Preserved:** append-only `review_events`, ADR-8 atomic first review, `enable_fuzz: false`, no `Math.random`, determinism replay.
 
 ---
 
