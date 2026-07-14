@@ -5,6 +5,7 @@ export default function PracticeLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="session" />
+      <Stack.Screen name="case-preview" />
     </Stack>
   );
 }
