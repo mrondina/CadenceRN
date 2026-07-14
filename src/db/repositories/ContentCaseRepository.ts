@@ -118,4 +118,9 @@ export class ContentCaseRepository {
     );
     return rows.map(rowToCase);
   }
+
+  async findAll(): Promise<ContentCase[]> {
+    const rows = await this.db.getAllAsync<ContentCaseRow>(`SELECT * FROM content_cases`);
+    return rows.map(rowToCase);
+  }
 }
