@@ -13,6 +13,47 @@ import { getCurrentSession } from '@/domain/cohort/CohortBuilder';
 import { getGateParams } from '@/hooks/useQueue';
 import type { Pillar } from '@/domain/types';
 
+// ─── Try-a-Case affordance ────────────────────────────────────────────────────
+
+function TryACaseCard() {
+  const router = useRouter();
+  const { colors, space, radius } = useAppTheme();
+  const db = useDBContext();
+  const [hasCases, setHasCases] = useState<boolean | null>(null);  // null = loading
+
+  useEffect(() => {
+    if (!db) return;
+    db.caseRepo.findAll()
+      .then(cases => setHasCases(cases.length > 0))
+      .catch(() => setHasCases(false));
+  }, [db]);
+
+  // Hidden while loading or when no cases are seeded.
+  if (!hasCases) return null;
+
+  return (
+    <AppCard
+      style={{
+        borderLeftWidth: 3,
+        borderLeftColor: colors.primary,
+        gap: space[2],
+      }}>
+      <View style={{ gap: space[1] }}>
+        <AppText variant="label">NGN Case Format Preview</AppText>
+        <AppText variant="caption" color="inkMuted">
+          Preview — doesn't affect your reviews.
+        </AppText>
+      </View>
+      <AppButton
+        label="Try a Case →"
+        variant="secondary"
+        onPress={() => router.push('/practice/case-preview')}
+        fullWidth={false}
+      />
+    </AppCard>
+  );
+}
+
 // ─── Pillar labels ─────────────────────────────────────────────────────────────
 
 const PILLAR_LABELS: Record<Pillar, string> = {
@@ -141,6 +182,9 @@ export default function PracticePickerScreen() {
         <AppText variant="caption" color="inkMuted">
           Drill items on demand — no ratings, nothing scheduled.
         </AppText>
+
+        {/* NGN case preview — gated: hidden until cases are confirmed seeded */}
+        <TryACaseCard />
 
         {/* Pack picker */}
         <AppCard style={{ gap: space[3] }}>
