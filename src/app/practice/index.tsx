@@ -61,6 +61,7 @@ const PILLAR_LABELS: Record<Pillar, string> = {
   procedures:  'Procedures',
   terminology: 'Terminology',
   concepts:    'Concepts',
+  dosage:      'Dosage',
 };
 
 // ─── Pack option ──────────────────────────────────────────────────────────────
