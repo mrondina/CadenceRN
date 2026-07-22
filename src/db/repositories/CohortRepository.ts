@@ -37,7 +37,7 @@ export class CohortRepository {
 
   async findFirst(): Promise<Cohort | null> {
     const cohortRow = await this.db.getFirstAsync<CohortRow>(
-      `SELECT * FROM cohorts ORDER BY created_at ASC LIMIT 1`,
+      `SELECT * FROM cohorts ORDER BY created_at DESC LIMIT 1`,
     );
     if (!cohortRow) return null;
     return this.hydrateCohort(cohortRow);
