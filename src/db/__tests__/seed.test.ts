@@ -162,11 +162,11 @@ describe('Seed content migrations (002 + 003)', () => {
     ).toHaveLength(0);
   });
 
-  it('db_version is 7 after all migrations run', async () => {
+  it('db_version is 8 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('7');
+    expect(row?.value).toBe('8');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -288,7 +288,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('7');
+    expect(versionAfter?.value).toBe('8');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,

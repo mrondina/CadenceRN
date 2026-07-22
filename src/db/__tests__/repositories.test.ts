@@ -6,6 +6,7 @@ import { ItemMemoryStateRepository } from '../repositories/ItemMemoryStateReposi
 import { ReviewEventRepository } from '../repositories/ReviewEventRepository';
 import { CohortRepository } from '../repositories/CohortRepository';
 import { DrillResultRepository } from '../repositories/DrillResultRepository';
+import { getGateParams } from '../../hooks/useQueue';
 import type { IDatabase } from '../types';
 import type {
   ContentItem,
@@ -389,7 +390,7 @@ describe('CohortRepository', () => {
     expect(found?.sessions[0].courses[0].examDates).toEqual(['2026-07-22']);
   });
 
-  it('findFirst returns the earliest cohort by created_at', async () => {
+  it('findFirst returns the newest cohort by created_at', async () => {
     const repo = new CohortRepository(db);
 
     const c1: Cohort = {
@@ -436,7 +437,106 @@ describe('CohortRepository', () => {
     await repo.save(c2);
 
     const first = await repo.findFirst();
-    expect(first?.id).toBe('c-early');
+    // Must return the NEWEST cohort — the one actually entered last in setup
+    expect(first?.id).toBe('c-late');
+  });
+});
+
+// ─── Regression: findFirst ordering + saveAndReplace invariants ───────────────
+//
+// These tests encode the three-part fix for the pilot bug where re-running
+// setup accumulated orphan cohort rows and findFirst (ASC) always returned
+// the oldest wrong one. Tests A/B/D are expected to fail until the fix lands.
+
+describe('regression: findFirst ordering + saveAndReplace invariants', () => {
+  const builder = new CohortBuilder();
+
+  // Jan 6 2026 cohort: session-4 starts 2026-07-14 (active on 2026-07-21)
+  function makeJan6Cohort(): Cohort {
+    const built = builder.build({
+      id: 'cohort-jan6',
+      startDate: new Date('2026-01-06T00:00:00.000Z'),
+      templateId: 'bellarmine-absn-v1',
+    });
+    return { ...built, createdAt: '2026-07-11T00:00:00.000Z', updatedAt: '2026-07-11T00:00:00.000Z' };
+  }
+
+  // Wrong cohort: started recently, session-4 still in the future on 2026-07-21
+  function makeWrongCohort(): Cohort {
+    const built = builder.build({
+      id: 'cohort-wrong',
+      startDate: new Date('2026-06-20T00:00:00.000Z'),
+      templateId: 'bellarmine-absn-v1',
+    });
+    return { ...built, createdAt: '2026-06-20T00:00:00.000Z', updatedAt: '2026-06-20T00:00:00.000Z' };
+  }
+
+  // Test A: findFirst returns the NEWER cohort when two rows exist
+  it('A: findFirst returns the Jan-6 cohort (newer) over the wrong cohort (older)', async () => {
+    const repo = new CohortRepository(db);
+    // Save older first, newer second — simulates two setup runs
+    await repo.save(makeWrongCohort());
+    await repo.save(makeJan6Cohort());
+
+    const found = await repo.findFirst();
+    expect(found?.id).toBe('cohort-jan6');
+    expect(found?.startDate).toBe('2026-01-06');
+  });
+
+  // Test B: gate params from the correct cohort on 2026-07-21 → session-4, week-2
+  it('B: getGateParams returns sessionIndex=4 week=2 for Jan-6 cohort on 2026-07-21', () => {
+    const cohort = makeJan6Cohort();
+    const gate = getGateParams(cohort, new Date('2026-07-21T12:00:00.000Z'));
+    expect(gate.sessionIndex).toBe(4);
+    expect(gate.week).toBe(2);
+  });
+
+  // Test C: findUnlocked surfaces session-4 items when gate is sessionIndex=4
+  it('C: findUnlocked includes session-4 items at gate=4 and excludes them at gate=1', async () => {
+    const repo = new ContentItemRepository(db);
+    const s4Item: ContentItem = {
+      ...makeItem('s4-item'),
+      releaseGate: { sessionIndex: 4, week: 1 },
+    };
+    await repo.upsert(s4Item);
+
+    const at4 = await repo.findUnlocked({ sessionIndex: 4, week: 2 });
+    expect(at4.map(i => i.id)).toContain('s4-item');
+
+    const at1 = await repo.findUnlocked({ sessionIndex: 1, week: 8 });
+    expect(at1.map(i => i.id)).not.toContain('s4-item');
+  });
+
+  // Test D: saveAndReplace leaves exactly one cohort and preserves FSRS history
+  it('D: saveAndReplace leaves one cohort row and preserves item_memory_states + review_events', async () => {
+    const cohortRepo = new CohortRepository(db);
+    const itemRepo = new ContentItemRepository(db);
+    const memRepo = new ItemMemoryStateRepository(db);
+    const eventRepo = new ReviewEventRepository(db);
+
+    // Seed review history (item_memory_states + review_events FK only to content_items)
+    await itemRepo.upsert(makeItem('history-item'));
+    await memRepo.insert(db, makeMemoryState('history-item'));
+    await eventRepo.append(makeEvent('history-evt', 'history-item'));
+
+    // First setup run — wrong cohort saved
+    await cohortRepo.save(makeWrongCohort());
+
+    // Second setup run — saveAndReplace atomically prunes old and inserts new
+    await cohortRepo.saveAndReplace(makeJan6Cohort());
+
+    // Exactly one cohort with the correct start date
+    const cohortCount = await db.getFirstAsync<{ cnt: number }>('SELECT COUNT(*) as cnt FROM cohorts');
+    expect(cohortCount?.cnt).toBe(1);
+    const found = await cohortRepo.findFirst();
+    expect(found?.startDate).toBe('2026-01-06');
+
+    // FSRS history untouched — no FK to cohorts
+    const memCount = await db.getFirstAsync<{ cnt: number }>('SELECT COUNT(*) as cnt FROM item_memory_states');
+    expect(memCount?.cnt).toBe(1);
+
+    const evtCount = await db.getFirstAsync<{ cnt: number }>('SELECT COUNT(*) as cnt FROM review_events');
+    expect(evtCount?.cnt).toBe(1);
   });
 });
 

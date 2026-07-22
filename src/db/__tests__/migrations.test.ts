@@ -15,23 +15,23 @@ describe('runMigrations', () => {
     db = openTestDb();
   });
 
-  it('first run: creates all tables and sets db_version = 6', async () => {
+  it('first run: creates all tables and sets db_version = 8', async () => {
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('7');
+    expect(row?.value).toBe('8');
   });
 
-  it('second run: no error; db_version remains 6', async () => {
+  it('second run: no error; db_version remains 8', async () => {
     await runMigrations(db);
     await runMigrations(db);
 
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('7');
+    expect(row?.value).toBe('8');
   });
 
   it('all expected tables exist after migration', async () => {
