@@ -15,7 +15,7 @@ interface MCQBody {
 
 interface MCQCardProps {
   body: MCQBody;
-  onReveal: () => void;
+  onReveal: (correct?: boolean) => void;
   itemId: string;
 }
 
@@ -36,7 +36,7 @@ export function MCQCard({ body, onReveal, itemId }: MCQCardProps) {
   const handleChoice = (id: string) => {
     if (selectedId) return; // locked after first selection
     setSelectedId(id);
-    onReveal();
+    onReveal(id === body.correctId);
   };
 
   return (
