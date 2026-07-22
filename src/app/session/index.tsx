@@ -33,6 +33,7 @@ import {
   computeLogicalGroups,
   findCurrentGroup,
 } from '@/components/session/caseBundleUtils';
+import { resolveRating, isCorrectForAccuracy } from '@/components/session/objectiveCardUtils';
 
 // ─── Linked-items lookup ──────────────────────────────────────────────────────
 
@@ -268,13 +269,13 @@ export default function SessionScreen() {
     if (!currentEntry || !db) return;
 
     totalRatedRef.current += 1;
-    if (revealResult === true || (revealResult === null && rating >= 3)) {
+    if (isCorrectForAccuracy(revealResult, rating)) {
       correctRef.current += 1;
     }
 
     processRating({
       entry: currentEntry,
-      rating,
+      rating: resolveRating(revealResult, rating),
       reviewedAt: new Date(),
       latencyMs: 0,
       scheduler,
