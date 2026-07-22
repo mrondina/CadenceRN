@@ -545,4 +545,40 @@ export async function runMigrations(db: IDatabase): Promise<void> {
       );
     });
   }
+
+  if ((await getVersion(db)) < 8) {
+    // Enforces the single-cohort invariant retroactively for any device that
+    // accumulated orphan cohort rows via repeated setup runs. Keeps the newest
+    // cohort by created_at DESC — matching post-fix findFirst ordering — and
+    // deletes all older rows along with their dependent session/course data.
+    // item_memory_states and review_events have no FK to cohorts and are untouched.
+    // Safe no-op on fresh installs (0 cohort rows) and correctly-configured
+    // devices that already have exactly 1 row.
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      const keepRow = await txn.getFirstAsync<{ id: string }>(
+        `SELECT id FROM cohorts ORDER BY created_at DESC LIMIT 1`,
+      );
+      if (keepRow) {
+        const keepId = keepRow.id;
+        await txn.runAsync(
+          `DELETE FROM course_instances
+           WHERE session_id IN (
+             SELECT id FROM session_instances WHERE cohort_id != $keepId
+           )`,
+          { $keepId: keepId },
+        );
+        await txn.runAsync(
+          `DELETE FROM session_instances WHERE cohort_id != $keepId`,
+          { $keepId: keepId },
+        );
+        await txn.runAsync(
+          `DELETE FROM cohorts WHERE id != $keepId`,
+          { $keepId: keepId },
+        );
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '8')`,
+      );
+    });
+  }
 }
