@@ -128,6 +128,11 @@ export default function SessionScreen() {
   const correctRef = useRef(0);
   const totalRatedRef = useRef(0);
 
+  // null  → self-graded format (cloze, free_recall): accuracy from rating≥3
+  // true  → objective format, answered correctly: accuracy always counts correct
+  // false → objective format, answered incorrectly: forced Again, accuracy counts wrong
+  const [revealResult, setRevealResult] = useState<boolean | null>(null);
+
   const { queue, currentIndex, advance, advanceBy, flush, restore } = sessionStore;
   const currentEntry: QueueEntry | undefined = queue[currentIndex];
   const isComplete = queueReady && currentIndex >= queue.length;
@@ -187,6 +192,7 @@ export default function SessionScreen() {
 
   useEffect(() => {
     setRevealed(false);
+    setRevealResult(null);
   }, [currentIndex]);
 
   // ── Skip bundles with missing case metadata (data-integrity failure) ──────
@@ -246,13 +252,25 @@ export default function SessionScreen() {
     return computeIntervalPreview(fsrs, currentEntry.mode, new Date());
   }, [currentEntry, isCaseBundle]);
 
-  // ── Standalone rating handler ──────────────────────────────────────────────
+  // ── Standalone rating handlers ─────────────────────────────────────────────
+  //
+  // handleRate: objective-correct (revealResult===true) and self-graded
+  //   (revealResult===null). Accuracy logic differs by path:
+  //   - objective-correct: count as correct regardless of which rating the user
+  //     chooses (they got the answer right; the rating calibrates FSRS interval).
+  //   - self-graded: count as correct only when rating≥3 (per-design, Evidence §2).
+  //
+  // handleObjectiveMiss: objective-wrong (revealResult===false). Forces rating=1
+  //   (Again). Never increments correctRef. Called from the "Continue" button shown
+  //   instead of the RatingBar after a confirmed wrong MCQ/numeric answer.
 
   const handleRate = (rating: Rating) => {
     if (!currentEntry || !db) return;
 
     totalRatedRef.current += 1;
-    if (rating >= 3) correctRef.current += 1;
+    if (revealResult === true || (revealResult === null && rating >= 3)) {
+      correctRef.current += 1;
+    }
 
     processRating({
       entry: currentEntry,
@@ -266,6 +284,29 @@ export default function SessionScreen() {
       boundaryConfig: { hourOffset: dayBoundaryHour },
     }).catch((e: unknown) => {
       console.error('[SessionScreen] Rating write failed:', e);
+    });
+
+    advance();
+  };
+
+  const handleObjectiveMiss = () => {
+    if (!currentEntry || !db) return;
+
+    totalRatedRef.current += 1;
+    // correctRef intentionally not incremented — answer was objectively wrong.
+
+    processRating({
+      entry: currentEntry,
+      rating: 1, // Again — forced; not the user's choice
+      reviewedAt: new Date(),
+      latencyMs: 0,
+      scheduler,
+      relearningPipeline,
+      memStateRepo: db.memStateRepo,
+      reviewEventRepo: db.reviewEventRepo,
+      boundaryConfig: { hourOffset: dayBoundaryHour },
+    }).catch((e: unknown) => {
+      console.error('[SessionScreen] Objective-miss rating write failed:', e);
     });
 
     advance();
@@ -389,7 +430,10 @@ export default function SessionScreen() {
           onSkip={handleSkip}>
           <CardRouter
             entry={currentEntry}
-            onReveal={() => setRevealed(true)}
+            onReveal={(correct?: boolean) => {
+              setRevealed(true);
+              setRevealResult(correct ?? null);
+            }}
           />
         </SessionErrorBoundary>
 
@@ -402,7 +446,32 @@ export default function SessionScreen() {
           ) : null;
         })()}
 
-        {revealed && (
+        {revealed && revealResult === false && (
+          // Objective wrong answer: no rating choice. Force Again, show message.
+          <View style={{ gap: space[2] }}>
+            <AppText
+              variant="caption"
+              color="inkMuted"
+              style={{ textAlign: 'center' }}>
+              Incorrect — scheduled to review this one again soon.
+            </AppText>
+            <Pressable
+              onPress={handleObjectiveMiss}
+              accessibilityRole="button"
+              accessibilityLabel="Continue"
+              style={({ pressed }) => ({
+                alignItems: 'center',
+                paddingVertical: space[3],
+                opacity: pressed ? 0.65 : 1,
+              })}>
+              <AppText variant="label" color="primary">Continue</AppText>
+            </Pressable>
+          </View>
+        )}
+
+        {revealed && revealResult !== false && (
+          // Objective correct (revealResult===true) or self-graded (revealResult===null):
+          // full rating bar. handleRate routes accuracy appropriately for each case.
           <RatingBar intervals={intervalPreview} onRate={handleRate} />
         )}
       </ScrollView>
