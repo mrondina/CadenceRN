@@ -19,11 +19,11 @@ beforeEach(async () => {
 });
 
 describe('Seed content migrations (002 + 003)', () => {
-  it('inserts the correct total item count (190)', async () => {
+  it('inserts the correct total item count (220)', async () => {
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(190);
+    expect(row?.cnt).toBe(220);
   });
 
   it('all five pack ids are represented', async () => {
@@ -122,7 +122,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const row = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(row?.cnt).toBe(190);
+    expect(row?.cnt).toBe(220);
   });
 
   it('content items include all four body types: cloze, mcq, free_recall, numeric', async () => {
@@ -147,7 +147,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const v1 = await db.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items WHERE content_version = 1`,
     );
-    expect(v1?.cnt).toBe(119); // 190 total - 71 re-tagged
+    expect(v1?.cnt).toBe(149); // 220 total - 71 re-tagged
   });
 
   it('contentQA: every item pillar is one of the five valid values', async () => {
@@ -162,11 +162,11 @@ describe('Seed content migrations (002 + 003)', () => {
     ).toHaveLength(0);
   });
 
-  it('db_version is 6 after all migrations run', async () => {
+  it('db_version is 7 after all migrations run', async () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('6');
+    expect(row?.value).toBe('7');
   });
 
   it('complex-care-2 pack: 44 items all in session 4 week 1', async () => {
@@ -177,12 +177,16 @@ describe('Seed content migrations (002 + 003)', () => {
     expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
   });
 
-  it('mental-health pack: 40 items all in session 4 week 1', async () => {
+  it('mental-health pack: 70 items across session 4 weeks 1 and 4', async () => {
     const repo = new ContentItemRepository(db);
     const items = await repo.findByPack('mental-health-pack');
-    expect(items).toHaveLength(40);
+    expect(items).toHaveLength(70);
     const gates = items.map(i => i.releaseGate);
-    expect(gates.every(g => g.sessionIndex === 4 && g.week === 1)).toBe(true);
+    expect(gates.every(g => g.sessionIndex === 4)).toBe(true);
+    const weeks = [...new Set(gates.map(g => g.week))].sort((a, b) => a - b);
+    expect(weeks).toEqual([1, 4]);
+    expect(items.filter(i => i.releaseGate.week === 1)).toHaveLength(40);
+    expect(items.filter(i => i.releaseGate.week === 4)).toHaveLength(30);
   });
 
   it('session 4 template carries both complex-care-2-pack and mental-health-pack', () => {
@@ -197,7 +201,7 @@ describe('Seed content migrations (002 + 003)', () => {
     const repo = new ContentItemRepository(db);
     const packIds = ['terminology-pack', 'pharm-pack', 'foundations-pack', 'dosage-pack', 'complex-care-2-pack', 'mental-health-pack'];
     const allItems = (await Promise.all(packIds.map(p => repo.findByPack(p)))).flat();
-    expect(allItems.length).toBe(190);
+    expect(allItems.length).toBe(220);
 
     const gate = new ChainGate(allItems);
     const emptyStates = new Map();
@@ -284,12 +288,12 @@ describe('Seed content migrations (002 + 003)', () => {
     const versionAfter = await freshDb.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(versionAfter?.value).toBe('6');
+    expect(versionAfter?.value).toBe('7');
 
     const count = await freshDb.getFirstAsync<{ cnt: number }>(
       `SELECT COUNT(*) AS cnt FROM content_items`,
     );
-    expect(count?.cnt).toBe(190);
+    expect(count?.cnt).toBe(220);
   });
 
   // ─── Migration 006 gates ───────────────────────────────────────────────────

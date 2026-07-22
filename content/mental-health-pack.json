@@ -972,5 +972,753 @@
     "contentPackId": "mental-health-pack",
     "contentVersion": 1,
     "placeholder": true
+  },
+  {
+    "id": "mh-041",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client with schizophrenia has shown little improvement in flat affect, social withdrawal, and lack of motivation while taking haloperidol. Which change does the nurse anticipate the provider will consider, and why?",
+      "choices": [
+        { "id": "a", "text": "Switch to a second-generation agent, because their serotonin activity better targets negative symptoms." },
+        { "id": "b", "text": "Increase the haloperidol dose, because a higher D2 blockade will address negative symptoms." },
+        { "id": "c", "text": "Add a first-generation agent, because combining two agents doubles D2 blockade efficacy." },
+        { "id": "d", "text": "Discontinue all antipsychotics, because negative symptoms indicate treatment resistance." }
+      ],
+      "correctId": "a",
+      "explanation": "First-generation (typical) antipsychotics act primarily through D2 receptor blockade and are effective for positive symptoms (hallucinations, delusions) but have limited impact on negative symptoms (avolition, anhedonia, alogia). Second-generation (atypical) antipsychotics add 5-HT2A antagonism to D2 blockade; this serotonergic activity improves negative and cognitive symptoms. Increasing haloperidol only intensifies D2 blockade — the mechanism that does not address negative symptoms — and raises EPS risk. Adding a first-generation agent compounds the same limitation. Discontinuing antipsychotics is not indicated when positive symptoms have responded."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-042",
+    "pillar": "concepts",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Symptoms representing a loss of normal function — avolition, alogia, anhedonia — are termed {{blank}} symptoms. (Contrast: symptoms added on top of normal function, such as hallucinations and delusions, are positive symptoms.)",
+      "back": "negative",
+      "hint": "Instructor's mnemonic: these symptoms are 'taken away' — normal capacities diminished or absent."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-041"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-043",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which finding meets the DSM-5 timeframe criteria for a diagnosis of schizophrenia?",
+      "choices": [
+        { "id": "a", "text": "Two or more characteristic symptoms present for at least one month, with continuous disturbance for at least six months." },
+        { "id": "b", "text": "At least one characteristic symptom present for at least two weeks." },
+        { "id": "c", "text": "One characteristic symptom present continuously for at least six months without any remission." },
+        { "id": "d", "text": "Two or more characteristic symptoms present continuously for at least twelve months." }
+      ],
+      "correctId": "a",
+      "explanation": "DSM-5 requires at least two characteristic symptoms (delusions, hallucinations, disorganized speech, grossly disorganized or catatonic behavior, negative symptoms — with at least one being delusions, hallucinations, or disorganized speech), present for a significant portion of a one-month period. The broader disturbance — including prodromal and residual phases — must persist for at least six months. A two-week threshold describes brief psychotic disorder; a twelve-month threshold exceeds DSM-5's schizophrenia criterion."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-044",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client who has received multiple doses of haloperidol develops a temperature of 103°F, muscle rigidity, tachycardia, and labile blood pressure. Which complication does the nurse suspect?",
+      "choices": [
+        { "id": "a", "text": "Neuroleptic malignant syndrome." },
+        { "id": "b", "text": "Tardive dyskinesia." },
+        { "id": "c", "text": "Acute dystonia." },
+        { "id": "d", "text": "Serotonin syndrome." }
+      ],
+      "correctId": "a",
+      "explanation": "Neuroleptic malignant syndrome (NMS) is a life-threatening reaction to antipsychotics — most commonly first-generation agents such as haloperidol. Its hallmark triad is hyperthermia (often > 101°F), severe muscle rigidity, and autonomic instability (tachycardia, labile BP, diaphoresis). Tardive dyskinesia is a late-onset movement disorder characterized by repetitive orofacial movements, not fever or rigidity. Acute dystonia produces involuntary muscle contractions but not the autonomic instability or fever of NMS. Serotonin syndrome can mimic NMS but is associated with serotonergic agents, and more typically features hyperreflexia and clonus rather than the lead-pipe rigidity of NMS."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": true,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-045",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Which finding is NOT characteristic of neuroleptic malignant syndrome?",
+      "choices": [
+        { "id": "a", "text": "Pinpoint pupils." },
+        { "id": "b", "text": "Fever." },
+        { "id": "c", "text": "Muscle rigidity." },
+        { "id": "d", "text": "Autonomic instability." }
+      ],
+      "correctId": "a",
+      "explanation": "Pinpoint (miotic) pupils are a feature of opioid toxicity and cholinergic excess — not NMS. The instructor explicitly flagged pinpoint pupils and urinary retention as absent in NMS to prevent confusion with other toxidromes. NMS is defined by the triad of fever, muscle rigidity (often described as 'lead-pipe'), and autonomic instability (labile BP, tachycardia, diaphoresis, tachypnea). Pupils in NMS are typically dilated or normal, reflecting sympathetic excess, not miosis."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-044"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-046",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 3,
+    "body": {
+      "type": "mcq",
+      "stem": "A client is diagnosed with neuroleptic malignant syndrome. Which nursing action is the priority?",
+      "choices": [
+        { "id": "a", "text": "Discontinue the antipsychotic and initiate cooling measures and hydration." },
+        { "id": "b", "text": "Administer an anticholinergic agent such as benztropine." },
+        { "id": "c", "text": "Increase the antipsychotic dose to suppress the muscle rigidity." },
+        { "id": "d", "text": "Restrict fluids to reduce the risk of cerebral edema." }
+      ],
+      "correctId": "a",
+      "explanation": "NMS is a medical emergency. Priority: immediately discontinue the causative antipsychotic and notify the provider. Supportive care — cooling (ice packs, cooling blankets, antipyretics), IV fluid hydration to prevent renal failure from myoglobinuria, and continuous monitoring of temperature, BP, and cardiac rhythm — is initiated concurrently. Anticholinergics (benztropine) treat acute dystonia and pseudoparkinsonism, not NMS; they have no role in NMS management. Increasing the antipsychotic worsens the syndrome. Fluid restriction is contraindicated — rhabdomyolysis from the rigidity releases myoglobin that must be cleared renally."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-044"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-047",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client taking clozapine reports a sore throat and fever. Which action does the nurse take first?",
+      "choices": [
+        { "id": "a", "text": "Report the symptoms to the provider and anticipate an order for WBC and absolute neutrophil count, as these may indicate agranulocytosis." },
+        { "id": "b", "text": "Reassure the client that this is likely a minor viral illness and encourage increased fluid intake." },
+        { "id": "c", "text": "Administer the next scheduled clozapine dose as ordered, since symptom onset is unrelated to the medication." },
+        { "id": "d", "text": "Encourage fluids and monitor for 24 hours before notifying the provider." }
+      ],
+      "correctId": "a",
+      "explanation": "Clozapine carries a black-box warning for agranulocytosis — a potentially fatal suppression of WBC production. Fever and sore throat in a client on clozapine are infectious warning signs that may indicate neutropenia from drug-induced bone marrow suppression. The nurse's first action is to report immediately and anticipate CBC with differential; clozapine requires ongoing WBC and ANC monitoring per REMS program requirements. Waiting 24 hours or reassuring the client risks life-threatening infection. The next clozapine dose should be held pending provider evaluation and lab results."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": true,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-048",
+    "pillar": "pharm",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Because of the risk of {{blank}}, a client taking clozapine requires regular monitoring of white blood cell and absolute neutrophil counts.",
+      "back": "agranulocytosis",
+      "hint": "Clozapine's black-box warning: bone marrow suppression that can eliminate the granulocyte (neutrophil) line — potentially fatal without mandatory WBC monitoring."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-047"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-049",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client on a first-generation antipsychotic develops a resting tremor, shuffling gait, and bradykinesia. Which type of extrapyramidal symptom is this?",
+      "choices": [
+        { "id": "a", "text": "Pseudoparkinsonism." },
+        { "id": "b", "text": "Acute dystonia." },
+        { "id": "c", "text": "Akathisia." },
+        { "id": "d", "text": "Tardive dyskinesia." }
+      ],
+      "correctId": "a",
+      "explanation": "The four EPS types are distinct: pseudoparkinsonism (resting tremor, rigidity, bradykinesia, shuffling gait — drug-induced Parkinson features); acute dystonia (sudden involuntary muscle contractions — torticollis, oculogyric crisis, laryngospasm — onset within hours to days); akathisia (subjective motor restlessness, compulsion to move — onset days to weeks); and tardive dyskinesia (repetitive involuntary orofacial movements — lip smacking, tongue protrusion — after months to years of use). This client's presentation mirrors idiopathic Parkinson disease, which is pseudoparkinsonism."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-050",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 3,
+    "body": {
+      "type": "mcq",
+      "stem": "A client on an antipsychotic paces constantly and says, 'I can't sit still, I can't stand this — I want to stop the medicine.' Which EPS is present, and why is it a safety concern?",
+      "choices": [
+        { "id": "a", "text": "Akathisia — its severe subjective discomfort is associated with medication nonadherence and suicidal ideation." },
+        { "id": "b", "text": "Tardive dyskinesia — it is usually irreversible and indicates long-term dopamine receptor damage." },
+        { "id": "c", "text": "Pseudoparkinsonism — it impairs mobility and increases fall risk." },
+        { "id": "d", "text": "Acute dystonia — it can compromise the airway if laryngeal muscles are affected." }
+      ],
+      "correctId": "a",
+      "explanation": "Akathisia is a subjective sense of inner motor restlessness — not a movement disorder observed from outside, but an intensely distressing internal drive to move. The safety concern the instructor emphasized is twofold: akathisia is a leading cause of antipsychotic nonadherence (clients stop their medication to escape the sensation), and severe akathisia has been linked to suicidal ideation and self-harm. The nurse must recognize akathisia as a priority assessment target and distinguish it from agitation or psychosis, which require opposite interventions."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-049"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-051",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client reports a sensation of 'chewing' with nothing in the mouth; the nurse observes lip smacking and tongue movements. Which screening tool is indicated, and what does a positive result suggest?",
+      "choices": [
+        { "id": "a", "text": "AIMS (Abnormal Involuntary Movement Scale) — any score above zero warrants follow-up for tardive dyskinesia." },
+        { "id": "b", "text": "CIWA (Clinical Institute Withdrawal Assessment) — the movements suggest alcohol withdrawal." },
+        { "id": "c", "text": "CAGE questionnaire — the repetitive behaviors suggest alcohol-use disorder." },
+        { "id": "d", "text": "MMSE (Mini-Mental State Examination) — the findings suggest cognitive impairment." }
+      ],
+      "correctId": "a",
+      "explanation": "Lip smacking, tongue protrusion, and the sensation of chewing without food are classic orofacial dyskinesias of tardive dyskinesia (TD) — a late-onset EPS from prolonged dopamine receptor blockade. The Abnormal Involuntary Movement Scale (AIMS) is the standard screening instrument; any score > 0 warrants clinical follow-up and documentation. Unlike acute EPS, TD does not respond to anticholinergics such as benztropine (and anticholinergics may worsen it). FDA-approved treatments include valbenazine and deutetrabenazine (VMAT2 inhibitors). CIWA, CAGE, and MMSE assess alcohol withdrawal, alcohol use, and cognition, respectively — none are appropriate here."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-049"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-052",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Which statement about treating antipsychotic-induced movement side effects is accurate?",
+      "choices": [
+        { "id": "a", "text": "Acute EPS such as dystonia and pseudoparkinsonism respond to anticholinergics like benztropine, but tardive dyskinesia does not." },
+        { "id": "b", "text": "Anticholinergics such as benztropine are first-line treatment for tardive dyskinesia." },
+        { "id": "c", "text": "Tardive dyskinesia resolves when the antipsychotic dose is decreased, making anticholinergics unnecessary." },
+        { "id": "d", "text": "All EPS types, including tardive dyskinesia, are managed identically with anticholinergic agents." }
+      ],
+      "correctId": "a",
+      "explanation": "The instructor drew this line explicitly. Acute EPS — dystonia, pseudoparkinsonism, and akathisia (to a lesser extent) — result from acute D2 blockade and respond to anticholinergic agents (benztropine, diphenhydramine) by restoring the dopamine-acetylcholine balance in the basal ganglia. Tardive dyskinesia results from chronic receptor upregulation and supersensitivity; it does not respond to anticholinergics (and anticholinergics may worsen it). TD is managed with VMAT2 inhibitors (valbenazine, deutetrabenazine) or, in some cases, dose reduction or switching to a lower-EPS agent."
+    },
+    "sourceCitation": "PMH Module 5 lecture (schizophrenia/psychosis)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-049", "mh-051"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-053",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client repeatedly seeks medical care convinced they will develop a brain tumor, and performs daily body self-checks — despite having no physical symptoms and normal workups. Which disorder is most consistent with this presentation?",
+      "choices": [
+        { "id": "a", "text": "Illness anxiety disorder." },
+        { "id": "b", "text": "Somatic symptom disorder." },
+        { "id": "c", "text": "Functional neurologic symptom disorder." },
+        { "id": "d", "text": "Factitious disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Illness anxiety disorder (formerly hypochondriasis) is characterized by excessive preoccupation with having or acquiring a serious illness in the absence of significant somatic symptoms. The client has no physical symptoms but fear-driven health-checking behaviors. Somatic symptom disorder, by contrast, requires distressing physical symptoms that are real and bothersome even if unexplained medically. The key discriminator the instructor emphasized: illness anxiety = fear of getting illness with minimal or no actual symptoms + checking behavior; somatic symptom = real, distressing symptoms without medical cause. Factitious disorder involves intentional symptom falsification, not genuine fear."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-054",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client has months of GI complaints and diffuse pain with repeated normal workups, and spends significant time and energy focused on the symptoms, which cause functional impairment. Which disorder does this describe?",
+      "choices": [
+        { "id": "a", "text": "Somatic symptom disorder." },
+        { "id": "b", "text": "Illness anxiety disorder." },
+        { "id": "c", "text": "Malingering." },
+        { "id": "d", "text": "Factitious disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Somatic symptom disorder is characterized by one or more distressing physical symptoms that are either unexplained by or disproportionate to any identified medical condition, plus excessive health-related thoughts, feelings, or behaviors — and functional impairment. The symptoms are real to the client (not consciously fabricated), which distinguishes it from malingering (external gain) and factitious disorder (internal gain from sick role). Illness anxiety disorder lacks significant physical symptoms — the preoccupation is with the fear of illness, not with distressing symptoms themselves."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-053"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-055",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "After witnessing a traumatic event, a client suddenly cannot move one leg; a full neurologic workup is normal. Which disorder is most consistent?",
+      "choices": [
+        { "id": "a", "text": "Functional neurologic symptom disorder (conversion disorder)." },
+        { "id": "b", "text": "Somatic symptom disorder." },
+        { "id": "c", "text": "Dissociative amnesia." },
+        { "id": "d", "text": "Illness anxiety disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Functional neurologic symptom disorder (FNSD), formerly conversion disorder, presents with neurologic deficits — paralysis, non-epileptic seizures, blindness, numbness — that cannot be explained by organic pathology. Onset often follows psychological stress or trauma. The key discriminator from somatic symptom disorder is the neurologic character of the symptoms: FNSD specifically produces neurologic signs (paralysis, sensory loss, gait disturbance), while somatic symptom disorder typically involves pain, GI, or fatigue symptoms. Dissociative amnesia involves memory disruption, not motor or sensory loss. The normal workup and trauma-linked sudden onset are hallmarks of FNSD."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-056",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "When a caregiver intentionally induces or fabricates illness in a vulnerable person to assume a caregiver role, the diagnosis is factitious disorder imposed on {{blank}} (formerly Munchausen syndrome by proxy). Contrast: factitious disorder imposed on self occurs when the person fabricates their own illness to assume the sick role — internal gain only, no external reward.",
+      "back": "another",
+      "hint": "Factitious disorder vs. malingering: factitious = internal motivation (sick role), no external gain. The 'by proxy' variant shifts the imposed-on target from self to another person."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-057",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client with documented epilepsy has recurrent seizures with abnormal EEG findings. Can these seizures be diagnosed as functional neurologic symptom disorder?",
+      "choices": [
+        { "id": "a", "text": "No — a confirmed organic cause excludes a diagnosis of FNSD." },
+        { "id": "b", "text": "Yes, because seizures are a listed neurologic symptom of FNSD." },
+        { "id": "c", "text": "Yes, if the client also has documented anxiety that precedes episodes." },
+        { "id": "d", "text": "Yes, because emotional stress can trigger both epileptic and non-epileptic seizures." }
+      ],
+      "correctId": "a",
+      "explanation": "FNSD requires that neurologic symptoms are not better explained by a neurological disease or another medical condition. An abnormal EEG with seizure activity is direct objective evidence of organic etiology (epilepsy). The instructor emphasized this boundary: confirmed medical cause = not FNSD. A patient can have comorbid epilepsy and psychogenic non-epileptic seizures (PNES), but the label FNSD applies only to episodes without EEG correlate — not to confirmed epileptic events. Comorbid anxiety with a real illness is not sufficient to reclassify confirmed epilepsy as FNSD."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-058",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Feeling that the surrounding environment is unreal, dreamlike, or distant is {{blank}}. (Contrast: depersonalization is the feeling of being detached from one's own body or mental processes — the unreality is felt about oneself, not the world.)",
+      "back": "derealization",
+      "hint": "Derealization = the world feels unreal. Depersonalization = you feel unreal (detached from yourself). The 'de-real' prefix in derealization points outward toward reality/the world."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-059",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client is found wandering hundreds of miles from home, unable to recall their identity. Weeks later their memory returns, but they have no recollection of the travel period. Which condition does this describe?",
+      "choices": [
+        { "id": "a", "text": "Dissociative amnesia with dissociative fugue." },
+        { "id": "b", "text": "Dissociative identity disorder." },
+        { "id": "c", "text": "Depersonalization/derealization disorder." },
+        { "id": "d", "text": "Delirium." }
+      ],
+      "correctId": "a",
+      "explanation": "Dissociative amnesia is an inability to recall autobiographical information, usually of a traumatic nature. The dissociative fugue specifier describes episodes involving sudden, unexpected travel away from home accompanied by inability to recall one's identity. On recovery, the person typically cannot recall events during the fugue period. This is distinct from DID (persistent alternate identity states, not a single fugue episode), depersonalization/derealization disorder (altered perception of self or environment, not travel and identity loss), and delirium (fluctuating consciousness with organic etiology)."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-060",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client has two or more distinct identities with observable shifts in voice and mannerisms, reports episodes of lost time, and finds unfamiliar items appearing. Which condition is most consistent, and what is its strongest risk factor?",
+      "choices": [
+        { "id": "a", "text": "Dissociative identity disorder — linked to severe childhood trauma." },
+        { "id": "b", "text": "Schizophrenia — linked to dopamine dysregulation and genetic vulnerability." },
+        { "id": "c", "text": "Bipolar disorder with psychotic features — linked to mood dysregulation." },
+        { "id": "d", "text": "Borderline personality disorder — linked to fear of abandonment and unstable self-image." }
+      ],
+      "correctId": "a",
+      "explanation": "DID is characterized by the presence of two or more distinct identity states (alters) that recurrently take control of behavior, accompanied by gaps in recall of everyday events. The strongest risk factor is severe, repeated childhood trauma — typically beginning before age 9, when identity consolidation is incomplete. Dissociation is understood as a protective mechanism against overwhelming abuse. The instructor stressed: DID ≠ schizophrenia. Schizophrenia involves psychotic symptoms (hallucinations, delusions) and dopamine dysregulation — not alternate identity states. Bipolar disorder involves mood cycling. BPD involves unstable self-image and relationships, not distinct alternate identity states."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-061",
+    "pillar": "procedures",
+    "format": "free_recall",
+    "difficultyTier": 3,
+    "body": {
+      "type": "free_recall",
+      "prompt": "A client with a dissociative disorder and childhood trauma history is admitted. Before revealing the model answer, name: (1) the priority safety assessment, and (2) two nursing approaches to use during a dissociative episode.",
+      "rubric": [
+        "Priority safety assessment: assess for suicidal ideation and self-harm risk (trauma history significantly elevates both).",
+        "Approach 1: simplify — keep communication brief, reduce environmental stimulation, and avoid complex demands during an episode.",
+        "Approach 2: maintain close observation and a calm environment; debrief afterward in a trauma-informed, non-confrontational way that validates the experience."
+      ],
+      "modelAnswer": "Priority safety assessment: evaluate for suicidal ideation and self-harm risk — dissociative disorders commonly co-occur with trauma, which significantly elevates SI risk. During a dissociative episode: (1) simplify — brief communication, reduced stimulation, no complex demands; (2) maintain close observation and calm presence, then debrief afterward in a trauma-informed way that validates without reinforcing the dissociation."
+    },
+    "sourceCitation": "PMH Module 5 lecture (somatic/dissociative)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-062",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 1,
+    "body": {
+      "type": "mcq",
+      "stem": "Which correctly pairs each personality disorder cluster with its descriptor?",
+      "choices": [
+        { "id": "a", "text": "Cluster A = odd/eccentric; Cluster B = dramatic/emotional/erratic; Cluster C = anxious/fearful." },
+        { "id": "b", "text": "Cluster A = dramatic/emotional/erratic; Cluster B = anxious/fearful; Cluster C = odd/eccentric." },
+        { "id": "c", "text": "Cluster A = anxious/fearful; Cluster B = odd/eccentric; Cluster C = dramatic/emotional/erratic." },
+        { "id": "d", "text": "Cluster A = odd/eccentric; Cluster B = anxious/fearful; Cluster C = dramatic/emotional/erratic." }
+      ],
+      "correctId": "a",
+      "explanation": "The DSM-5 organizes 10 personality disorders into three clusters based on descriptive similarities. Cluster A (paranoid, schizoid, schizotypal) — 'odd or eccentric.' Cluster B (antisocial, borderline, histrionic, narcissistic) — 'dramatic, emotional, or erratic.' Cluster C (avoidant, dependent, obsessive-compulsive) — 'anxious or fearful.' Alphabetical order matches the progression: A = odd, B = dramatic, C = anxious."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-063",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client works night security to avoid others, has no close friendships, and is indifferent to both praise and criticism, preferring to be alone. Which disorder is most consistent?",
+      "choices": [
+        { "id": "a", "text": "Schizoid personality disorder." },
+        { "id": "b", "text": "Schizotypal personality disorder." },
+        { "id": "c", "text": "Avoidant personality disorder." },
+        { "id": "d", "text": "Antisocial personality disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Schizoid PD is characterized by a pervasive pattern of detachment from social relationships and restricted emotional expression. Key features: neither desires nor enjoys close relationships, prefers solitary activities, is indifferent to praise or criticism, and shows emotional coldness. Schizotypal PD involves magical thinking and odd beliefs, eccentric behavior, and unusual speech — clients with schizotypal PD often desire relationships but feel anxious in them, not indifferent. Avoidant PD involves social inhibition driven by fear of rejection — the client wants connection but is paralyzed by it. Antisocial PD involves violation of others' rights, not social withdrawal."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-064",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client has eccentric dress, believes they can influence events with their thoughts (magical thinking), and uses odd, circumstantial speech — but has no frank hallucinations or delusions. Which disorder is most consistent?",
+      "choices": [
+        { "id": "a", "text": "Schizotypal personality disorder." },
+        { "id": "b", "text": "Schizoid personality disorder." },
+        { "id": "c", "text": "Schizophrenia." },
+        { "id": "d", "text": "Paranoid personality disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Schizotypal PD is characterized by magical thinking, odd beliefs, perceptual distortions, eccentric behavior, and social anxiety — 'close to but not quite psychosis.' The hallmark feature is magical thinking (belief in the ability to influence events through thought) without full psychotic breaks. Unlike schizoid PD (detachment, no odd beliefs), schizotypal clients have rich internal belief systems and odd perceptions. Unlike schizophrenia, frank psychosis is absent. Unlike paranoid PD, the core feature is magical thinking rather than suspicion and distrust of others."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-063"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-065",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client has a longstanding pattern of violating the rights of others, a history of repeated illegal acts, persistent deceitfulness, and shows no remorse for harm caused. Which disorder is most consistent?",
+      "choices": [
+        { "id": "a", "text": "Antisocial personality disorder." },
+        { "id": "b", "text": "Narcissistic personality disorder." },
+        { "id": "c", "text": "Borderline personality disorder." },
+        { "id": "d", "text": "Histrionic personality disorder." }
+      ],
+      "correctId": "a",
+      "explanation": "Antisocial PD is defined by a pervasive violation of others' rights — illegal behavior, deceit, impulsivity, aggressiveness, and lack of remorse. The diagnosis requires age ≥ 18 with evidence of conduct disorder before age 15. The instructor's discriminator: antisocial = criminality, rights violations, and absence of remorse. Narcissistic PD shares grandiosity and entitlement but is defined by the need for admiration and lack of empathy, not by criminal conduct or rights violations. BPD features fear of abandonment and emotional instability. Histrionic PD features excessive emotionality and attention-seeking without the criminal pattern."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-066",
+    "pillar": "terminology",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client alternately idealizes one nurse as 'the best nurse ever' and denigrates another as 'the worst,' unable to perceive either person as having both positive and negative qualities. Which defense mechanism is this?",
+      "choices": [
+        { "id": "a", "text": "Splitting." },
+        { "id": "b", "text": "Projection." },
+        { "id": "c", "text": "Regression." },
+        { "id": "d", "text": "Reaction formation." }
+      ],
+      "correctId": "a",
+      "explanation": "Splitting is a primitive defense mechanism in which people and situations are perceived as entirely good or entirely bad, with no integrated middle ground. It is the hallmark of borderline personality disorder. The clinical risk: splitting can destabilize a nursing team when clients pit staff against each other ('staff splitting'). The nursing response is to maintain consistent limits and boundaries across all team members, communicate openly in team huddles, and avoid being drawn into the all-good or all-bad role. Projection attributes one's own feelings to others. Regression is a return to earlier developmental behavior. Reaction formation converts an unacceptable impulse into its opposite."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-067",
+    "pillar": "procedures",
+    "format": "mcq",
+    "difficultyTier": 3,
+    "body": {
+      "type": "mcq",
+      "stem": "A client with borderline personality disorder becomes acutely distressed after a missed phone call and expresses urges to self-harm. Which understanding best guides the nurse's immediate response?",
+      "choices": [
+        { "id": "a", "text": "Low distress tolerance in BPD means minor stressors can trigger impulsive self-harm; maintain safety, set consistent limits, and avoid reinforcing crisis behavior." },
+        { "id": "b", "text": "The client is seeking attention; ignoring the behavior will extinguish it." },
+        { "id": "c", "text": "The urges indicate a psychotic break; antipsychotic medication should be administered immediately." },
+        { "id": "d", "text": "Granting the client's underlying request will de-escalate the crisis effectively." }
+      ],
+      "correctId": "a",
+      "explanation": "A core feature of BPD is marked distress intolerance and emotional dysregulation — what others experience as minor frustrations can register as catastrophic and trigger self-harm impulses. The nurse's role: assess safety immediately, remain calm, maintain consistent limits without punishing or abandoning the client, and avoid reinforcing crisis behavior with unwarranted concessions. Dialectical behavior therapy (DBT) is the evidence-based treatment that builds distress tolerance skills. Ignoring genuine self-harm urges is unsafe. Self-harm urges in BPD are not psychosis. Granting demands reinforces the crisis pattern."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-066"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-068",
+    "pillar": "terminology",
+    "format": "cloze",
+    "difficultyTier": 1,
+    "body": {
+      "type": "cloze",
+      "front": "Cluster C (anxious/fearful) comprises avoidant, dependent, and {{blank}} disorders.",
+      "back": "obsessive-compulsive personality disorder (OCPD)",
+      "hint": "Avoidant and dependent are intuitive cluster C members. The third is not OCD (a separate anxiety-related disorder) but its personality counterpart — preoccupation with orderliness, perfectionism, and control without insight that it is excessive."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": ["mh-062"],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-069",
+    "pillar": "concepts",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "Which statement accurately distinguishes obsessive-compulsive personality disorder (OCPD) from obsessive-compulsive disorder (OCD)?",
+      "choices": [
+        { "id": "a", "text": "Clients with OCD typically have insight that their behaviors are excessive and ego-dystonic; clients with OCPD generally believe their perfectionism and orderliness are correct and ego-syntonic." },
+        { "id": "b", "text": "OCPD involves true intrusive obsessions and compulsive rituals; OCD involves only personality traits." },
+        { "id": "c", "text": "OCD is classified as a personality disorder; OCPD is an anxiety-related disorder." },
+        { "id": "d", "text": "OCPD and OCD are the same diagnosis with different names in DSM-5." }
+      ],
+      "correctId": "a",
+      "explanation": "The instructor's insight distinction: OCD is ego-dystonic — clients recognize their obsessions and compulsions as excessive, unwanted, and distressing (hence they seek treatment to reduce them). OCPD is ego-syntonic — clients believe their way is correct; their perfectionism, rigidity, and demand for orderliness feel appropriate and justified to them. They typically present for treatment only when inflexibility causes relationship or occupational problems. OCD is classified in DSM-5 under 'Obsessive-Compulsive and Related Disorders'; OCPD is in 'Personality Disorders.' They are distinct diagnoses with different treatments."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
+  },
+  {
+    "id": "mh-070",
+    "pillar": "pharm",
+    "format": "mcq",
+    "difficultyTier": 2,
+    "body": {
+      "type": "mcq",
+      "stem": "A client with a personality disorder has prominent anxiety symptoms. Which statement about pharmacologic management of personality disorders is accurate?",
+      "choices": [
+        { "id": "a", "text": "No medications are FDA-approved specifically for personality disorders; pharmacotherapy targets symptoms — anxiolytics or antidepressants for anxiety, mood stabilizers for affective lability, low-dose antipsychotics for transient stress-induced psychotic-like symptoms." },
+        { "id": "b", "text": "SSRIs are FDA-approved for borderline personality disorder and are considered first-line treatment." },
+        { "id": "c", "text": "Antipsychotics are first-line pharmacologic treatment for all personality disorders." },
+        { "id": "d", "text": "Personality disorders have no pharmacologic component; only psychotherapy is appropriate." }
+      ],
+      "correctId": "a",
+      "explanation": "No medication carries an FDA indication for any personality disorder. Pharmacotherapy is symptom-targeted and adjunctive to psychotherapy. Common targets: anxiety and depressive symptoms (SSRIs, SNRIs); affective instability and impulsivity (mood stabilizers — valproate, lamotrigine); transient stress-induced paranoia or dissociative symptoms (low-dose antipsychotics). The instructor's signal: antipsychotics in personality disorders are tested in detail (mechanism, side effects), while the broad principle — symptom-targeted, not disorder-specific — is also examined. Stating that personality disorders never require medication ignores legitimate adjunctive use."
+    },
+    "sourceCitation": "PMH Module 5 lecture (personality disorders)",
+    "lastReviewedAt": "2026-07-21",
+    "highAlert": false,
+    "graphLinks": [],
+    "releaseGate": { "sessionIndex": 4, "week": 4 },
+    "contentPackId": "mental-health-pack",
+    "contentVersion": 1,
+    "placeholder": true
   }
 ]

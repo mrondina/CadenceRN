@@ -134,6 +134,36 @@ All chapter references are 12.0-verified (syllabus ≥ Ch 67 are shifted +1 from
 
 ---
 
+## Mental Health Pack — Exam 3 Content (30 items — mh-041 to mh-070)
+
+**Source:** PMH Module 5 lecture notes (schizophrenia/psychosis, somatic/dissociative disorders, personality disorders). Original authorship — no verbatim reproduction of source material.
+**Release gate:** session 4, week 4 (opened 2026-07-20; Exam 3 date 2026-07-23).
+
+### High-alert items — require independent double-check
+
+- [ ] mh-044 (neuroleptic malignant syndrome recognition) — life-threatening antipsychotic reaction
+- [ ] mh-047 (clozapine / agranulocytosis) — black-box warning, mandatory WBC monitoring
+
+### Uncertain / verify
+
+| ID | Concern |
+|----|---------|
+| mh-043 | DSM-5 schizophrenia duration criteria: ≥2 symptoms × 1 month + 6-month continuous disturbance. Verify this is the exact threshold your program tests (some sources emphasize the active-phase vs. total-duration distinction differently). |
+| mh-044 | NMS temperature threshold stated as > 101°F (103°F in stem). Some sources use > 38°C / > 100.4°F as the lower bound for fever. Confirm acceptable range for teaching. |
+| mh-051 | AIMS scoring: "any score above zero warrants follow-up" is the standard teaching point. Confirm your program's preferred AIMS threshold and follow-up protocol. |
+| mh-052 | TD treatment: valbenazine and deutetrabenazine (VMAT2 inhibitors) cited as FDA-approved. Confirm these are in scope for your course's pharmacology expectations. |
+| mh-061 | Free-recall rubric includes grounding techniques; instructor-specific wording may differ. Confirm the nursing approach language matches lecture content. |
+| mh-067 | DBT cited as evidence-based treatment for BPD. Confirm whether DBT is explicitly named in lecture or if a more generic "psychotherapy" framing is preferred. |
+| mh-070 | Mood stabilizers (valproate, lamotrigine) listed as symptom-targeted adjuncts for personality disorders. Confirm these specific agents are in scope for your course. |
+
+### Bulk sign-off — topic batches
+
+- [ ] Group A: Schizophrenia/psychosis/antipsychotics (mh-041 to mh-052) — 12 items; pharm-heavy; antipsychotic generation discrimination, EPS taxonomy, NMS, clozapine
+- [ ] Group B: Somatic and dissociative disorders (mh-053 to mh-061) — 9 items; disorder discrimination, FNSD, factitious, dissociative subtypes, free-recall nursing priority
+- [ ] Group C: Personality disorders (mh-062 to mh-070) — 9 items; cluster framework, named mix-ups (schizoid/schizotypal, antisocial/narcissistic), BPD splitting, OCPD/OCD discrimination
+
+---
+
 ## Cross-Pack Graph Links
 
 All 106 items' graph links verified programmatically at Step 13 commit (2026-07-04): 0 broken references.
