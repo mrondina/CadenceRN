@@ -15,7 +15,7 @@ interface NumericBody {
 
 interface NumericCardProps {
   body: NumericBody;
-  onReveal: () => void;
+  onReveal: (correct?: boolean) => void;
 }
 
 const KEYPAD_ROWS = [
@@ -45,8 +45,11 @@ export function NumericCard({ body, onReveal }: NumericCardProps) {
 
   const handleSubmit = () => {
     if (!input || submitted) return;
+    // Compute correctness before the state update flushes — isCorrect depends on
+    // submitted which hasn't updated yet, so we derive it directly here.
+    const correct = Math.abs(parseFloat(input) - body.answer) <= body.tolerance;
     setSubmitted(true);
-    onReveal();
+    onReveal(correct);
   };
 
   return (
