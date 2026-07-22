@@ -13,7 +13,7 @@ interface ClozeBody {
 
 interface ClozeCardProps {
   body: ClozeBody;
-  onReveal: () => void;
+  onReveal: (correct?: boolean) => void;
 }
 
 // Replace {{blank}} marker with a styled blank placeholder.
