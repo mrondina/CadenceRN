@@ -120,6 +120,10 @@ export class CohortRepository {
     });
   }
 
+  async saveAndReplace(_cohort: Cohort): Promise<void> {
+    throw new Error('not implemented');
+  }
+
   private async hydrateCohort(cohortRow: CohortRow): Promise<Cohort> {
     const sessionRows = await this.db.getAllAsync<SessionRow>(
       `SELECT * FROM session_instances WHERE cohort_id = $cohortId ORDER BY session_index ASC`,
