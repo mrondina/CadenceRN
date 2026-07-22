@@ -13,7 +13,7 @@ interface FreeRecallBody {
 
 interface FreeRecallCardProps {
   body: FreeRecallBody;
-  onReveal: () => void;
+  onReveal: (correct?: boolean) => void;
 }
 
 export function FreeRecallCard({ body, onReveal }: FreeRecallCardProps) {
