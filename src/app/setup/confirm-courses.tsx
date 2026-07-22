@@ -67,7 +67,7 @@ export default function ConfirmCoursesScreen() {
     };
 
     try {
-      await db.cohortRepo.save(finalCohort);
+      await db.cohortRepo.saveAndReplace(finalCohort);
       setCohort(finalCohort);
       completedRef.current = true;
       router.replace('/');
