@@ -21,7 +21,7 @@ describe('runMigrations', () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('6');
+    expect(row?.value).toBe('7');
   });
 
   it('second run: no error; db_version remains 6', async () => {
@@ -31,7 +31,7 @@ describe('runMigrations', () => {
     const row = await db.getFirstAsync<{ value: string }>(
       `SELECT value FROM app_state WHERE key = 'db_version'`,
     );
-    expect(row?.value).toBe('6');
+    expect(row?.value).toBe('7');
   });
 
   it('all expected tables exist after migration', async () => {

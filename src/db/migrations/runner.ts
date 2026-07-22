@@ -530,4 +530,19 @@ export async function runMigrations(db: IDatabase): Promise<void> {
       );
     });
   }
+
+  if ((await getVersion(db)) < 7) {
+    // Re-seeds mental-health-pack to add mh-041–070 (MH Exam 3 content: schizophrenia/
+    // psychosis/antipsychotics, somatic/dissociative, personality disorders — week 4).
+    // Upsert is idempotent: mh-001–040 are overwritten with identical data; new items inserted.
+    await db.withExclusiveTransactionAsync(async (txn) => {
+      const itemRepo = new ContentItemRepository(txn);
+      for (const item of mentalHealthPack as ContentItem[]) {
+        await itemRepo.upsert(item);
+      }
+      await txn.runAsync(
+        `INSERT OR REPLACE INTO app_state (key, value) VALUES ('db_version', '7')`,
+      );
+    });
+  }
 }
